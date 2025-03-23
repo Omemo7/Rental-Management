@@ -17,7 +17,7 @@ namespace Rental_Management.API.Controllers
             _personService = personService;
         }
 
-        [HttpPost]
+        [HttpPost("Add")]
         public async Task<IActionResult> AddPerson([FromBody] AddPersonDTO dto)
         {
             try
@@ -31,6 +31,66 @@ namespace Rental_Management.API.Controllers
             }
             catch (Exception ex)
             { 
+                return StatusCode(500, "Internal Server Error: " + ex.Message);
+            }
+        }
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeletePerson(int Id)
+        {
+            try
+            {
+                bool isDeleted = await _personService.DeletePersonAsync(Id);
+                if (!isDeleted)
+                    return BadRequest("Failed to delete person.");
+                return Ok("Person deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error: " + ex.Message);
+            }
+        }
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdatePerson([FromBody] UpdatePersonDTO dto)
+        {
+            try
+            { 
+                bool isUpdated = await _personService.UpdatePersonAsync(dto);
+                if (!isUpdated)
+                    return BadRequest("Failed to update person.");
+                return Ok("Person updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error: " + ex.Message);
+            }
+        }
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetPersonById(int Id)
+        {
+            try
+            {
+                PersonDTO? person = await _personService.GetPersonByIdAsync(Id);
+                if (person == null)
+                    return NotFound("Person not found.");
+                return Ok(person);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error: " + ex.Message);
+            }
+        }
+
+            [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAllPeople()
+        {
+            try
+            {
+                IEnumerable<PersonDTO> people = await _personService.GetAllPeopleAsync();
+                return Ok(people);
+            }
+            catch (Exception ex)
+            {
                 return StatusCode(500, "Internal Server Error: " + ex.Message);
             }
         }

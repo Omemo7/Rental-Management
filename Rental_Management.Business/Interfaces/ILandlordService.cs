@@ -9,8 +9,13 @@ namespace Rental_Management.Business.Interfaces
 {
     public interface ILandlordService
     {
-        Task<bool> AddLandlordAsync(int personId);
+        Task<bool> AddLandlordAsync(AddLandlordDTO dto);
+        //Task<bool> DeleteLandlordAsync(int landlordId);
 
+        //Task<bool> UpdateLandlordAsync(LandlordDTO landlordDto);
+
+        //Task<IEnumerable<LandlordDTO>> GetAllLandlordsAsync();
+        //Task<LandlordDTO?> GetLandlordByIdAsync(int id);
 
     }
 }

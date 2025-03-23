@@ -11,9 +11,9 @@ namespace Rental_Management.DataAccess.Interfaces
     {
         Task<IEnumerable<T>> GetAllAsync();
         Task<T?> GetByIdAsync(int id);
-        Task AddAsync(T entity);
-        Task UpdateAsync(T entity);
-        Task DeleteAsync(int id);
+        Task<bool> AddAsync(T entity);
+        Task<bool> UpdateAsync(T entity);
+        Task<bool> DeleteAsync(int id);
         Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> predicate);
 
     }

@@ -2,15 +2,15 @@ using Rental_Management.Business.Interfaces;
 using Rental_Management.Business.Services;
 using Rental_Management.DataAccess.Interfaces;
 using Rental_Management.DataAccess.Repositories;
-using Rental_Management.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
+using Rental_Management.DataAccess;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-);
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Rental_Management.DataAccess")));
+
 
 
 // Add services to the container.

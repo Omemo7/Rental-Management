@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Rental_Management.DataAccess.Entities;
 
-namespace Rental_Management.DataAccess.Entities;
+namespace Rental_Management.DataAccess;
 
 public partial class ApplicationDbContext : DbContext
 {
@@ -179,6 +180,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Landlord>(entity =>
         {
+            entity.HasIndex(e => e.Username).IsUnique();
             entity.HasKey(e => e.Id).HasName("PK__Landlord__3214EC07DA20C497");
 
             entity.HasIndex(e => e.PersonId, "UQ__Landlord__AA2FFBE4C2545929").IsUnique();

@@ -16,12 +16,12 @@ namespace Rental_Management.API.Controllers
             _landlordService = landlordService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddLandlord(int personId)
+        [HttpPost("Add")]
+        public async Task<IActionResult> AddLandlord(AddLandlordDTO dto)
         {
             try
             {
-                bool isAdded = await _landlordService.AddLandlordAsync(personId);
+                bool isAdded = await _landlordService.AddLandlordAsync(dto);
 
                 if (!isAdded)
                     return BadRequest("Failed to add landlord.");
@@ -33,5 +33,6 @@ namespace Rental_Management.API.Controllers
                 return StatusCode(500, "Internal Server Error: " + ex.Message);
             }
         }
+       
     }
 }

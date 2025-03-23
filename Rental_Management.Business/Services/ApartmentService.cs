@@ -42,17 +42,8 @@ namespace Rental_Management.Business.Services
                 SquaredMeters = dto.SquaredMeters,
                 LandLordId = dto.LandLordId
             };
+            return await _apartmentRepository.AddAsync(apartment);
 
-            try
-            {
-                await _apartmentRepository.AddAsync(apartment);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                // Log the error (consider using ILogger)
-                return false;
-            }
         }
 
     }

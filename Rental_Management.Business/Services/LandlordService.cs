@@ -19,25 +19,22 @@ namespace Rental_Management.Business.Services
             _landlordRepository = landlordRepository;
             _personRepository = personRepository;
         }
-        public async Task<bool> AddLandlordAsync(int personId)
+
+        public async Task<bool> AddLandlordAsync(AddLandlordDTO dto)
         {
-            var person= await _personRepository.GetByIdAsync(personId);
+            var person= await _personRepository.GetByIdAsync(dto.PersonId);
             if (person == null)
                 return false;
           
 
             Landlord landlord = new Landlord
-            { PersonId = personId };
-            try
-            {
-                await _landlordRepository.AddAsync(landlord);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-            
+            { 
+                PersonId = dto.PersonId,
+                Username = dto.Username,
+                Password = dto.Password
+            };
+
+            return await _landlordRepository.AddAsync(landlord);
 
         }
     }

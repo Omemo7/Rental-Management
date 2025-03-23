@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Rental_Management.Business.DTOs
+{
+    public class UpdateLandlordDTO
+    {
+        public int LandlordId { get; set; }
+        public UpdatePersonDTO PersonDTO { get; set; } = null!;
+    }
+}
