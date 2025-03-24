@@ -13,23 +13,23 @@ namespace Rental_Management.Business.Services
     public class LandlordService : ILandlordService
     {
         readonly IRepository<Landlord> _landlordRepository;
-        readonly IRepository<Person> _personRepository;
-        public LandlordService(IRepository<Landlord> landlordRepository,IRepository<Person>personRepository)
+        
+        public LandlordService(IRepository<Landlord> landlordRepository)
         {
             _landlordRepository = landlordRepository;
-            _personRepository = personRepository;
+           
         }
 
         public async Task<bool> AddLandlordAsync(AddLandlordDTO dto)
         {
-            var person= await _personRepository.GetByIdAsync(dto.PersonId);
-            if (person == null)
+            //var person= await _personRepository.GetByIdAsync(dto.PersonId);
+            //if (person == null)
                 return false;
           
 
             Landlord landlord = new Landlord
             { 
-                PersonId = dto.PersonId,
+               
                 Username = dto.Username,
                 Password = dto.Password
             };

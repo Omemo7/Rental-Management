@@ -8,6 +8,6 @@ namespace Rental_Management.Business.DTOs
 {
     public class LandlordDTO
     {
-        public PersonDTO Person { get; set; } = null!;
+       
     }
 }

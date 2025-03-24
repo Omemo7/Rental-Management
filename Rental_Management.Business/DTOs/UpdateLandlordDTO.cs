@@ -9,6 +9,6 @@ namespace Rental_Management.Business.DTOs
     public class UpdateLandlordDTO
     {
         public int LandlordId { get; set; }
-        public UpdatePersonDTO PersonDTO { get; set; } = null!;
+        
     }
 }

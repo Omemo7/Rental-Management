@@ -12,8 +12,8 @@ using Rental_Management.DataAccess;
 namespace Rental_Management.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250323080214_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250324154913_initial_creation")]
+    partial class initial_creation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,42 +35,35 @@ namespace Rental_Management.DataAccess.Migrations
 
                     b.Property<string>("BuildingNumber")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FloorNumber")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LandLordId")
                         .HasColumnType("int");
 
                     b.Property<string>("Neighborhood")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("SquaredMeters")
-                        .HasColumnType("decimal(10, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("StreetAddress")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Apartmen__3214EC07F8E63B05");
+                    b.HasKey("Id");
 
                     b.HasIndex("LandLordId");
 
@@ -94,8 +87,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Property<int>("TenantId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Apartmen__3214EC07B4640AEA");
+                    b.HasKey("Id");
 
                     b.HasIndex("ApartmentId");
 
@@ -103,7 +95,7 @@ namespace Rental_Management.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("ApartmentsRental", (string)null);
+                    b.ToTable("ApartmentsRentals");
                 });
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Car", b =>
@@ -116,34 +108,26 @@ namespace Rental_Management.DataAccess.Migrations
 
                     b.Property<string>("Color")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LandLordId")
                         .HasColumnType("int");
 
                     b.Property<string>("Make")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Model")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RegistrationPlate")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Cars__3214EC0751ECB10B");
+                    b.HasKey("Id");
 
                     b.HasIndex("LandLordId");
-
-                    b.HasIndex(new[] { "RegistrationPlate" }, "UQ__Cars__808BBC878715B068")
-                        .IsUnique();
 
                     b.ToTable("Cars");
                 });
@@ -165,8 +149,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Property<int>("TenantId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id")
-                        .HasName("PK__CarsRent__3214EC07509CC1C6");
+                    b.HasKey("Id");
 
                     b.HasIndex("CarId");
 
@@ -174,7 +157,7 @@ namespace Rental_Management.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("CarsRental", (string)null);
+                    b.ToTable("CarsRentals");
                 });
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.CustomItem", b =>
@@ -197,11 +180,9 @@ namespace Rental_Management.DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id")
-                        .HasName("PK__CustomIt__3214EC07CFB34A9D");
+                    b.HasKey("Id");
 
                     b.HasIndex("CustomItemTypeId");
 
@@ -223,11 +204,9 @@ namespace Rental_Management.DataAccess.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id")
-                        .HasName("PK__CustomIt__3214EC074C5141F9");
+                    b.HasKey("Id");
 
                     b.HasIndex("LandLordId");
 
@@ -251,8 +230,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Property<int>("TenantId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id")
-                        .HasName("PK__CustomRe__3214EC07056E6677");
+                    b.HasKey("Id");
 
                     b.HasIndex("CustomItemId");
 
@@ -260,7 +238,7 @@ namespace Rental_Management.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("CustomRental", (string)null);
+                    b.ToTable("CustomRentals");
                 });
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Landlord", b =>
@@ -271,14 +249,27 @@ namespace Rental_Management.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Landlord__3214EC07DA20C497");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex(new[] { "PersonId" }, "UQ__Landlord__AA2FFBE4C2545929")
-                        .IsUnique();
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Landlords");
                 });
@@ -292,7 +283,7 @@ namespace Rental_Management.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("PaidAmount")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateOnly>("PaymentDate")
                         .HasColumnType("date");
@@ -300,80 +291,11 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Property<int>("RentalId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Payments__3214EC07F323E055");
+                    b.HasKey("Id");
 
                     b.HasIndex("RentalId");
 
                     b.ToTable("Payments");
-                });
-
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Person", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateOnly>("DateOfBirth")
-                        .HasColumnType("date");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("NationalNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id")
-                        .HasName("PK__People__3214EC07E83BA829");
-
-                    b.HasIndex(new[] { "Email" }, "UQ__People__A9D10534AD779934")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "NationalNumber" }, "UQ__People__FEA173C223F8E2CE")
-                        .IsUnique();
-
-                    b.ToTable("People");
-                });
-
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Phone", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Phone1")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("Phone");
-
-                    b.HasKey("Id")
-                        .HasName("PK__Phones__3214EC0762C0D826");
-
-                    b.HasIndex("PersonId");
-
-                    b.ToTable("Phones");
                 });
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Rental", b =>
@@ -386,27 +308,24 @@ namespace Rental_Management.DataAccess.Migrations
 
                     b.Property<string>("Contract")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
 
                     b.Property<string>("RentPaymentFrequency")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly>("StartDate")
                         .HasColumnType("date");
 
                     b.Property<decimal>("Value")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Rental__3214EC07D5158E43");
+                    b.HasKey("Id");
 
-                    b.ToTable("Rental", (string)null);
+                    b.ToTable("Rentals");
                 });
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Tenant", b =>
@@ -417,16 +336,55 @@ namespace Rental_Management.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PersonId")
+                    b.Property<DateOnly>("DateOfBirth")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LandlordId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Tenants__3214EC07ECF2AB13");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex(new[] { "PersonId" }, "UQ__Tenants__AA2FFBE43D2D3932")
-                        .IsUnique();
+                    b.Property<string>("NationalNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LandlordId");
 
                     b.ToTable("Tenants");
+                });
+
+            modelBuilder.Entity("Rental_Management.DataAccess.Entities.TenantPhone", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("TenantsPhones");
                 });
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Apartment", b =>
@@ -434,8 +392,8 @@ namespace Rental_Management.DataAccess.Migrations
                     b.HasOne("Rental_Management.DataAccess.Entities.Landlord", "LandLord")
                         .WithMany("Apartments")
                         .HasForeignKey("LandLordId")
-                        .IsRequired()
-                        .HasConstraintName("FK_Apartments_Landlords");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("LandLord");
                 });
@@ -445,20 +403,20 @@ namespace Rental_Management.DataAccess.Migrations
                     b.HasOne("Rental_Management.DataAccess.Entities.Apartment", "Apartment")
                         .WithMany("ApartmentsRentals")
                         .HasForeignKey("ApartmentId")
-                        .IsRequired()
-                        .HasConstraintName("FK_ApartmentsRental_Apartments");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Rental_Management.DataAccess.Entities.Rental", "Rental")
                         .WithMany("ApartmentsRentals")
                         .HasForeignKey("RentalId")
-                        .IsRequired()
-                        .HasConstraintName("FK_ApartmentsRental_Rental");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Rental_Management.DataAccess.Entities.Tenant", "Tenant")
                         .WithMany("ApartmentsRentals")
                         .HasForeignKey("TenantId")
-                        .IsRequired()
-                        .HasConstraintName("FK_ApartmentsRental_Tenants");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Apartment");
 
@@ -472,8 +430,8 @@ namespace Rental_Management.DataAccess.Migrations
                     b.HasOne("Rental_Management.DataAccess.Entities.Landlord", "LandLord")
                         .WithMany("Cars")
                         .HasForeignKey("LandLordId")
-                        .IsRequired()
-                        .HasConstraintName("FK_Cars_Landlords");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("LandLord");
                 });
@@ -483,20 +441,20 @@ namespace Rental_Management.DataAccess.Migrations
                     b.HasOne("Rental_Management.DataAccess.Entities.Car", "Car")
                         .WithMany("CarsRentals")
                         .HasForeignKey("CarId")
-                        .IsRequired()
-                        .HasConstraintName("FK_CarsRental_Cars");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Rental_Management.DataAccess.Entities.Rental", "Rental")
                         .WithMany("CarsRentals")
                         .HasForeignKey("RentalId")
-                        .IsRequired()
-                        .HasConstraintName("FK_CarsRental_Rental");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Rental_Management.DataAccess.Entities.Tenant", "Tenant")
                         .WithMany("CarsRentals")
                         .HasForeignKey("TenantId")
-                        .IsRequired()
-                        .HasConstraintName("FK_CarsRental_Tenants");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Car");
 
@@ -510,14 +468,14 @@ namespace Rental_Management.DataAccess.Migrations
                     b.HasOne("Rental_Management.DataAccess.Entities.CustomItemType", "CustomItemType")
                         .WithMany("CustomItems")
                         .HasForeignKey("CustomItemTypeId")
-                        .IsRequired()
-                        .HasConstraintName("FK_CustomItems_CustomItemTypes");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Rental_Management.DataAccess.Entities.Landlord", "LandLord")
                         .WithMany("CustomItems")
                         .HasForeignKey("LandLordId")
-                        .IsRequired()
-                        .HasConstraintName("FK_CustomItems_Landlords");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CustomItemType");
 
@@ -529,8 +487,8 @@ namespace Rental_Management.DataAccess.Migrations
                     b.HasOne("Rental_Management.DataAccess.Entities.Landlord", "LandLord")
                         .WithMany("CustomItemTypes")
                         .HasForeignKey("LandLordId")
-                        .IsRequired()
-                        .HasConstraintName("FK_CustomItemTypes_Landlords");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("LandLord");
                 });
@@ -540,20 +498,20 @@ namespace Rental_Management.DataAccess.Migrations
                     b.HasOne("Rental_Management.DataAccess.Entities.CustomItem", "CustomItem")
                         .WithMany("CustomRentals")
                         .HasForeignKey("CustomItemId")
-                        .IsRequired()
-                        .HasConstraintName("FK_CustomRental_CustomItems");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Rental_Management.DataAccess.Entities.Rental", "Rental")
                         .WithMany("CustomRentals")
                         .HasForeignKey("RentalId")
-                        .IsRequired()
-                        .HasConstraintName("FK_CustomRental_Rental");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Rental_Management.DataAccess.Entities.Tenant", "Tenant")
                         .WithMany("CustomRentals")
                         .HasForeignKey("TenantId")
-                        .IsRequired()
-                        .HasConstraintName("FK_CustomRental_Tenants");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CustomItem");
 
@@ -562,48 +520,37 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("Tenant");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Landlord", b =>
-                {
-                    b.HasOne("Rental_Management.DataAccess.Entities.Person", "Person")
-                        .WithOne("Landlord")
-                        .HasForeignKey("Rental_Management.DataAccess.Entities.Landlord", "PersonId")
-                        .IsRequired()
-                        .HasConstraintName("FK_Landlords_People");
-
-                    b.Navigation("Person");
-                });
-
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Payment", b =>
                 {
                     b.HasOne("Rental_Management.DataAccess.Entities.Rental", "Rental")
                         .WithMany("Payments")
                         .HasForeignKey("RentalId")
-                        .IsRequired()
-                        .HasConstraintName("FK_Payments_Rental");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Rental");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Phone", b =>
-                {
-                    b.HasOne("Rental_Management.DataAccess.Entities.Person", "Person")
-                        .WithMany("Phones")
-                        .HasForeignKey("PersonId")
-                        .IsRequired()
-                        .HasConstraintName("FK_Phones_People");
-
-                    b.Navigation("Person");
-                });
-
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Tenant", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.Person", "Person")
-                        .WithOne("Tenant")
-                        .HasForeignKey("Rental_Management.DataAccess.Entities.Tenant", "PersonId")
-                        .IsRequired()
-                        .HasConstraintName("FK_Tenants_People");
+                    b.HasOne("Rental_Management.DataAccess.Entities.Landlord", "Landlord")
+                        .WithMany("Tenants")
+                        .HasForeignKey("LandlordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Person");
+                    b.Navigation("Landlord");
+                });
+
+            modelBuilder.Entity("Rental_Management.DataAccess.Entities.TenantPhone", b =>
+                {
+                    b.HasOne("Rental_Management.DataAccess.Entities.Tenant", "Tenant")
+                        .WithMany("Phones")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Apartment", b =>
@@ -635,15 +582,8 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("CustomItemTypes");
 
                     b.Navigation("CustomItems");
-                });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Person", b =>
-                {
-                    b.Navigation("Landlord");
-
-                    b.Navigation("Phones");
-
-                    b.Navigation("Tenant");
+                    b.Navigation("Tenants");
                 });
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Rental", b =>
@@ -664,6 +604,8 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("CarsRentals");
 
                     b.Navigation("CustomRentals");
+
+                    b.Navigation("Phones");
                 });
 #pragma warning restore 612, 618
         }
