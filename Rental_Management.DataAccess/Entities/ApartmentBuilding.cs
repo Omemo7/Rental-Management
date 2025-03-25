@@ -14,7 +14,7 @@ namespace Rental_Management.DataAccess.Entities
         public string Neighborhood { get; set; } = null!;
         
         public string City { get; set; } = null!;
-        public int landLordId { get; set; }
+        public int LandLordId { get; set; }
         public virtual Landlord LandLord { get; set; } = null!;
 
         public virtual ICollection<Apartment> Apartments { get; set; } = new List<Apartment>();

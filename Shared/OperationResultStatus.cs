@@ -6,7 +6,6 @@
         NotFound,
         Conflict,
         Failure,
-        NoChange,
         
     }
 

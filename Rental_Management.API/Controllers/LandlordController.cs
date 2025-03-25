@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Rental_Management.Business.DTOs;
 using Rental_Management.Business.Services;
 using Rental_Management.Business.Interfaces;
 using Shared;
 using System.Linq.Expressions;
 using Rental_Management.DataAccess.Entities;
+using Rental_Management.Business.DTOs.Landlord;
 namespace Rental_Management.API.Controllers
 {
     [Route("api/[controller]")]
@@ -53,7 +53,6 @@ namespace Rental_Management.API.Controllers
             switch (result)
             {
                 case OperationResultStatus.Success: return Ok("Landlord added successfully.");
-                case OperationResultStatus.NoChange: return Ok("No change");
                 case OperationResultStatus.NotFound: return NotFound("Landlord not found.");
                 default: return BadRequest("Failed to add landlord.");
 

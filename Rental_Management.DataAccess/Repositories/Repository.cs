@@ -41,8 +41,9 @@ namespace Rental_Management.DataAccess.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to update entity of type {typeof(T).Name}\n" +
-                    $" Exception Message: {ex.Message}");
+                _logger.LogError($"Failed to add entity of type {typeof(T).Name}\n" +
+                    $" Exception Message: {ex.Message}\n" +
+                    $" Inner Exception: {ex.InnerException?.Message ?? "No inner exception"}");
                 return OperationResultStatus.Failure;
             }
 
@@ -54,18 +55,15 @@ namespace Rental_Management.DataAccess.Repositories
             {
                 _context.Entry(entity).State = EntityState.Modified;
                 int rowsAffected=await _context.SaveChangesAsync();
-                if(rowsAffected == 0)
-                {
-                    _logger.LogWarning($"No change on entity of type {typeof(T).Name}");
-                    return OperationResultStatus.NoChange;
-                }
+               
                 _logger.LogInformation($"Updated entity of type {typeof(T).Name} successfully");
                 return OperationResultStatus.Success;
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to update entity of type {typeof(T).Name}\n" +
-                    $" Exception Message: {ex.Message}");
+                   $" Exception Message: {ex.Message}\n" +
+                   $" Inner Exception: {ex.InnerException?.Message ?? "No inner exception"}");
                 return OperationResultStatus.Failure;
             }
         }
@@ -88,7 +86,9 @@ namespace Rental_Management.DataAccess.Repositories
             }
             catch(Exception ex)
             {
-                _logger.LogError($"Failed to delete entity of type {typeof(T).Name} with id {id}\n Exception Message: {ex.Message}");
+                _logger.LogError($"Failed to delete entity of type {typeof(T).Name}\n" +
+                   $" Exception Message: {ex.Message}\n" +
+                   $" Inner Exception: {ex.InnerException?.Message ?? "No inner exception"}");
                 return OperationResultStatus.Failure;
             }
            

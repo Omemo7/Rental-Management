@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Rental_Management.Business.Interfaces;
-using Rental_Management.Business.DTOs;
 using Rental_Management.DataAccess.Interfaces;
 using Rental_Management.DataAccess.Entities;
 using Microsoft.Identity.Client;
 using Microsoft.Extensions.Logging;
 using Shared;
+using Rental_Management.Business.DTOs.Landlord;
 namespace Rental_Management.Business.Services
 {
     public class LandlordService : ILandlordService

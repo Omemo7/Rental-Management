@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rental_Management.Business.DTOs
+namespace Rental_Management.Business.DTOs.Landlord
 {
     public class UpdateLandlordNameDTO
     {

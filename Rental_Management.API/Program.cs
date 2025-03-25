@@ -12,12 +12,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Rental_Management.DataAccess")));
 
 builder.Services.AddLogging(configure => configure.AddConsole());
-
+builder.Services.AddLogging(configure => configure.AddDebug());
 // Add services to the container.
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
-
+builder.Services.AddScoped<IApartmentBuildingService, ApartmentBuildingService>();
+builder.Services.AddScoped<IApartmentBuildingRepository,ApartmentBuildingRepository>();
 builder.Services.AddScoped<ILandlordService, LandlordService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
