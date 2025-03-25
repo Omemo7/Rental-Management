@@ -15,7 +15,7 @@ public partial class Landlord
     public ICollection<Tenant> Tenants { get; set; }=null!;
 
     public virtual ICollection<Apartment> Apartments { get; set; } = new List<Apartment>();
-
+    public virtual ICollection<ApartmentBuilding>ApartmentBuildings { get; set; } = new List<ApartmentBuilding>();
     public virtual ICollection<Car> Cars { get; set; } = new List<Car>();
 
     public virtual ICollection<CustomItemType> CustomItemTypes { get; set; } = new List<CustomItemType>();

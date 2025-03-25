@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Rental_Management.DataAccess.Entities;
 
@@ -20,6 +21,7 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<ApartmentsRental> ApartmentsRentals { get; set; }
 
+    public virtual DbSet<ApartmentBuilding> ApartmentBuildings { get; set; }
     public virtual DbSet<Car> Cars { get; set; }
 
     public virtual DbSet<CarsRental> CarsRentals { get; set; }
@@ -41,7 +43,11 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<Tenant> Tenants { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer("Server=DESKTOP-SE57QM8;Database=Rental_Management;Trusted_Connection=True;TrustServerCertificate=True;");
+    }
 
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-SE57QM8;Database=Rental_Management;Trusted_Connection=True;TrustServerCertificate=True;");
+       
+  
 
 }

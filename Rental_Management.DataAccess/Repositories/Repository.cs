@@ -18,11 +18,7 @@ namespace Rental_Management.DataAccess.Repositories
             _context = context;
             _dbSet = context.Set<T>();
         }
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await _dbSet.ToListAsync();
-        }
-
+      
         public async Task<T?> GetByIdAsync(int id)
         {
             return await _dbSet.FindAsync(id);
@@ -42,10 +38,7 @@ namespace Rental_Management.DataAccess.Repositories
             }
                
         }
-        public async Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> predicate)
-        {
-            return await _dbSet.Where(predicate).ToListAsync();
-        }
+        
         public async Task<bool> UpdateAsync(T entity)
         {
             try
@@ -58,8 +51,6 @@ namespace Rental_Management.DataAccess.Repositories
             {
                 return false;
             }
-            
-           
         }
         public async Task<bool> DeleteAsync(int id)
         {
@@ -80,5 +71,9 @@ namespace Rental_Management.DataAccess.Repositories
 
         }
 
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
+        {
+             return await _dbSet.AnyAsync(predicate);
+        }
     }
 }

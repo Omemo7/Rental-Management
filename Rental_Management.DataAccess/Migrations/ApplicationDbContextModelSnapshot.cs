@@ -30,13 +30,8 @@ namespace Rental_Management.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BuildingNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ApartmentBuildingId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FloorNumber")
                         .IsRequired()
@@ -45,26 +40,50 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Property<int>("LandLordId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Neighborhood")
+                    b.Property<decimal>("SquaredMeters")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApartmentBuildingId");
+
+                    b.HasIndex("LandLordId");
+
+                    b.ToTable("Apartments");
+                });
+
+            modelBuilder.Entity("Rental_Management.DataAccess.Entities.ApartmentBuilding", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BuildingNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("SquaredMeters")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Neighborhood")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StreetAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("landLordId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LandLordId");
+                    b.HasIndex("landLordId");
 
-                    b.ToTable("Apartments");
+                    b.ToTable("ApartmentBuildings");
                 });
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.ApartmentsRental", b =>
@@ -314,11 +333,11 @@ namespace Rental_Management.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("RentValue")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateOnly>("StartDate")
                         .HasColumnType("date");
-
-                    b.Property<decimal>("Value")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -386,9 +405,28 @@ namespace Rental_Management.DataAccess.Migrations
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Apartment", b =>
                 {
+                    b.HasOne("Rental_Management.DataAccess.Entities.ApartmentBuilding", "ApartmentBuilding")
+                        .WithMany("Apartments")
+                        .HasForeignKey("ApartmentBuildingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Rental_Management.DataAccess.Entities.Landlord", "LandLord")
                         .WithMany("Apartments")
                         .HasForeignKey("LandLordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApartmentBuilding");
+
+                    b.Navigation("LandLord");
+                });
+
+            modelBuilder.Entity("Rental_Management.DataAccess.Entities.ApartmentBuilding", b =>
+                {
+                    b.HasOne("Rental_Management.DataAccess.Entities.Landlord", "LandLord")
+                        .WithMany("ApartmentBuildings")
+                        .HasForeignKey("landLordId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -555,6 +593,11 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("ApartmentsRentals");
                 });
 
+            modelBuilder.Entity("Rental_Management.DataAccess.Entities.ApartmentBuilding", b =>
+                {
+                    b.Navigation("Apartments");
+                });
+
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Car", b =>
                 {
                     b.Navigation("CarsRentals");
@@ -572,6 +615,8 @@ namespace Rental_Management.DataAccess.Migrations
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Landlord", b =>
                 {
+                    b.Navigation("ApartmentBuildings");
+
                     b.Navigation("Apartments");
 
                     b.Navigation("Cars");

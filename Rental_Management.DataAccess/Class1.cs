@@ -1,4 +1,5 @@
-﻿namespace Rental_Management.DataAccess
+﻿
+namespace Rental_Management.DataAccess
 {
     public class Class1
     {

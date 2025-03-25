@@ -14,7 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 // Add services to the container.
-builder.Services.AddScoped<IApartmentService, ApartmentService>();
+
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 

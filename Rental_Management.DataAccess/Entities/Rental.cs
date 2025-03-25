@@ -9,7 +9,7 @@ public partial class Rental
 
     public string Contract { get; set; } = null!;
 
-    public decimal Value { get; set; }
+    public decimal RentValue { get; set; }
 
     public string RentPaymentFrequency { get; set; } = null!;
 

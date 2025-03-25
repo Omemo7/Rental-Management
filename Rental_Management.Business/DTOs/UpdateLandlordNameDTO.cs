@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Rental_Management.Business.DTOs
 {
-    public class UpdateLandlordDTO
+    public class UpdateLandlordNameDTO
     {
-        public int LandlordId { get; set; }
-        
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }
