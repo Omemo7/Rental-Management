@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Rental_Management.DataAccess.Interfaces;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,62 +12,84 @@ namespace Rental_Management.DataAccess.Repositories
 {
     public class Repository<T>:IRepository<T> where T : class
     {
+        readonly protected ILogger<Repository<T>> _logger;
         readonly protected ApplicationDbContext _context;
         readonly protected DbSet<T> _dbSet;
 
-        public Repository(ApplicationDbContext context)
+        public Repository(ILogger<Repository<T>> logger,ApplicationDbContext context)
         {
+            _logger = logger;
             _context = context;
             _dbSet = context.Set<T>();
         }
       
         public async Task<T?> GetByIdAsync(int id)
         {
+            
             return await _dbSet.FindAsync(id);
+         
         }
 
-        public async Task<bool> AddAsync(T entity)
+        public async Task<OperationResultStatus> AddAsync(T entity)
         {
             try
             {
                 await _dbSet.AddAsync(entity);
                 await _context.SaveChangesAsync();
-                return true;
+                _logger.LogInformation("Added entity of type {0} successfully", typeof(T).Name);
+                return OperationResultStatus.Success;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                _logger.LogError($"Failed to update entity of type {typeof(T).Name}\n" +
+                    $" Exception Message: {ex.Message}");
+                return OperationResultStatus.Failure;
             }
-               
+
         }
         
-        public async Task<bool> UpdateAsync(T entity)
+        public async Task<OperationResultStatus> UpdateAsync(T entity)
         {
             try
             {
                 _context.Entry(entity).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-                return true;
+                int rowsAffected=await _context.SaveChangesAsync();
+                if(rowsAffected == 0)
+                {
+                    _logger.LogWarning($"No change on entity of type {typeof(T).Name}");
+                    return OperationResultStatus.NoChange;
+                }
+                _logger.LogInformation($"Updated entity of type {typeof(T).Name} successfully");
+                return OperationResultStatus.Success;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                _logger.LogError($"Failed to update entity of type {typeof(T).Name}\n" +
+                    $" Exception Message: {ex.Message}");
+                return OperationResultStatus.Failure;
             }
         }
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<OperationResultStatus> DeleteAsync(int id)
         {
             try
             {
                 var entity = await GetByIdAsync(id);
                 if (entity == null)
-                    return false;
+                {
+                    _logger.LogWarning($"Entity of type {typeof(T).Name} with id {id} not found");
+                    return OperationResultStatus.NotFound;
+                }
+                   
+               
                 _dbSet.Remove(entity);
                 await _context.SaveChangesAsync();
-                return true;
+                _logger.LogInformation($"Deleted entity of type {typeof(T).Name} with id {id} successfully");
+                return OperationResultStatus.Success;
             }
-            catch
+            catch(Exception ex)
             {
-                return false;
+                _logger.LogError($"Failed to delete entity of type {typeof(T).Name} with id {id}\n Exception Message: {ex.Message}");
+                return OperationResultStatus.Failure;
             }
            
 

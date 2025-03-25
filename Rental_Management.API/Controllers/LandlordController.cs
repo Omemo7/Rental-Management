@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Rental_Management.Business.DTOs;
 using Rental_Management.Business.Services;
 using Rental_Management.Business.Interfaces;
+using Shared;
+using System.Linq.Expressions;
+using Rental_Management.DataAccess.Entities;
 namespace Rental_Management.API.Controllers
 {
     [Route("api/[controller]")]
@@ -19,48 +22,41 @@ namespace Rental_Management.API.Controllers
         [HttpPost("Add")]
         public async Task<IActionResult> AddLandlord(AddLandlordDTO dto)
         {
-            try
+            OperationResultStatus result = await _landlordService.AddLandlordAsync(dto);
+            switch (result)
             {
-                bool isAdded = await _landlordService.AddLandlordAsync(dto);
+                case OperationResultStatus.Success: return Ok("Landlord added successfully.");
+                case OperationResultStatus.Conflict: return Conflict("Landlord already exists.");
+                default: return BadRequest("Failed to add landlord.");
 
-                if (!isAdded)
-                    return BadRequest("Failed to add landlord.");
+            }
 
-                return Ok("Landlord added successfully.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal Server Error: " + ex.Message);
-            }
         }
         [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteLandlord(int landlordId)
         {
-            try
+           
+            OperationResultStatus result = await _landlordService.DeleteLandlordAsync(landlordId);
+            switch (result)
             {
-                bool isDeleted = await _landlordService.DeleteLandlordAsync(landlordId);
-                if (!isDeleted)
-                    return BadRequest("Failed to delete landlord.");
-                return Ok("Landlord deleted successfully.");
+                case OperationResultStatus.Success: return Ok("Landlord deleted successfully.");
+                case OperationResultStatus.NotFound: return NotFound("Landlord not found.");
+                default: return BadRequest("Failed to delete landlord.");
+
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal Server Error: " + ex.Message);
-            }
+    
         }
         [HttpPut("Update")]
         public async Task<IActionResult> UpdateLandlord(UpdateLandlordNameDTO dto)
         {
-            try
+            OperationResultStatus result = await _landlordService.UpdateLandlordNameAsync(dto);
+            switch (result)
             {
-                bool isUpdated = await _landlordService.UpdateLandlordNameAsync(dto);
-                if (!isUpdated)
-                    return BadRequest("Failed to update landlord.");
-                return Ok("Landlord updated successfully.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal Server Error: " + ex.Message);
+                case OperationResultStatus.Success: return Ok("Landlord added successfully.");
+                case OperationResultStatus.NoChange: return Ok("No change");
+                case OperationResultStatus.NotFound: return NotFound("Landlord not found.");
+                default: return BadRequest("Failed to add landlord.");
+
             }
         }
         [HttpGet("Get")]

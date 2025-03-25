@@ -8,27 +8,43 @@ using Rental_Management.Business.DTOs;
 using Rental_Management.DataAccess.Interfaces;
 using Rental_Management.DataAccess.Entities;
 using Microsoft.Identity.Client;
+using Microsoft.Extensions.Logging;
+using Shared;
 namespace Rental_Management.Business.Services
 {
     public class LandlordService : ILandlordService
     {
         readonly IRepository<Landlord> _landlordRepository;
-        
-        public LandlordService(IRepository<Landlord> landlordRepository)
+        readonly ILogger<LandlordService> _logger;
+
+        public LandlordService(IRepository<Landlord> landlordRepository,ILogger<LandlordService>logger)
         {
             _landlordRepository = landlordRepository;
-           
+            _logger = logger;
+
         }
 
-        public async Task<bool> AddLandlordAsync(AddLandlordDTO dto)
+        public async Task<OperationResultStatus> AddLandlordAsync(AddLandlordDTO dto)
         {
-            bool landlordExists= await _landlordRepository.ExistsAsync(l => l.Username == dto.Username||
-                                                                l.Email==dto.Email||
-                                                                l.PhoneNumber==dto.PhoneNumber);
-            
-            if (landlordExists)
-                return false;
-            Landlord landlord = new Landlord
+            bool landlordWithUsernameExists= await _landlordRepository.ExistsAsync(l => l.Username == dto.Username);
+            bool landlordWithEmailExists = await _landlordRepository.ExistsAsync(l => l.Email == dto.Email);
+            bool landlordWithPhoneExists = await _landlordRepository.ExistsAsync(l => l.PhoneNumber == dto.PhoneNumber);
+            if (landlordWithUsernameExists)
+            {
+                _logger.LogWarning("Landlord with username already exists");
+                return OperationResultStatus.Conflict;
+            }
+            if (landlordWithEmailExists)
+            {
+                _logger.LogWarning("Landlord with email already exists");
+                return OperationResultStatus.Conflict;
+            }
+            if (landlordWithPhoneExists)
+            {
+                _logger.LogWarning("Landlord with phone number already exists");
+                return OperationResultStatus.Conflict;
+            }
+                Landlord landlord = new Landlord
             { 
                
                 Username = dto.Username,
@@ -43,7 +59,7 @@ namespace Rental_Management.Business.Services
 
         }
 
-        public async Task<bool> DeleteLandlordAsync(int landlordId)
+        public async Task<OperationResultStatus> DeleteLandlordAsync(int landlordId)
         {
             return await _landlordRepository.DeleteAsync(landlordId);
         }
@@ -63,13 +79,17 @@ namespace Rental_Management.Business.Services
             };
         }
 
-        public async Task<bool> UpdateLandlordNameAsync(UpdateLandlordNameDTO dto)
+        public async Task<OperationResultStatus> UpdateLandlordNameAsync(UpdateLandlordNameDTO dto)
         {
             var oldLandlord = await _landlordRepository.GetByIdAsync(dto.Id);
             if (oldLandlord == null)
-                return false;
+            {
+                _logger.LogWarning($"Landlord with id {dto.Id} not found for update");
+                return OperationResultStatus.NotFound;
+            }
+               
 
-            oldLandlord.Name = dto.Name; // Modify only the necessary field
+            oldLandlord.Name = dto.Name; 
             return await _landlordRepository.UpdateAsync(oldLandlord);
         }
 
