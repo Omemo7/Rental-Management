@@ -22,7 +22,7 @@ namespace Rental_Management.API.Controllers
         [HttpPost("Add")]
         public async Task<IActionResult> AddLandlord(AddLandlordDTO dto)
         {
-            OperationResultStatus result = await _landlordService.AddLandlordAsync(dto);
+            OperationResultStatus result = await _landlordService.AddAsync(dto);
             switch (result)
             {
                 case OperationResultStatus.Success: return Ok("Landlord added successfully.");
@@ -36,7 +36,7 @@ namespace Rental_Management.API.Controllers
         public async Task<IActionResult> DeleteLandlord(int landlordId)
         {
            
-            OperationResultStatus result = await _landlordService.DeleteLandlordAsync(landlordId);
+            OperationResultStatus result = await _landlordService.DeleteAsync(landlordId);
             switch (result)
             {
                 case OperationResultStatus.Success: return Ok("Landlord deleted successfully.");
@@ -47,9 +47,9 @@ namespace Rental_Management.API.Controllers
     
         }
         [HttpPut("Update")]
-        public async Task<IActionResult> UpdateLandlord(UpdateLandlordNameDTO dto)
+        public async Task<IActionResult> UpdateLandlord(UpdateLandlordDTO dto)
         {
-            OperationResultStatus result = await _landlordService.UpdateLandlordNameAsync(dto);
+            OperationResultStatus result = await _landlordService.UpdateAsync(dto);
             switch (result)
             {
                 case OperationResultStatus.Success: return Ok("Landlord added successfully.");
@@ -63,7 +63,7 @@ namespace Rental_Management.API.Controllers
         {
             try
             {
-                var landlord = await _landlordService.GetLandlordByIdAsync(id);
+                var landlord = await _landlordService.GetByIdAsync(id);
                 if (landlord == null)
                     return NotFound("Landlord not found.");
                 return Ok(landlord);

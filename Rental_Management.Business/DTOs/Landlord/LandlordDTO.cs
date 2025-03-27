@@ -8,6 +8,7 @@ namespace Rental_Management.Business.DTOs.Landlord
 {
     public class LandlordDTO
     {
+        public int Id { get; set; }
         public string Username { get; set; } = null!;
         public string Name { get; set; } = null!;
         public string Email { get; set; } = null!;

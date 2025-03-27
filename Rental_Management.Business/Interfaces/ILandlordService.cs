@@ -8,14 +8,9 @@ using Shared;
 
 namespace Rental_Management.Business.Interfaces
 {
-    public interface ILandlordService
+    public interface ILandlordService: IService
     {
-        Task<OperationResultStatus> AddLandlordAsync(AddLandlordDTO dto);
-        Task<OperationResultStatus> DeleteLandlordAsync(int landlordId);
-
-        Task<OperationResultStatus> UpdateLandlordNameAsync(UpdateLandlordNameDTO dto);
-
-        Task<LandlordDTO?> GetLandlordByIdAsync(int id);
+       
 
     }
 }

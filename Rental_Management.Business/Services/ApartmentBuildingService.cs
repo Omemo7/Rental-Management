@@ -1,4 +1,5 @@
-﻿using Rental_Management.Business.DTOs.ApartmentBuilding;
+﻿using Microsoft.Extensions.Logging;
+using Rental_Management.Business.DTOs.ApartmentBuilding;
 using Rental_Management.Business.Interfaces;
 using Rental_Management.DataAccess.Entities;
 using Rental_Management.DataAccess.Interfaces;
@@ -14,13 +15,23 @@ namespace Rental_Management.Business.Services
     public class ApartmentBuildingService : IApartmentBuildingService
     {
         readonly IApartmentBuildingRepository _apartmentBuildingRepository;
+        readonly ILogger<ApartmentBuildingService> _logger;
 
-        public ApartmentBuildingService(IApartmentBuildingRepository apartmentBuildingRepository) 
+        public ApartmentBuildingService(IApartmentBuildingRepository apartmentBuildingRepository,ILogger<ApartmentBuildingService>logger) 
         {
             _apartmentBuildingRepository = apartmentBuildingRepository;
+            _logger = logger;
         }
-        public async Task<OperationResultStatus> AddApartmentBuildingAsync(AddApartmentBuildingDTO dto)
+       
+        public async Task<OperationResultStatus> AddAsync(object AddDTO)
         {
+            var dto = AddDTO as AddApartmentBuildingDTO;
+            if (dto == null)
+            {
+                _logger.LogWarning("Invalid AddApartmentBuildingDTO");
+                return OperationResultStatus.Failure;
+            }
+                
             return await _apartmentBuildingRepository.AddAsync(new ApartmentBuilding
             {
                 BuildingNumber = dto.BuildingNumber,
@@ -31,9 +42,11 @@ namespace Rental_Management.Business.Services
             });
         }
 
-        public async Task<OperationResultStatus> DeleteApartmentBuildingAsync(int apartmentBuildingId)
+        
+
+        public async Task<OperationResultStatus> DeleteAsync(int Id)
         {
-            return await _apartmentBuildingRepository.DeleteAsync(apartmentBuildingId);
+            return await _apartmentBuildingRepository.DeleteAsync(Id);
         }
 
         public async Task<ICollection<ApartmentBuildingDTO>> GetAllApartmentBuildingsForLandlord(int landlordId)
@@ -41,6 +54,7 @@ namespace Rental_Management.Business.Services
             var buildings= await _apartmentBuildingRepository.GetAllApartmentBuildingsForLandlord(landlordId);
             return buildings.Select(x => new ApartmentBuildingDTO
             {
+                Id = x.Id,
                 BuildingNumber = x.BuildingNumber,
                 StreetAddress = x.StreetAddress,
                 Neighborhood = x.Neighborhood,
@@ -49,28 +63,35 @@ namespace Rental_Management.Business.Services
             }).ToList();
         }
 
-        public async Task<ApartmentBuildingDTO?> GetApartmentBuildingByIdAsync(int id)
+        public async Task<object?> GetByIdAsync(int id)
         {
-            var apartmentBuilding= await _apartmentBuildingRepository.GetByIdAsync(id);
-            if(apartmentBuilding == null)
+            var apartmentBuilding = await _apartmentBuildingRepository.GetByIdAsync(id);
+            if (apartmentBuilding == null)
                 return null;
 
             return new ApartmentBuildingDTO
-                {
-                    
-                    BuildingNumber = apartmentBuilding.BuildingNumber,
-                    StreetAddress = apartmentBuilding.StreetAddress,
-                    Neighborhood = apartmentBuilding.Neighborhood,
-                    City = apartmentBuilding.City,
-                    LandlordId = apartmentBuilding.LandLordId,
-       
-                };
-            
+            {
+                Id= apartmentBuilding.Id,
+                BuildingNumber = apartmentBuilding.BuildingNumber,
+                StreetAddress = apartmentBuilding.StreetAddress,
+                Neighborhood = apartmentBuilding.Neighborhood,
+                City = apartmentBuilding.City,
+                LandlordId = apartmentBuilding.LandLordId,
+
+            };
         }
 
-        public async Task<OperationResultStatus> UpdateApartmentBuildingAsync(UpdateApartmentBuildingDTO dto)
+       
+
+        public async Task<OperationResultStatus> UpdateAsync(object UpdateDTO)
         {
-            ApartmentBuilding? oldApartmentBuilding =await _apartmentBuildingRepository.GetByIdAsync(dto.Id);
+            var dto = UpdateDTO as UpdateApartmentBuildingDTO;
+            if (dto == null)
+            {
+                _logger.LogWarning("Invalid UpdateApartmentBuildingDTO");
+                return OperationResultStatus.Failure;
+            }
+            ApartmentBuilding? oldApartmentBuilding = await _apartmentBuildingRepository.GetByIdAsync(dto.Id);
             if (oldApartmentBuilding == null)
                 return OperationResultStatus.NotFound;
             oldApartmentBuilding.BuildingNumber = dto.BuildingNumber;
@@ -78,7 +99,6 @@ namespace Rental_Management.Business.Services
             oldApartmentBuilding.Neighborhood = dto.Neighborhood;
             oldApartmentBuilding.City = dto.City;
             return await _apartmentBuildingRepository.UpdateAsync(oldApartmentBuilding);
-
         }
     }
 }

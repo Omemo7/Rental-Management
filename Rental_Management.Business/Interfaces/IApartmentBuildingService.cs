@@ -7,12 +7,8 @@ using Rental_Management.Business.DTOs.ApartmentBuilding;
 using Shared;
 namespace Rental_Management.Business.Interfaces
 {
-    public interface IApartmentBuildingService
+    public interface IApartmentBuildingService:IService
     {
-        public Task<OperationResultStatus> AddApartmentBuildingAsync(AddApartmentBuildingDTO dto);
-        public Task<OperationResultStatus> DeleteApartmentBuildingAsync(int apartmentBuildingId);
-        public Task<OperationResultStatus> UpdateApartmentBuildingAsync(UpdateApartmentBuildingDTO dto);
-        public Task<ApartmentBuildingDTO?> GetApartmentBuildingByIdAsync(int id);
         public Task<ICollection<ApartmentBuildingDTO>> GetAllApartmentBuildingsForLandlord(int landlordId);
     }
 }

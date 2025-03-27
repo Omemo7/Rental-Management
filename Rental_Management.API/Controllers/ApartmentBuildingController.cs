@@ -22,11 +22,11 @@ namespace Rental_Management.API.Controllers
         [HttpPost("Add")]
         public async Task<IActionResult> AddApartmentBuilding(AddApartmentBuildingDTO dto)
         {
-            OperationResultStatus result = await _apartmentBuildingService.AddApartmentBuildingAsync(dto);
+            OperationResultStatus result = await _apartmentBuildingService.AddAsync(dto);
             switch (result)
             {
                
-                case OperationResultStatus.Success: return Ok("Apartment building added successfully.");
+                case OperationResultStatus.Success: return Ok("Apartment building has been added successfully.");
                 case OperationResultStatus.Conflict: return Conflict("Apartment building already exists.");
                 default: return BadRequest("Failed to add apartment building.");
             }
@@ -34,7 +34,7 @@ namespace Rental_Management.API.Controllers
         [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteApartmentBuilding(int apartmentBuildingId)
         {
-            OperationResultStatus result = await _apartmentBuildingService.DeleteApartmentBuildingAsync(apartmentBuildingId);
+            OperationResultStatus result = await _apartmentBuildingService.DeleteAsync(apartmentBuildingId);
             switch (result)
             {
                 case OperationResultStatus.Success: return Ok("Apartment building deleted successfully.");
@@ -45,7 +45,7 @@ namespace Rental_Management.API.Controllers
         [HttpPut("Update")]
         public async Task<IActionResult> UpdateApartmentBuilding(UpdateApartmentBuildingDTO dto)
         {
-            OperationResultStatus result = await _apartmentBuildingService.UpdateApartmentBuildingAsync(dto);
+            OperationResultStatus result = await _apartmentBuildingService.UpdateAsync(dto);
             switch (result)
             {
                 case OperationResultStatus.Success: return Ok("Apartment building updated successfully.");
@@ -56,7 +56,7 @@ namespace Rental_Management.API.Controllers
         [HttpGet("GetById")]
         public async Task<IActionResult> GetApartmentBuildingById(int id)
         {
-            var apartmentBuilding = await _apartmentBuildingService.GetApartmentBuildingByIdAsync(id);
+            var apartmentBuilding = await _apartmentBuildingService.GetByIdAsync(id);
             if (apartmentBuilding == null)
                 return NotFound("Apartment building not found.");
             return Ok(apartmentBuilding);
