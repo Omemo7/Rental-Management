@@ -23,13 +23,13 @@ namespace Rental_Management.Business.Services
             _logger = logger;
         }
        
-        public async Task<OperationResultStatus> AddAsync(object AddDTO)
+        public async Task<int> AddAsync(AddApartmentBuildingDTO dto)
         {
-            var dto = AddDTO as AddApartmentBuildingDTO;
+            
             if (dto == null)
             {
                 _logger.LogWarning("Invalid AddApartmentBuildingDTO");
-                return OperationResultStatus.Failure;
+                return -1;
             }
                 
             return await _apartmentBuildingRepository.AddAsync(new ApartmentBuilding
@@ -63,12 +63,14 @@ namespace Rental_Management.Business.Services
             }).ToList();
         }
 
-        public async Task<object?> GetByIdAsync(int id)
+        public async Task<ApartmentBuildingDTO?> GetByIdAsync(int id)
         {
             var apartmentBuilding = await _apartmentBuildingRepository.GetByIdAsync(id);
             if (apartmentBuilding == null)
+            {
+                _logger.LogWarning("Invalid Apartment Building");
                 return null;
-
+            }
             return new ApartmentBuildingDTO
             {
                 Id= apartmentBuilding.Id,
@@ -81,11 +83,9 @@ namespace Rental_Management.Business.Services
             };
         }
 
-       
-
-        public async Task<OperationResultStatus> UpdateAsync(object UpdateDTO)
+        public async Task<OperationResultStatus> UpdateAsync(UpdateApartmentBuildingDTO dto)
         {
-            var dto = UpdateDTO as UpdateApartmentBuildingDTO;
+            
             if (dto == null)
             {
                 _logger.LogWarning("Invalid UpdateApartmentBuildingDTO");

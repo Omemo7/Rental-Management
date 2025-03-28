@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Rental_Management.Business.DTOs.Apartment;
+using Rental_Management.Business.DTOs.Landlord;
 using Rental_Management.Business.Interfaces;
+using Rental_Management.Business.Services;
 using Shared;
 
 namespace Rental_Management.API.Controllers
@@ -18,15 +20,17 @@ namespace Rental_Management.API.Controllers
             _logger = logger;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddApartment(AddApartmentDTO dto)
+        public async Task<IActionResult> AddLandlord(AddApartmentDTO dto)
         {
-            OperationResultStatus result = await _apartmentService.AddAsync(dto);
-            switch (result)
+            int id = await _apartmentService.AddAsync(dto);
+
+            if (id == -1)
             {
-                case OperationResultStatus.Success: return Ok("Apartment has been added successfully.");
-                case OperationResultStatus.Conflict: return Conflict("Apartment already exists.");
-                default: return BadRequest("Failed to add apartment.");
+                return BadRequest("Failed to add landlord.");
             }
+
+
+            return CreatedAtAction(nameof(GetApartmentById), new { id = id }, dto);
         }
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> DeleteApartment(int id)
@@ -39,7 +43,7 @@ namespace Rental_Management.API.Controllers
                 default: return BadRequest("Failed to delete apartment.");
             }
         }
-        [HttpGet("GetAllApartmentsForLandlord/{landlordId}")]
+        [HttpGet("GetAllForLandlord/{landlordId}")]
         public async Task<IActionResult> GetAllApartmentsForLandlord(int landlordId)
         {
             var apartments = await _apartmentService.GetAllApartmentsForLandlord(landlordId);
@@ -51,21 +55,23 @@ namespace Rental_Management.API.Controllers
             var apartments = await _apartmentService.GetAllApartmentsInBuilding(apartmentBuildingId);
             return Ok(apartments);
         }
-        [HttpGet("GetApartmentById/{id}")]
+        [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetApartmentById(int id)
         {
             var apartment = await _apartmentService.GetByIdAsync(id);
-            if (apartment == null) return NotFound("Apartment not found.");
+            if (apartment == null)
+                return NotFound("Apartment not found.");
             return Ok(apartment);
         }
 
-        [HttpPut("Update")]
-        public async Task<IActionResult> UpdateApartment(UpdateApartmentDTO dto)
+        [HttpPut("Update/{id}")]
+        public async Task<IActionResult> UpdateApartment(int id,UpdateApartmentDTO dto)
         {
+            dto.Id = id;
             OperationResultStatus result = await _apartmentService.UpdateAsync(dto);
             switch (result)
             {
-                case OperationResultStatus.Success: return Ok("Apartment has been updated successfully.");
+                case OperationResultStatus.Success: return Ok(await _apartmentService.GetByIdAsync(id));
                 case OperationResultStatus.NotFound: return NotFound("Apartment not found.");
                 default: return BadRequest("Failed to update apartment.");
             }

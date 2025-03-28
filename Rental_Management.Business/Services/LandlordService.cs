@@ -24,32 +24,23 @@ namespace Rental_Management.Business.Services
 
         }
 
-        public async Task<OperationResultStatus> AddAsync(object AddDTO)
+        public async Task<int> AddAsync(AddLandlordDTO dto)
         {
-            var dto = AddDTO as AddLandlordDTO;
+            
             if (dto == null)
             {
                 _logger.LogWarning("Invalid AddLandlordDTO");
-                return OperationResultStatus.Failure;
+                return -1;
             }
-            bool landlordWithUsernameExists = await _landlordRepository.ExistsAsync(l => l.Username == dto.Username);
-            bool landlordWithEmailExists = await _landlordRepository.ExistsAsync(l => l.Email == dto.Email);
-            bool landlordWithPhoneExists = await _landlordRepository.ExistsAsync(l => l.PhoneNumber == dto.PhoneNumber);
-            if (landlordWithUsernameExists)
+
+            if (await _landlordRepository.ExistsAsync(l => l.Username == dto.Username||
+                                                           l.Email==dto.Email||
+                                                           l.PhoneNumber==dto.PhoneNumber))
             {
-                _logger.LogWarning("Landlord with username already exists");
-                return OperationResultStatus.Conflict;
+                _logger.LogWarning("Landlord already exists");
+                return -1;
             }
-            if (landlordWithEmailExists)
-            {
-                _logger.LogWarning("Landlord with email already exists");
-                return OperationResultStatus.Conflict;
-            }
-            if (landlordWithPhoneExists)
-            {
-                _logger.LogWarning("Landlord with phone number already exists");
-                return OperationResultStatus.Conflict;
-            }
+           
             Landlord landlord = new Landlord
             {
 
@@ -66,7 +57,6 @@ namespace Rental_Management.Business.Services
         }
 
         
-
         public async Task<OperationResultStatus> DeleteAsync(int Id)
         {
             return await _landlordRepository.DeleteAsync(Id);
@@ -74,7 +64,7 @@ namespace Rental_Management.Business.Services
 
        
 
-        public async Task<object?> GetByIdAsync(int id)
+        public async Task<LandlordDTO?> GetByIdAsync(int id)
         {
             var landlord = await _landlordRepository.GetByIdAsync(id);
 
@@ -91,9 +81,9 @@ namespace Rental_Management.Business.Services
         }
 
        
-        public async Task<OperationResultStatus> UpdateAsync(object UpdateDTO)
+        public async Task<OperationResultStatus> UpdateAsync(UpdateLandlordDTO dto)
         {
-            var dto = UpdateDTO as UpdateLandlordDTO;
+            
             if (dto == null)
             {
                 _logger.LogWarning("Invalid UpdateLandlordDTO");

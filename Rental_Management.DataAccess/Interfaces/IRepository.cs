@@ -11,7 +11,7 @@ namespace Rental_Management.DataAccess.Interfaces
     public interface IRepository<T> where T:class
     {
         Task<T?> GetByIdAsync(int id);
-        Task<OperationResultStatus> AddAsync(T entity);
+        Task<int> AddAsync(T entity);
         Task<OperationResultStatus> UpdateAsync(T entity);
         Task<OperationResultStatus> DeleteAsync(int id);
         Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate);

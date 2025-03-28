@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Rental_Management.Business.Interfaces
 {
-    public interface IService
+    public interface IService<TDTO,TAddDTO,TUpdateDTO>
     {
-        Task<OperationResultStatus> AddAsync(object AddDTO);
+        Task<int> AddAsync(TAddDTO AddDTO);
         Task<OperationResultStatus> DeleteAsync(int Id);
 
-        Task<OperationResultStatus> UpdateAsync(object UpdateDTO);
+        Task<OperationResultStatus> UpdateAsync(TUpdateDTO UpdateDTO);
 
-        Task<object?> GetByIdAsync(int id);
+        Task<TDTO?> GetByIdAsync(int id);
     }
 }

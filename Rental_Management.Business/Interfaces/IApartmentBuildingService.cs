@@ -7,7 +7,7 @@ using Rental_Management.Business.DTOs.ApartmentBuilding;
 using Shared;
 namespace Rental_Management.Business.Interfaces
 {
-    public interface IApartmentBuildingService:IService
+    public interface IApartmentBuildingService:IService<ApartmentBuildingDTO,AddApartmentBuildingDTO,UpdateApartmentBuildingDTO>
     {
         public Task<ICollection<ApartmentBuildingDTO>> GetAllApartmentBuildingsForLandlord(int landlordId);
     }

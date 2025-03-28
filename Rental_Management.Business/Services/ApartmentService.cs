@@ -21,13 +21,13 @@ namespace Rental_Management.Business.Services
             _apartmentRepository = repository;
             _logger = logger;
         }
-        public async Task<OperationResultStatus> AddAsync(object AddDTO)
+        public async Task<int> AddAsync(AddApartmentDTO dto)
         {
-            AddApartmentDTO? dto = AddDTO as AddApartmentDTO;
+           
             if (dto == null)
             {
                 _logger.LogWarning("Invalid AddApartmentDTO");
-                return OperationResultStatus.Failure;
+                return -1;
             }
             return await _apartmentRepository.AddAsync(new Apartment
             {
@@ -77,14 +77,30 @@ namespace Rental_Management.Business.Services
             }).ToList();
         }
 
-        public async Task<object?> GetByIdAsync(int id)
+        public async Task<ApartmentDTO?> GetByIdAsync(int id)
         {
-            return await _apartmentRepository.GetByIdAsync(id);
+            var apartment = await _apartmentRepository.GetByIdAsync(id);
+            if (apartment == null)
+            {
+                _logger.LogWarning("Apartment not found");
+                return null;
+            }
+
+            return new ApartmentDTO
+            {
+                Id = id,
+                FloorNumber = apartment.FloorNumber,
+                SquaredMeters = apartment.SquaredMeters,
+                NumberOfBathrooms = apartment.NumberOfBathrooms,
+                NumberOfRooms = apartment.NumberOfRooms,
+                ApartmentBuildingId = apartment.ApartmentBuildingId,
+
+            };
         }
 
-        public async Task<OperationResultStatus> UpdateAsync(object UpdateDTO)
+        public async Task<OperationResultStatus> UpdateAsync(UpdateApartmentDTO dto)
         {
-            var dto = UpdateDTO as UpdateApartmentDTO;
+            
             if (dto == null)
             {
                 _logger.LogWarning("Invalid UpdateApartmentDTO");
@@ -102,6 +118,11 @@ namespace Rental_Management.Business.Services
             oldApartment.NumberOfRooms = dto.NumberOfRooms;
             return await _apartmentRepository.UpdateAsync(oldApartment);
             
+        }
+
+        Task<ApartmentDTO?> IService<ApartmentDTO, AddApartmentDTO, UpdateApartmentDTO>.GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

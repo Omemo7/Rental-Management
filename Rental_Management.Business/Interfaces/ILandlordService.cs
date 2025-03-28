@@ -8,7 +8,7 @@ using Shared;
 
 namespace Rental_Management.Business.Interfaces
 {
-    public interface ILandlordService: IService
+    public interface ILandlordService: IService<LandlordDTO,AddLandlordDTO,UpdateLandlordDTO>
     {
        
 

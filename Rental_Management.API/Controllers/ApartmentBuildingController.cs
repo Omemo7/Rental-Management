@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Rental_Management.Business.DTOs.ApartmentBuilding;
+using Rental_Management.Business.DTOs.Landlord;
 using Rental_Management.Business.Interfaces;
+using Rental_Management.Business.Services;
 using Shared;
 
 namespace Rental_Management.API.Controllers
@@ -20,21 +22,22 @@ namespace Rental_Management.API.Controllers
             _logger = logger;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddApartmentBuilding(AddApartmentBuildingDTO dto)
+        public async Task<IActionResult> AddLandlord(AddApartmentBuildingDTO dto)
         {
-            OperationResultStatus result = await _apartmentBuildingService.AddAsync(dto);
-            switch (result)
+            int id = await _apartmentBuildingService.AddAsync(dto);
+
+            if (id == -1)
             {
-               
-                case OperationResultStatus.Success: return Ok("Apartment building has been added successfully.");
-                case OperationResultStatus.Conflict: return Conflict("Apartment building already exists.");
-                default: return BadRequest("Failed to add apartment building.");
+                return BadRequest("Failed to add landlord.");
             }
+
+
+            return CreatedAtAction(nameof(GetApartmentBuildingById), new { id = id }, dto);
         }
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteApartmentBuilding(int apartmentBuildingId)
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> DeleteApartmentBuilding(int id)
         {
-            OperationResultStatus result = await _apartmentBuildingService.DeleteAsync(apartmentBuildingId);
+            OperationResultStatus result = await _apartmentBuildingService.DeleteAsync(id);
             switch (result)
             {
                 case OperationResultStatus.Success: return Ok("Apartment building deleted successfully.");
@@ -42,18 +45,19 @@ namespace Rental_Management.API.Controllers
                 default: return BadRequest("Failed to delete apartment building.");
             }
         }
-        [HttpPut("Update")]
-        public async Task<IActionResult> UpdateApartmentBuilding(UpdateApartmentBuildingDTO dto)
+        [HttpPut("Update/{id}")]
+        public async Task<IActionResult> UpdateApartmentBuilding(int id,UpdateApartmentBuildingDTO dto)
         {
+            dto.Id = id;
             OperationResultStatus result = await _apartmentBuildingService.UpdateAsync(dto);
             switch (result)
             {
-                case OperationResultStatus.Success: return Ok("Apartment building updated successfully.");
+                case OperationResultStatus.Success: return Ok(await _apartmentBuildingService.GetByIdAsync(id));
                 case OperationResultStatus.NotFound: return NotFound("Apartment building not found.");
                 default: return BadRequest("Failed to update apartment building.");
             }
         }
-        [HttpGet("GetById")]
+        [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetApartmentBuildingById(int id)
         {
             var apartmentBuilding = await _apartmentBuildingService.GetByIdAsync(id);
@@ -61,7 +65,7 @@ namespace Rental_Management.API.Controllers
                 return NotFound("Apartment building not found.");
             return Ok(apartmentBuilding);
         }
-        [HttpGet("GetAllForLandlord")]
+        [HttpGet("GetAllForLandlord/{landlordId}")]
         public async Task<IActionResult> GetAllApartmentBuildingsForLandlord(int landlordId)
         {
             try

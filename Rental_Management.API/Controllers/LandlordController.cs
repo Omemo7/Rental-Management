@@ -22,21 +22,22 @@ namespace Rental_Management.API.Controllers
         [HttpPost("Add")]
         public async Task<IActionResult> AddLandlord(AddLandlordDTO dto)
         {
-            OperationResultStatus result = await _landlordService.AddAsync(dto);
-            switch (result)
-            {
-                case OperationResultStatus.Success: return Ok("Landlord added successfully.");
-                case OperationResultStatus.Conflict: return Conflict("Landlord already exists.");
-                default: return BadRequest("Failed to add landlord.");
+            int id = await _landlordService.AddAsync(dto);
 
+            if (id == -1)
+            {
+                return BadRequest("Failed to add landlord.");
             }
 
+          
+            return CreatedAtAction(nameof(GetLandlordById), new { id = id }, dto); 
         }
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteLandlord(int landlordId)
+
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> DeleteLandlord(int id)
         {
            
-            OperationResultStatus result = await _landlordService.DeleteAsync(landlordId);
+            OperationResultStatus result = await _landlordService.DeleteAsync(id);
             switch (result)
             {
                 case OperationResultStatus.Success: return Ok("Landlord deleted successfully.");
@@ -46,33 +47,35 @@ namespace Rental_Management.API.Controllers
             }
     
         }
-        [HttpPut("Update")]
-        public async Task<IActionResult> UpdateLandlord(UpdateLandlordDTO dto)
+        [HttpPut("Update/{id}")]
+        public async Task<IActionResult> UpdateLandlord(int id, UpdateLandlordDTO dto)
         {
+           
+            dto.Id = id;
             OperationResultStatus result = await _landlordService.UpdateAsync(dto);
+
             switch (result)
             {
-                case OperationResultStatus.Success: return Ok("Landlord added successfully.");
-                case OperationResultStatus.NotFound: return NotFound("Landlord not found.");
-                default: return BadRequest("Failed to add landlord.");
-
+                case OperationResultStatus.Success:
+                    return Ok(await _landlordService.GetByIdAsync(id)); 
+                case OperationResultStatus.NotFound:
+                    return NotFound("Landlord not found.");
+                default:
+                    return BadRequest("Failed to update landlord.");
             }
         }
-        [HttpGet("Get")]
+
+        [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetLandlordById(int id)
         {
-            try
+            var landlord = await _landlordService.GetByIdAsync(id);
+            if (landlord == null)
             {
-                var landlord = await _landlordService.GetByIdAsync(id);
-                if (landlord == null)
-                    return NotFound("Landlord not found.");
-                return Ok(landlord);
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal Server Error: " + ex.Message);
-            }
+            return Ok(landlord);
         }
+
 
     }
 }

@@ -30,25 +30,40 @@ namespace Rental_Management.DataAccess.Repositories
          
         }
 
-        public async Task<OperationResultStatus> AddAsync(T entity)
+        public async Task<int> AddAsync(T entity)
         {
             try
             {
                 await _dbSet.AddAsync(entity);
                 await _context.SaveChangesAsync();
-                _logger.LogInformation("Added entity of type {0} successfully", typeof(T).Name);
-                return OperationResultStatus.Success;
+
+                
+                var idProperty = typeof(T).GetProperty("Id");
+
+                if (idProperty != null)
+                {
+                    var idValue = idProperty.GetValue(entity);
+                    if (idValue is int id)
+                    {
+                        _logger.LogInformation("Added entity of type {0} successfully with ID {1}", typeof(T).Name, id);
+                        return id;
+                    }
+                }
+
+                _logger.LogWarning("Entity does not have an 'Id' property.");
+                return -1;  
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to add entity of type {typeof(T).Name}\n" +
-                    $" Exception Message: {ex.Message}\n" +
-                    $" Inner Exception: {ex.InnerException?.Message ?? "No inner exception"}");
-                return OperationResultStatus.Failure;
-            }
+                                  $"Exception Message: {ex.Message}\n" +
+                                  $"Inner Exception: {ex.InnerException?.Message ?? "No inner exception"}");
 
+                return -1; 
+            }
         }
-        
+
+
         public async Task<OperationResultStatus> UpdateAsync(T entity)
         {
             try

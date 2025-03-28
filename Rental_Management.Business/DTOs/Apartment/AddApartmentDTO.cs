@@ -14,8 +14,6 @@ namespace Rental_Management.Business.DTOs.Apartment
         public int NumberOfBathrooms { get; set; }
         public decimal SquaredMeters { get; set; }
 
-       
-
         public int ApartmentBuildingId { get; set; }
     }
 }
