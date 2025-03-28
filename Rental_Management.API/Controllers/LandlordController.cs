@@ -30,7 +30,7 @@ namespace Rental_Management.API.Controllers
             }
 
           
-            return CreatedAtAction(nameof(GetLandlordById), new { id = id }, dto); 
+            return CreatedAtAction(nameof(GetLandlordById), new { Id = id }, dto); 
         }
 
         [HttpDelete("Delete/{id}")]

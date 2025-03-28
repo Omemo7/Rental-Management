@@ -20,7 +20,7 @@ namespace Rental_Management.API.Controllers
             _logger = logger;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddLandlord(AddApartmentDTO dto)
+        public async Task<IActionResult> AddApartment(AddApartmentDTO dto)
         {
             int id = await _apartmentService.AddAsync(dto);
 
@@ -30,7 +30,7 @@ namespace Rental_Management.API.Controllers
             }
 
 
-            return CreatedAtAction(nameof(GetApartmentById), new { id = id }, dto);
+            return CreatedAtAction(nameof(GetApartmentById), new { Id = id }, dto);
         }
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> DeleteApartment(int id)
