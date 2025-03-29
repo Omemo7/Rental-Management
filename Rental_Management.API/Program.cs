@@ -4,13 +4,14 @@ using Rental_Management.DataAccess.Interfaces;
 using Rental_Management.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Rental_Management.DataAccess;
+using Rental_Management.Business.Mappers;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Rental_Management.DataAccess")));
-
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddLogging(configure => configure.AddConsole());
 builder.Services.AddLogging(configure => configure.AddDebug());
 // Add services to the container.

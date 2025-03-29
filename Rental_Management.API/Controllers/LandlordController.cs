@@ -10,72 +10,12 @@ namespace Rental_Management.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LandlordController : ControllerBase
+    public class LandlordController : BaseController< LandlordDTO, AddLandlordDTO, UpdateLandlordDTO>
     {
-        private readonly ILandlordService _landlordService;
 
-        public LandlordController(ILandlordService landlordService)
+        public LandlordController(ILandlordService service) : base(service)
         {
-            _landlordService = landlordService;
         }
-
-        [HttpPost("Add")]
-        public async Task<IActionResult> AddLandlord(AddLandlordDTO dto)
-        {
-            int id = await _landlordService.AddAsync(dto);
-
-            if (id == -1)
-            {
-                return BadRequest("Failed to add landlord.");
-            }
-
-          
-            return CreatedAtAction(nameof(GetLandlordById), new { Id = id }, dto); 
-        }
-
-        [HttpDelete("Delete/{id}")]
-        public async Task<IActionResult> DeleteLandlord(int id)
-        {
-           
-            OperationResultStatus result = await _landlordService.DeleteAsync(id);
-            switch (result)
-            {
-                case OperationResultStatus.Success: return Ok("Landlord deleted successfully.");
-                case OperationResultStatus.NotFound: return NotFound("Landlord not found.");
-                default: return BadRequest("Failed to delete landlord.");
-
-            }
-    
-        }
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> UpdateLandlord(int id, UpdateLandlordDTO dto)
-        {
-           
-            dto.Id = id;
-            OperationResultStatus result = await _landlordService.UpdateAsync(dto);
-
-            switch (result)
-            {
-                case OperationResultStatus.Success:
-                    return Ok(await _landlordService.GetByIdAsync(id)); 
-                case OperationResultStatus.NotFound:
-                    return NotFound("Landlord not found.");
-                default:
-                    return BadRequest("Failed to update landlord.");
-            }
-        }
-
-        [HttpGet("GetById/{id}")]
-        public async Task<IActionResult> GetLandlordById(int id)
-        {
-            var landlord = await _landlordService.GetByIdAsync(id);
-            if (landlord == null)
-            {
-                return NotFound();
-            }
-            return Ok(landlord);
-        }
-
 
     }
 }
