@@ -13,8 +13,40 @@ namespace Rental_Management.API.Controllers
     public class LandlordController : BaseController< LandlordDTO, AddLandlordDTO, UpdateLandlordDTO>
     {
 
+        ILandlordService _landlordService;
         public LandlordController(ILandlordService service) : base(service)
         {
+            _landlordService = service;
+        }
+        [HttpGet("GetAllApartmentBuildingsForLandlord/{landlordId}")]
+        public async Task<IActionResult> GetAllApartmentBuildingsForLandlord(int landlordId)
+        {
+            try
+            {
+                var buildings = await _landlordService.GetAllApartmentBuildingsForLandlord(landlordId);
+                if (buildings == null)
+                    return NotFound("No apartment buildings found for landlord.");
+                return Ok(buildings);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+        }
+        [HttpGet("GetAllApartmentsForLandlord/{landlordId}")]
+        public async Task<IActionResult> GetAllApartmentsForLandlord(int landlordId)
+        {
+
+            var apartments = await _landlordService.GetAllApartmentsForLandlord(landlordId);
+            return Ok(apartments);
+        }
+
+        [HttpGet("GetAllTenantsForLandlord/{landlordId}")]
+        public async Task<IActionResult> GetAllTenantsForLandlord(int landlordId)
+        {
+            var tenants = await _landlordService.GetAllTenantsForLandlord(landlordId);
+            return Ok(tenants);
         }
 
     }

@@ -10,11 +10,7 @@ public partial class Tenant
 
     public string NationalNumber { get; set; } = null!;
 
-    public string FirstName { get; set; } = null!;
-
-    public string LastName { get; set; } = null!;
-
-    public DateOnly DateOfBirth { get; set; }
+    public string Name { get; set; } = null!;
 
     public string Email { get; set; } = null!;
     public int LandlordId { get; set; }

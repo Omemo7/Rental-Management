@@ -1,4 +1,5 @@
-﻿using Rental_Management.DataAccess.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Rental_Management.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace Rental_Management.DataAccess.Interfaces
 {
     public interface IApartmentBuildingRepository:IRepository<ApartmentBuilding>
     {
-        Task<ICollection<ApartmentBuilding>> GetAllApartmentBuildingsForLandlord(int landlordId);
+        public Task<ICollection<Apartment>> GetAllApartmentsInBuilding(int apartmentBuildingId);
+
+       
     }
 }

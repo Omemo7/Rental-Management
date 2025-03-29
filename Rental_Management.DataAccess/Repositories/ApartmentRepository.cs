@@ -17,15 +17,7 @@ namespace Rental_Management.DataAccess.Repositories
         {
         }
 
-        public async Task<ICollection<Apartment>> GetAllApartmentsForLandlord(int landlordId)
-        {
-             return await _dbSet.Include(a=>a.ApartmentBuilding).Where(a=>a.ApartmentBuilding.LandLordId==landlordId).ToListAsync();
-
-        }
-        public async Task<ICollection<Apartment>> GetAllApartmentsInBuilding(int apartmentBuildingId)
-        {
-            return await _dbSet.Where(a => a.ApartmentBuildingId == apartmentBuildingId).ToListAsync();
-        }
+       
     }
     
 }

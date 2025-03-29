@@ -10,7 +10,7 @@ namespace Rental_Management.Business.Interfaces
 {
     public interface IApartmentService : IService<ApartmentDTO, AddApartmentDTO, UpdateApartmentDTO>    
     {
-        public Task<ICollection<ApartmentDTO>> GetAllApartmentsForLandlord(int landlordId);
-        public Task<ICollection<ApartmentDTO>> GetAllApartmentsInBuilding(int apartmentBuildingId);
+       
+       
     }
 }

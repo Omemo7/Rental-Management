@@ -12,6 +12,7 @@ namespace Rental_Management.Business.Mappers
     using Rental_Management.Business.DTOs.Apartment;
     using Rental_Management.Business.DTOs.ApartmentBuilding;
     using Rental_Management.Business.DTOs.Landlord;
+    using Rental_Management.Business.DTOs.Tenant;
     using Rental_Management.DataAccess.Entities;
 
     public class MappingProfile : Profile
@@ -29,6 +30,11 @@ namespace Rental_Management.Business.Mappers
             CreateMap<ApartmentBuilding, ApartmentBuildingDTO>();
             CreateMap<AddApartmentBuildingDTO, ApartmentBuilding>();
             CreateMap<UpdateApartmentBuildingDTO, ApartmentBuilding>();
+
+            CreateMap<Tenant, TenantDTO>();
+            CreateMap<AddTenantDTO, Tenant>();
+            CreateMap<UpdateTenantDTO, Tenant>();
+
         }
     }
 

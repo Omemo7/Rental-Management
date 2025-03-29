@@ -17,11 +17,11 @@ namespace Rental_Management.DataAccess.Repositories
         public ApartmentBuildingRepository(ILogger<Repository<ApartmentBuilding>> logger, ApplicationDbContext context) : base(logger, context)
         {
         }
-        public async Task<ICollection<ApartmentBuilding>> GetAllApartmentBuildingsForLandlord(int landlordId)
-        {
-            return await _dbSet.Where(x => x.LandLordId == landlordId).ToListAsync();
-        }
 
-      
+
+        public async Task<ICollection<Apartment>> GetAllApartmentsInBuilding(int apartmentBuildingId)
+        {
+            return await _context.Apartments.Where(a => a.ApartmentBuildingId == apartmentBuildingId).ToListAsync();
+        }
     }
 }

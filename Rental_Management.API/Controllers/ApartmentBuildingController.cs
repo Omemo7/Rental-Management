@@ -20,22 +20,12 @@ namespace Rental_Management.API.Controllers
             _apartmentBuildingService = apartmentBuildingService;
             
         }
-        
-        [HttpGet("GetAllForLandlord/{landlordId}")]
-        public async Task<IActionResult> GetAllApartmentBuildingsForLandlord(int landlordId)
+
+        [HttpGet("GetAllApartmentsInBuilding/{apartmentBuildingId}")]
+        public async Task<IActionResult> GetAllApartmentsInBuilding(int apartmentBuildingId)
         {
-            try
-            {
-                var buildings = await _apartmentBuildingService.GetAllApartmentBuildingsForLandlord(landlordId);
-                if (buildings == null)
-                    return NotFound("No apartment buildings found for landlord.");
-                return Ok(buildings);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-           
+            var apartments = await _apartmentBuildingService.GetAllApartmentsInBuilding(apartmentBuildingId);
+            return Ok(apartments);
         }
     }
 }

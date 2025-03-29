@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
+using Rental_Management.Business.DTOs.Apartment;
 using Rental_Management.Business.DTOs.ApartmentBuilding;
 using Rental_Management.Business.Interfaces;
 using Rental_Management.DataAccess.Entities;
 using Rental_Management.DataAccess.Interfaces;
+using Rental_Management.DataAccess.Repositories;
 using Shared;
 using System;
 using System.Collections.Generic;
@@ -24,23 +26,11 @@ namespace Rental_Management.Business.Services
         {
             _apartmentBuildingRepository = apartmentBuildingRepository;
         }
-       
-       
-        public async Task<ICollection<ApartmentBuildingDTO>> GetAllApartmentBuildingsForLandlord(int landlordId)
+        public async Task<ICollection<ApartmentDTO>> GetAllApartmentsInBuilding(int apartmentBuildingId)
         {
-            var buildings= await _apartmentBuildingRepository.GetAllApartmentBuildingsForLandlord(landlordId);
-            return buildings.Select(x => new ApartmentBuildingDTO
-            {
-                Id = x.Id,
-                BuildingNumber = x.BuildingNumber,
-                StreetAddress = x.StreetAddress,
-                Neighborhood = x.Neighborhood,
-                City = x.City,
-                LandlordId = x.LandLordId,
-            }).ToList();
+            var apartments = await _apartmentBuildingRepository.GetAllApartmentsInBuilding(apartmentBuildingId);
+            return _mapper.Map<ICollection<ApartmentDTO>>(apartments);
         }
-
-       
 
 
     }

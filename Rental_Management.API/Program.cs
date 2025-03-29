@@ -15,16 +15,21 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddLogging(configure => configure.AddConsole());
 builder.Services.AddLogging(configure => configure.AddDebug());
 // Add services to the container.
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddScoped<IApartmentService, ApartmentService>();
 builder.Services.AddScoped<IApartmentRepository, ApartmentRepository>();
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddScoped<IApartmentBuildingService, ApartmentBuildingService>();
 builder.Services.AddScoped<IApartmentBuildingRepository,ApartmentBuildingRepository>();
 
 builder.Services.AddScoped<ILandlordService, LandlordService>();
+builder.Services.AddScoped<ILandlordRepository, LandlordRepository>();
+
+builder.Services.AddScoped<ITenantService, TenantService>();
+builder.Services.AddScoped<ITenantRepository, TenantRepository>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

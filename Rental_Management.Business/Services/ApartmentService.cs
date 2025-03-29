@@ -23,22 +23,6 @@ namespace Rental_Management.Business.Services
             _apartmentRepository = repository;
         }
        
-
-
-        public async Task<ICollection<ApartmentDTO>> GetAllApartmentsForLandlord(int landlordId)
-        {
-           
-            var apartments = await _apartmentRepository.GetAllApartmentsForLandlord(landlordId);
-            return _mapper.Map<ICollection<ApartmentDTO>>(apartments);
-
-        }
-
-        public async Task<ICollection<ApartmentDTO>> GetAllApartmentsInBuilding(int apartmentBuildingId)
-        {
-            var apartments = await _apartmentRepository.GetAllApartmentsInBuilding(apartmentBuildingId);
-            return _mapper.Map<ICollection<ApartmentDTO>>(apartments);
-        }
-
         
     }
 }

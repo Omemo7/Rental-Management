@@ -19,19 +19,7 @@ namespace Rental_Management.API.Controllers
             _apartmentService = apartmentService;
         }
        
-        [HttpGet("GetAllForLandlord/{landlordId}")]
-        public async Task<IActionResult> GetAllApartmentsForLandlord(int landlordId)
-        {
-            
-            var apartments = await _apartmentService.GetAllApartmentsForLandlord(landlordId);
-            return Ok(apartments);
-        }
-        [HttpGet("GetAllApartmentsInBuilding/{apartmentBuildingId}")]
-        public async Task<IActionResult> GetAllApartmentsInBuilding(int apartmentBuildingId)
-        {
-            var apartments = await _apartmentService.GetAllApartmentsInBuilding(apartmentBuildingId);
-            return Ok(apartments);
-        }
+        
         
 
         
