@@ -10,7 +10,7 @@ public partial class CustomItem
     public string Name { get; set; } = null!;
 
     public string Description { get; set; } = null!;
-
+    public bool Vacant { get; set; }
     public int LandLordId { get; set; }
 
     public int CustomItemTypeId { get; set; }

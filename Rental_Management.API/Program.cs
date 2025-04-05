@@ -17,6 +17,10 @@ builder.Services.AddLogging(configure => configure.AddDebug());
 // Add services to the container.
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
+
+builder.Services.AddScoped<IApartmentRentalService, ApartmentRentalService>();
+builder.Services.AddScoped<IApartmentRentalRepository, ApartmentRentalRepository>();
+
 builder.Services.AddScoped<IApartmentService, ApartmentService>();
 builder.Services.AddScoped<IApartmentRepository, ApartmentRepository>();
 

@@ -17,11 +17,8 @@ public partial class Tenant
 
     public virtual ICollection<TenantPhone> Phones { get; set; } = new List<TenantPhone>();
 
-    public virtual ICollection<ApartmentsRental> ApartmentsRentals { get; set; } = new List<ApartmentsRental>();
-
-    public virtual ICollection<CarsRental> CarsRentals { get; set; } = new List<CarsRental>();
-
-    public virtual ICollection<CustomRental> CustomRentals { get; set; } = new List<CustomRental>();
+  
+    public virtual ICollection<Rental> Rentals { get; set; } = new List<Rental>();
     public virtual Landlord Landlord { get; set; }=null!;
     
 }

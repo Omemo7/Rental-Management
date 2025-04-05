@@ -23,14 +23,14 @@ namespace Rental_Management.DataAccess.Repositories
             _dbSet = context.Set<T>();
         }
       
-        public async Task<T?> GetByIdAsync(int id)
+        public virtual async Task<T?> GetByIdAsync(int id)
         {
             
             return await _dbSet.FindAsync(id);
          
         }
 
-        public async Task<int> AddAsync(T entity)
+        public virtual async Task<int> AddAsync(T entity)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace Rental_Management.DataAccess.Repositories
         }
 
 
-        public async Task<OperationResultStatus> UpdateAsync(T entity)
+        public virtual async Task<OperationResultStatus> UpdateAsync(T entity)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace Rental_Management.DataAccess.Repositories
                 return OperationResultStatus.Failure;
             }
         }
-        public async Task<OperationResultStatus> DeleteAsync(int id)
+        public virtual async Task<OperationResultStatus> DeleteAsync(int id)
         {
             try
             {
@@ -110,7 +110,7 @@ namespace Rental_Management.DataAccess.Repositories
 
         }
 
-        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
+        public virtual async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
         {
              return await _dbSet.AnyAsync(predicate);
         }

@@ -16,6 +16,8 @@ public partial class Rental
     public DateOnly StartDate { get; set; }
 
     public DateOnly EndDate { get; set; }
+    public int TenantId { get; set; }
+    public virtual Tenant Tenant { get; set; } = null!;
 
     public virtual ICollection<ApartmentsRental> ApartmentsRentals { get; set; } = new List<ApartmentsRental>();
 

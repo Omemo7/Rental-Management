@@ -11,11 +11,10 @@ public partial class CustomRental
 
     public int CustomItemId { get; set; }
 
-    public int TenantId { get; set; }
+
 
     public virtual CustomItem CustomItem { get; set; } = null!;
 
     public virtual Rental Rental { get; set; } = null!;
 
-    public virtual Tenant Tenant { get; set; } = null!;
 }

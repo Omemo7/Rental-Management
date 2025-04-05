@@ -11,11 +11,11 @@ public partial class CarsRental
 
     public int CarId { get; set; }
 
-    public int TenantId { get; set; }
+   
 
     public virtual Car Car { get; set; } = null!;
 
     public virtual Rental Rental { get; set; } = null!;
 
-    public virtual Tenant Tenant { get; set; } = null!;
+    
 }

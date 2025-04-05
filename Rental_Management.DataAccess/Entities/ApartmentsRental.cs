@@ -11,11 +11,11 @@ public partial class ApartmentsRental
 
     public int RentalId { get; set; }
 
-    public int TenantId { get; set; }
+    
 
     public virtual Apartment Apartment { get; set; } = null!;
 
     public virtual Rental Rental { get; set; } = null!;
 
-    public virtual Tenant Tenant { get; set; } = null!;
+    
 }

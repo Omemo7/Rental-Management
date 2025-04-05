@@ -12,6 +12,7 @@ public partial class Apartment
     public int NumberOfRooms { get; set; }
     public int NumberOfBathrooms { get; set; }
 
+    public bool Vacant { get; set; }
     public decimal SquaredMeters { get; set; }
 
     public int ApartmentBuildingId { get; set; }

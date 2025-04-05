@@ -10,6 +10,7 @@ public partial class Car
     public string Model { get; set; } = null!;
 
     public string Color { get; set; } = null!;
+    public bool Vacant { get; set; }
 
     public string RegistrationPlate { get; set; } = null!;
 
