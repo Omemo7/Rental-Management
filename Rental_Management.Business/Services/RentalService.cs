@@ -25,7 +25,7 @@ namespace Rental_Management.Business.Services
         protected readonly ILogger<RentalService<TEntity, TDTO, TAddDTO, TUpdateDTO>> _logger;
         protected readonly IMapper _mapper;
 
-        public RentalService(IRentalRepository rentalRepository,IRepository<TEntity> repository,IUnitOfWork unit,
+        public RentalService(IRentalRepository rentalRepository,IRepository<TEntity> repository,
                            ILogger<RentalService<TEntity, TDTO, TAddDTO, TUpdateDTO>> logger,
                            IMapper mapper)
         {

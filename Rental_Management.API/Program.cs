@@ -24,6 +24,9 @@ builder.Services.AddScoped<IApartmentRentalRepository, ApartmentRentalRepository
 builder.Services.AddScoped<IApartmentService, ApartmentService>();
 builder.Services.AddScoped<IApartmentRepository, ApartmentRepository>();
 
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+
 
 builder.Services.AddScoped<IApartmentBuildingService, ApartmentBuildingService>();
 builder.Services.AddScoped<IApartmentBuildingRepository,ApartmentBuildingRepository>();

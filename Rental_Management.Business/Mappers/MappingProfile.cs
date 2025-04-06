@@ -13,6 +13,7 @@ namespace Rental_Management.Business.Mappers
     using Rental_Management.Business.DTOs.ApartmentBuilding;
     using Rental_Management.Business.DTOs.ApartmentRental;
     using Rental_Management.Business.DTOs.Landlord;
+    using Rental_Management.Business.DTOs.Payment;
     using Rental_Management.Business.DTOs.Rental;
     using Rental_Management.Business.DTOs.Tenant;
     using Rental_Management.DataAccess.Entities;
@@ -41,6 +42,12 @@ namespace Rental_Management.Business.Mappers
             CreateMap<UpdateApartmentRentalDTO, ApartmentsRental>();
             CreateMap<ApartmentsRental, ApartmentRentalDTO>();
             CreateMap<RentalDTO, Rental>().ReverseMap();
+
+            CreateMap<Payment,AddPaymentDTO>().ReverseMap();
+            CreateMap<Payment, PaymentDTO>().ReverseMap();
+            CreateMap<Payment, UpdatePaymentDTO>().ReverseMap();
+
+
 
         }
     }
