@@ -13,5 +13,7 @@ namespace Rental_Management.DataAccess.Interfaces
         public Task<ICollection<Apartment>> GetAllApartmentsForLandlord(int landlordId);
 
         public Task<ICollection<Tenant>> GetAllTenantsForLandlord(int landlordId);
+
+        public Task<ICollection<ApartmentsRental>> GetAllActiveApartmentRentalsForLandlord(int landlordId);
     }
 }

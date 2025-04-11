@@ -22,7 +22,10 @@ namespace Rental_Management.DataAccess.Repositories
             _context = context;
             _dbSet = context.Set<T>();
         }
-      
+        public async Task<ICollection<T>> GetAllAsync()
+        {
+            return await _dbSet.ToListAsync();
+        }
         public virtual async Task<T?> GetByIdAsync(int id)
         {
             
@@ -114,5 +117,7 @@ namespace Rental_Management.DataAccess.Repositories
         {
              return await _dbSet.AnyAsync(predicate);
         }
+
+       
     }
 }

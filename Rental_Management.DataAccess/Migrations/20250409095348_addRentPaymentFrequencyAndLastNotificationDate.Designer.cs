@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rental_Management.DataAccess;
 
@@ -11,9 +12,11 @@ using Rental_Management.DataAccess;
 namespace Rental_Management.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250409095348_addRentPaymentFrequencyAndLastNotificationDate")]
+    partial class addRentPaymentFrequencyAndLastNotificationDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,8 +110,7 @@ namespace Rental_Management.DataAccess.Migrations
 
                     b.HasIndex("ApartmentId");
 
-                    b.HasIndex("RentalId")
-                        .IsUnique();
+                    b.HasIndex("RentalId");
 
                     b.ToTable("ApartmentsRentals");
                 });
@@ -168,8 +170,7 @@ namespace Rental_Management.DataAccess.Migrations
 
                     b.HasIndex("CarId");
 
-                    b.HasIndex("RentalId")
-                        .IsUnique();
+                    b.HasIndex("RentalId");
 
                     b.ToTable("CarsRentals");
                 });
@@ -248,8 +249,7 @@ namespace Rental_Management.DataAccess.Migrations
 
                     b.HasIndex("CustomItemId");
 
-                    b.HasIndex("RentalId")
-                        .IsUnique();
+                    b.HasIndex("RentalId");
 
                     b.ToTable("CustomRentals");
                 });
@@ -431,8 +431,8 @@ namespace Rental_Management.DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("Rental_Management.DataAccess.Entities.Rental", "Rental")
-                        .WithOne("ApartmentRental")
-                        .HasForeignKey("Rental_Management.DataAccess.Entities.ApartmentsRental", "RentalId")
+                        .WithMany("ApartmentsRentals")
+                        .HasForeignKey("RentalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -461,8 +461,8 @@ namespace Rental_Management.DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("Rental_Management.DataAccess.Entities.Rental", "Rental")
-                        .WithOne("CarRental")
-                        .HasForeignKey("Rental_Management.DataAccess.Entities.CarsRental", "RentalId")
+                        .WithMany("CarsRentals")
+                        .HasForeignKey("RentalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -510,8 +510,8 @@ namespace Rental_Management.DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("Rental_Management.DataAccess.Entities.Rental", "Rental")
-                        .WithOne("CustomRental")
-                        .HasForeignKey("Rental_Management.DataAccess.Entities.CustomRental", "RentalId")
+                        .WithMany("CustomRentals")
+                        .HasForeignKey("RentalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -604,14 +604,11 @@ namespace Rental_Management.DataAccess.Migrations
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Rental", b =>
                 {
-                    b.Navigation("ApartmentRental")
-                        .IsRequired();
+                    b.Navigation("ApartmentsRentals");
 
-                    b.Navigation("CarRental")
-                        .IsRequired();
+                    b.Navigation("CarsRentals");
 
-                    b.Navigation("CustomRental")
-                        .IsRequired();
+                    b.Navigation("CustomRentals");
 
                     b.Navigation("Payments");
                 });

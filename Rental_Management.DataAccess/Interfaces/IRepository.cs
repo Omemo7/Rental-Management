@@ -10,6 +10,7 @@ namespace Rental_Management.DataAccess.Interfaces
 {
     public interface IRepository<T> where T:class
     {
+        Task<ICollection<T>> GetAllAsync();
         Task<T?> GetByIdAsync(int id);
         Task<int> AddAsync(T entity);
         Task<OperationResultStatus> UpdateAsync(T entity);

@@ -60,6 +60,7 @@ namespace Rental_Management.DataAccess.Repositories
             return await _dbSet.Include(x=>x.Rental).FirstOrDefaultAsync(x=>x.Id==id);
 
         }
+        
 
     }
 }

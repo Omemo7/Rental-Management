@@ -3,6 +3,15 @@ using System.Collections.Generic;
 
 namespace Rental_Management.DataAccess.Entities;
 
+
+public enum RentPaymentFrequency
+{
+    Daily,
+    Weekly,
+    Monthly,
+    Yearly
+
+}
 public partial class Rental
 {
     public int Id { get; set; }
@@ -11,19 +20,22 @@ public partial class Rental
 
     public decimal RentValue { get; set; }
 
-    public string RentPaymentFrequency { get; set; } = null!;
+    public DateOnly LastNotificationDate { get; set; }
+
+    public RentPaymentFrequency RentPaymentFrequency { get; set; }
 
     public DateOnly StartDate { get; set; }
 
     public DateOnly EndDate { get; set; }
     public int TenantId { get; set; }
+   
     public virtual Tenant Tenant { get; set; } = null!;
 
-    public virtual ICollection<ApartmentsRental> ApartmentsRentals { get; set; } = new List<ApartmentsRental>();
+    public virtual ApartmentsRental? ApartmentRental { get; set; } = null!;
 
-    public virtual ICollection<CarsRental> CarsRentals { get; set; } = new List<CarsRental>();
+    public virtual CarsRental? CarRental { get; set; } =null!;
 
-    public virtual ICollection<CustomRental> CustomRentals { get; set; } = new List<CustomRental>();
+    public virtual CustomRental? CustomRental { get; set; } =null!;
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 }
