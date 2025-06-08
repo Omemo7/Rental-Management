@@ -1,4 +1,5 @@
 ﻿using Rental_Management.DataAccess.Entities;
+using Shared.DTOs.ApartmentBuilding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace Rental_Management.DataAccess.Interfaces
         public Task<ICollection<Tenant>> GetAllTenantsForLandlord(int landlordId);
 
         public Task<ICollection<ApartmentsRental>> GetAllActiveApartmentRentalsForLandlord(int landlordId);
+        public Task<ICollection<ApartmentBuildingIdAndNODTO>> GetAllApartmentBuildingsIdAndNOForLandlord(int landlordId);
     }
 }

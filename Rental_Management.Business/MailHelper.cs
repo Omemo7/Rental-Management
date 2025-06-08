@@ -9,6 +9,7 @@ using MailKit.Security;
 using MailKit;
 using MimeKit;
 using Microsoft.Identity.Client;
+using Rental_Management.Business.Interfaces;
 namespace Rental_Management.Business
 {
     public class MailHelper
@@ -28,7 +29,7 @@ namespace Rental_Management.Business
             using var smtp = new SmtpClient();
             await smtp.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
             //todo change email password
-            await smtp.AuthenticateAsync("omarabuhadhoud7@gmail.com", "X_omemo7@910");
+            await smtp.AuthenticateAsync("omarabuhadhoud7@gmail.com", "stgwsgtkvsecrkcd");
             await smtp.SendAsync(email);
             await smtp.DisconnectAsync(true);
         }

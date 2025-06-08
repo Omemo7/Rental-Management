@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.DTOs.Tenant;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,10 @@ namespace Rental_Management.Business.DTOs.Tenant
         public string Name { get; set; } = null!;
         public string Email { get; set; } = null!;
         public int LandlordId { get; set; }
+
+        public List<TenantPhoneDTO> Phones { get; set; } = new List<TenantPhoneDTO>();
+
+
 
     }
 }

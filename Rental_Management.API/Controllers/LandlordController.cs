@@ -6,6 +6,7 @@ using Shared;
 using System.Linq.Expressions;
 using Rental_Management.DataAccess.Entities;
 using Rental_Management.Business.DTOs.Landlord;
+using Shared.DTOs.ApartmentBuilding;
 namespace Rental_Management.API.Controllers
 {
     [Route("api/[controller]")]
@@ -18,6 +19,23 @@ namespace Rental_Management.API.Controllers
         {
             _landlordService = service;
         }
+       
+        [HttpGet("GetAllApartmentBuildingsIdAndNOForLandlord/{landlordId}")]
+        public async Task<IActionResult> GetAllApartmentBuildingsIdAndNOForLandlord(int landlordId)
+        {
+            try
+            {
+                var buildings = await _landlordService.GetAllApartmentBuildingsIdAndNOForLandlord(landlordId);
+                if (buildings == null || !buildings.Any())
+                    return NotFound("No apartment buildings found for landlord.");
+                return Ok(buildings);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet("GetAllApartmentBuildingsForLandlord/{landlordId}")]
         public async Task<IActionResult> GetAllApartmentBuildingsForLandlord(int landlordId)
         {

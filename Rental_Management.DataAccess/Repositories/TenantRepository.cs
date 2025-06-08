@@ -34,6 +34,7 @@ namespace Rental_Management.DataAccess.Repositories
             }
             return tenant.Phones.Select(p=>p.PhoneNumber).ToList();
         }
+        
         public OperationResultStatus AddPhones(ICollection<string> phones, int tenantId)
         {
             try

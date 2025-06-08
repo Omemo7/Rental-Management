@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Rental_Management.DataAccess.Entities;
 using Rental_Management.DataAccess.Interfaces;
+using Shared.DTOs.ApartmentBuilding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,10 @@ namespace Rental_Management.DataAccess.Repositories
         {
             return await _context.ApartmentBuildings.Where(x => x.LandLordId == landlordId).ToListAsync();
             
+        }
+        public async Task<ICollection<ApartmentBuildingIdAndNODTO>> GetAllApartmentBuildingsIdAndNOForLandlord(int landlordId)
+        {
+            return await _context.ApartmentBuildings.Where(x => x.LandLordId==landlordId).Select(x=>new ApartmentBuildingIdAndNODTO {Id=x.Id,NO=x.BuildingNumber }).ToListAsync();
         }
 
         public async Task<ICollection<Apartment>> GetAllApartmentsForLandlord(int landlordId)

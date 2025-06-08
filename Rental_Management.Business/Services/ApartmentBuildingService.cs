@@ -32,6 +32,8 @@ namespace Rental_Management.Business.Services
             return _mapper.Map<ICollection<ApartmentDTO>>(apartments);
         }
 
+       
+
 
     }
 }

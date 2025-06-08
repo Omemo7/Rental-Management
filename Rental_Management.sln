@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rental_Management.API", "Re
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{2E061091-A4CF-4063-8C6E-E42688062543}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rental_Management.Tests", "Rental_Management.Tests\Rental_Management.Tests.csproj", "{EDA28CC4-3D33-4E2E-92BD-977EDF73EB18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows_Forms_Rental_Management", "Windows_Forms_Rental_Management\Windows_Forms_Rental_Management.csproj", "{7E1914F5-7BE6-4316-B38B-E6743F2B0E47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{2E061091-A4CF-4063-8C6E-E42688062543}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E061091-A4CF-4063-8C6E-E42688062543}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E061091-A4CF-4063-8C6E-E42688062543}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDA28CC4-3D33-4E2E-92BD-977EDF73EB18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA28CC4-3D33-4E2E-92BD-977EDF73EB18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDA28CC4-3D33-4E2E-92BD-977EDF73EB18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDA28CC4-3D33-4E2E-92BD-977EDF73EB18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E1914F5-7BE6-4316-B38B-E6743F2B0E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E1914F5-7BE6-4316-B38B-E6743F2B0E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E1914F5-7BE6-4316-B38B-E6743F2B0E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E1914F5-7BE6-4316-B38B-E6743F2B0E47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

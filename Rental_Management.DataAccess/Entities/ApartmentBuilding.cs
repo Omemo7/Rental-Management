@@ -10,6 +10,8 @@ namespace Rental_Management.DataAccess.Entities
     {
         public int Id { get; set; }
         public string BuildingNumber { get; set; } = null!;
+
+
         public string StreetAddress { get; set; } = null!;
         public string Neighborhood { get; set; } = null!;
         

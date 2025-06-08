@@ -15,6 +15,7 @@ using Rental_Management.Business.DTOs.ApartmentBuilding;
 using Rental_Management.DataAccess.Repositories;
 using Rental_Management.Business.DTOs.Apartment;
 using Rental_Management.Business.DTOs.Tenant;
+using Shared.DTOs.ApartmentBuilding;
 namespace Rental_Management.Business.Services
 {
     public class LandlordService : BaseService<Landlord, LandlordDTO, AddLandlordDTO, UpdateLandlordDTO>, ILandlordService
@@ -38,7 +39,11 @@ namespace Rental_Management.Business.Services
             var buildings = await _landlordRepository.GetAllApartmentBuildingsForLandlord(landlordId);
             return _mapper.Map<ICollection<ApartmentBuildingDTO>>(buildings);
         }
-
+        public async Task<ICollection<ApartmentBuildingIdAndNODTO>> GetAllApartmentBuildingsIdAndNOForLandlord(int landlordId)
+        {
+            var buildings = await _landlordRepository.GetAllApartmentBuildingsIdAndNOForLandlord(landlordId);
+            return _mapper.Map<ICollection<ApartmentBuildingIdAndNODTO>>(buildings);
+        }
         public async Task<ICollection<TenantDTO>> GetAllTenantsForLandlord(int landlordId)
         {
             var tenants = await _landlordRepository.GetAllTenantsForLandlord(landlordId);

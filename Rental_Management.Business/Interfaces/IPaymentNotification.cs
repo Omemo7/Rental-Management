@@ -9,6 +9,6 @@ namespace Rental_Management.Business.Interfaces
 {
     public interface IPaymentNotification
     {
-        public Task<OperationResultStatus> NotifyAllLandlords();
+        public Task NotifyAllLandlords();
     }
 }

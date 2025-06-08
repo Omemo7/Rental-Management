@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Rental_Management.Business.Services.PaymentNotificationServices
 {
-    public class EmailNotificationService /*: IPaymentNotification*/
+    public class EmailNotificationService : IPaymentNotification
     {
         ILandlordRepository _landlordRepository;
         
@@ -82,5 +82,7 @@ namespace Rental_Management.Business.Services.PaymentNotificationServices
             }
 
         }
+
+       
     }
 }
