@@ -17,6 +17,7 @@ namespace Rental_Management.Business.Mappers
     using Rental_Management.Business.DTOs.Rental;
     using Rental_Management.Business.DTOs.Tenant;
     using Rental_Management.DataAccess.Entities;
+    using Shared.DTOs.ApartmentRental;
     using Shared.DTOs.Tenant;
 
     public class MappingProfile : Profile
@@ -41,7 +42,8 @@ namespace Rental_Management.Business.Mappers
 
             CreateMap<AddApartmentRentalDTO, ApartmentsRental>();
             CreateMap<UpdateApartmentRentalDTO, ApartmentsRental>();
-            CreateMap<ApartmentsRental, ApartmentRentalDTO>();
+           
+            CreateMap<ApartmentsRental, ApartmentRentalDTO>().ReverseMap();
             CreateMap<RentalDTO, Rental>().ReverseMap();
 
             CreateMap<Payment,AddPaymentDTO>().ReverseMap();

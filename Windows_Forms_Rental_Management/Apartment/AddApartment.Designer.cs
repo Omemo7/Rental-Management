@@ -41,6 +41,8 @@
             btnAddApartmentBuilding = new Button();
             btnAdd = new Button();
             label6 = new Label();
+            txtName = new TextBox();
+            label7 = new Label();
             ((System.ComponentModel.ISupportInitialize)nudFloorNO).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudNumberOfRooms).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudNumberOfBathrooms).BeginInit();
@@ -50,7 +52,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(102, 196);
+            label1.Location = new Point(102, 278);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(97, 28);
@@ -60,7 +62,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(102, 253);
+            label2.Location = new Point(102, 335);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(172, 28);
@@ -70,7 +72,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(102, 303);
+            label3.Location = new Point(102, 385);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new Size(212, 28);
@@ -80,7 +82,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(102, 355);
+            label4.Location = new Point(102, 437);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new Size(153, 28);
@@ -109,7 +111,7 @@
             // 
             // nudFloorNO
             // 
-            nudFloorNO.Location = new Point(209, 193);
+            nudFloorNO.Location = new Point(209, 275);
             nudFloorNO.Margin = new Padding(4);
             nudFloorNO.Name = "nudFloorNO";
             nudFloorNO.Size = new Size(65, 34);
@@ -118,7 +120,7 @@
             // 
             // nudNumberOfRooms
             // 
-            nudNumberOfRooms.Location = new Point(289, 250);
+            nudNumberOfRooms.Location = new Point(289, 332);
             nudNumberOfRooms.Margin = new Padding(4);
             nudNumberOfRooms.Name = "nudNumberOfRooms";
             nudNumberOfRooms.Size = new Size(65, 34);
@@ -127,7 +129,7 @@
             // 
             // nudNumberOfBathrooms
             // 
-            nudNumberOfBathrooms.Location = new Point(330, 301);
+            nudNumberOfBathrooms.Location = new Point(330, 383);
             nudNumberOfBathrooms.Margin = new Padding(4);
             nudNumberOfBathrooms.Name = "nudNumberOfBathrooms";
             nudNumberOfBathrooms.Size = new Size(65, 34);
@@ -137,7 +139,7 @@
             // nudSquaredMeters
             // 
             nudSquaredMeters.DecimalPlaces = 2;
-            nudSquaredMeters.Location = new Point(270, 352);
+            nudSquaredMeters.Location = new Point(270, 434);
             nudSquaredMeters.Margin = new Padding(4);
             nudSquaredMeters.Name = "nudSquaredMeters";
             nudSquaredMeters.Size = new Size(84, 34);
@@ -159,7 +161,7 @@
             // btnAdd
             // 
             btnAdd.FlatStyle = FlatStyle.Flat;
-            btnAdd.Location = new Point(409, 345);
+            btnAdd.Location = new Point(409, 427);
             btnAdd.Margin = new Padding(4);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(149, 46);
@@ -180,12 +182,31 @@
             label6.TabIndex = 17;
             label6.Text = "Add Apartment";
             // 
+            // txtName
+            // 
+            txtName.Location = new Point(177, 211);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(206, 34);
+            txtName.TabIndex = 18;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(102, 211);
+            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(68, 28);
+            label7.TabIndex = 19;
+            label7.Text = "Name:";
+            // 
             // AddApartment
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(641, 453);
+            ClientSize = new Size(641, 574);
+            Controls.Add(label7);
+            Controls.Add(txtName);
             Controls.Add(label6);
             Controls.Add(btnAdd);
             Controls.Add(btnAddApartmentBuilding);
@@ -228,5 +249,7 @@
         private Button btnAddApartmentBuilding;
         private Button btnAdd;
         private Label label6;
+        private TextBox txtName;
+        private Label label7;
     }
 }

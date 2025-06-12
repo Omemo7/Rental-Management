@@ -16,6 +16,9 @@ using Rental_Management.DataAccess.Repositories;
 using Rental_Management.Business.DTOs.Apartment;
 using Rental_Management.Business.DTOs.Tenant;
 using Shared.DTOs.ApartmentBuilding;
+using Shared.DTOs.Apartment;
+using Shared.DTOs.Tenant;
+using Rental_Management.Business.DTOs.ApartmentRental;
 namespace Rental_Management.Business.Services
 {
     public class LandlordService : BaseService<Landlord, LandlordDTO, AddLandlordDTO, UpdateLandlordDTO>, ILandlordService
@@ -41,13 +44,29 @@ namespace Rental_Management.Business.Services
         }
         public async Task<ICollection<ApartmentBuildingIdAndNODTO>> GetAllApartmentBuildingsIdAndNOForLandlord(int landlordId)
         {
-            var buildings = await _landlordRepository.GetAllApartmentBuildingsIdAndNOForLandlord(landlordId);
-            return _mapper.Map<ICollection<ApartmentBuildingIdAndNODTO>>(buildings);
+           
+            return await _landlordRepository.GetAllApartmentBuildingsIdAndNOForLandlord(landlordId);
         }
         public async Task<ICollection<TenantDTO>> GetAllTenantsForLandlord(int landlordId)
         {
             var tenants = await _landlordRepository.GetAllTenantsForLandlord(landlordId);
             return _mapper.Map<ICollection<TenantDTO>>(tenants);
+        }
+
+        public async Task<ICollection<ApartmentIdAndNameDTO>> GetAllApartmentsIdAndNameForLandlord(int landlordId)
+        {
+            return await _landlordRepository.GetAllApartmentsIdAndNameForLandlord(landlordId);
+        }
+
+        public async Task<ICollection<TenantIdAndNameDTO>> GetAllTenantsIdAndNameForLandlord(int landlordId)
+        {
+            return await _landlordRepository.GetAllTenantsIdAndNameForLandlord(landlordId);
+        }
+
+        public async Task<ICollection<ApartmentRentalDTOForUI>> GetAllApartmentRentalsForLandlordUI(int landlordId)
+        {
+          
+            return await _landlordRepository.GetAllApartmentRentalsForLandlordForUI(landlordId);
         }
     }
 }

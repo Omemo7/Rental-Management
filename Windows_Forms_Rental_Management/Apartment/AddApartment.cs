@@ -38,35 +38,7 @@ namespace Windows_Forms_Rental_Management
             form.ShowDialog();
             
         }
-        async Task<List<ApartmentBuildingIdAndNODTO>?> GetApartmentBuildingsIdAndNO()
-        {
-
-
-            try
-            {
-                HttpResponseMessage response = await LocalClientWithBaseAddress.client.GetAsync($"Landlord/GetAllApartmentBuildingsIdAndNOForLandlord/{LocalLandlord.Id}");
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-
-                    var options = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    };
-
-                    List<ApartmentBuildingIdAndNODTO>? ApartmentBuildings = JsonSerializer.Deserialize<List<ApartmentBuildingIdAndNODTO>>(json, options);
-
-                    return ApartmentBuildings;
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                MessageBox.Show($"Error fetching apartment building: {ex.Message}");
-
-            }
-
-            return null;
-        }
+       
         private async void AddApartment_Load(object sender, EventArgs e)
         {
             await LoadApartmentBuildingsComboBox();
@@ -75,7 +47,7 @@ namespace Windows_Forms_Rental_Management
 
         async Task LoadApartmentBuildingsComboBox()
         {
-            var buildings = await GetApartmentBuildingsIdAndNO();
+            var buildings = await Util.FetchAllDataFromApiAsync<ApartmentBuildingIdAndNODTO>($"Landlord/GetAllApartmentBuildingsIdAndNOForLandlord/{LocalLandlord.Id}");
             if (buildings != null)
             {
                 cbApartmentBuilding.DataSource = buildings;
@@ -91,6 +63,7 @@ namespace Windows_Forms_Rental_Management
             var dto = new AddApartmentDTO
             {
                 ApartmentBuildingId = Convert.ToInt32(cbApartmentBuilding.SelectedValue),
+                Name = txtName.Text.Trim(),
                 FloorNumber =(int)nudFloorNO.Value,
                 NumberOfRooms = (int)nudNumberOfRooms.Value,
                 NumberOfBathrooms = (int)nudNumberOfBathrooms.Value,

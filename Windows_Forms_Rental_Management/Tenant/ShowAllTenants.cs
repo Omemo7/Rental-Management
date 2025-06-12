@@ -19,39 +19,11 @@ namespace Windows_Forms_Rental_Management.Tenant
         {
             InitializeComponent();
         }
-        async Task<List<TenantDTO>?> GetTenants()
-        {
-           
-            
-            try
-            {
-                HttpResponseMessage response = await LocalClientWithBaseAddress.client.GetAsync($"Landlord/GetAllTenantsForLandlord/{LocalLandlord.Id}");
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-
-                    var options = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    };
-                    
-                    List<TenantDTO>? tenants = JsonSerializer.Deserialize<List<TenantDTO>>(json,options);
-
-                    return tenants;
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                MessageBox.Show($"Error fetching tenants: {ex.Message}");
-
-            }
-
-            return null; 
-        }
+        
         private async void ShowAllTenants_Load(object sender, EventArgs e)
         {
             
-            dataGridViewWithFilterAndContextMenu1.SetData(await GetTenants());
+            dataGridViewWithFilterAndContextMenu1.SetData(await Util.FetchAllDataFromApiAsync<TenantDTO>($"Landlord/GetAllTenantsForLandlord/{LocalLandlord.Id}"));
         }
     }
 }

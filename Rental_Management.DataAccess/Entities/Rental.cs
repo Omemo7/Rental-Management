@@ -4,14 +4,6 @@ using System.Collections.Generic;
 namespace Rental_Management.DataAccess.Entities;
 
 
-public enum RentPaymentFrequency
-{
-    Daily,
-    Weekly,
-    Monthly,
-    Yearly
-
-}
 public partial class Rental
 {
     public int Id { get; set; }
@@ -22,7 +14,8 @@ public partial class Rental
 
     public DateOnly LastNotificationDate { get; set; }
 
-    public RentPaymentFrequency RentPaymentFrequency { get; set; }
+    public int RentPaymentFrequencyId { get; set; }
+    public virtual RentPaymentFrequency RentPaymentFrequency { get; set; }=null!;
 
     public DateOnly StartDate { get; set; }
 

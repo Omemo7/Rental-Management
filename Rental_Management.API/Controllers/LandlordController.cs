@@ -19,13 +19,61 @@ namespace Rental_Management.API.Controllers
         {
             _landlordService = service;
         }
-       
+
+        [HttpGet("GetAllApartmentRentalsForLandlordUI/{landlordId}")]
+        public async Task<IActionResult> GetAllApartmentRentalsForLandlordUI(int landlordId)
+        {
+            try
+            {
+                var rentals = await _landlordService.GetAllApartmentRentalsForLandlordUI(landlordId);
+                if (rentals == null || !rentals.Any())
+                    return NotFound("No apartment rentals found for landlord.");
+                return Ok(rentals);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet("GetAllApartmentBuildingsIdAndNOForLandlord/{landlordId}")]
         public async Task<IActionResult> GetAllApartmentBuildingsIdAndNOForLandlord(int landlordId)
         {
             try
             {
                 var buildings = await _landlordService.GetAllApartmentBuildingsIdAndNOForLandlord(landlordId);
+                if (buildings == null || !buildings.Any())
+                    return NotFound("No apartment buildings found for landlord.");
+                return Ok(buildings);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("GetAllApartmentsIdAndNameForLandlord/{landlordId}")]
+        public async Task<IActionResult> GetAllApartmentsIdAndNameForLandlord(int landlordId)
+        {
+            try
+            {
+                var buildings = await _landlordService.GetAllApartmentsIdAndNameForLandlord(landlordId);
+                if (buildings == null || !buildings.Any())
+                    return NotFound("No apartment buildings found for landlord.");
+                return Ok(buildings);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("GetAllTenantsIdAndNameForLandlord/{landlordId}")]
+        public async Task<IActionResult> GetAllTenantsIdAndNameForLandlord(int landlordId)
+        {
+            try
+            {
+                var buildings = await _landlordService.GetAllTenantsIdAndNameForLandlord(landlordId);
                 if (buildings == null || !buildings.Any())
                     return NotFound("No apartment buildings found for landlord.");
                 return Ok(buildings);

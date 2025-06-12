@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rental_Management.DataAccess;
 
@@ -11,9 +12,11 @@ using Rental_Management.DataAccess;
 namespace Rental_Management.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250608203907_addApartmentName")]
+    partial class addApartmentName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,11 +49,11 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Property<int>("NumberOfRooms")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Occupied")
-                        .HasColumnType("bit");
-
                     b.Property<decimal>("SquaredMeters")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("Vacant")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -315,23 +318,6 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.RentPaymentFrequency", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Frequency")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RentPaymentFrequency");
-                });
-
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Rental", b =>
                 {
                     b.Property<int>("Id")
@@ -350,7 +336,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Property<DateOnly>("LastNotificationDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("RentPaymentFrequencyId")
+                    b.Property<int>("RentPaymentFrequency")
                         .HasColumnType("int");
 
                     b.Property<decimal>("RentValue")
@@ -363,8 +349,6 @@ namespace Rental_Management.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RentPaymentFrequencyId");
 
                     b.HasIndex("TenantId");
 
@@ -556,19 +540,11 @@ namespace Rental_Management.DataAccess.Migrations
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Rental", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.RentPaymentFrequency", "RentPaymentFrequency")
-                        .WithMany("Rentals")
-                        .HasForeignKey("RentPaymentFrequencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Rental_Management.DataAccess.Entities.Tenant", "Tenant")
                         .WithMany("Rentals")
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("RentPaymentFrequency");
 
                     b.Navigation("Tenant");
                 });
@@ -631,11 +607,6 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("CustomItems");
 
                     b.Navigation("Tenants");
-                });
-
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.RentPaymentFrequency", b =>
-                {
-                    b.Navigation("Rentals");
                 });
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Rental", b =>

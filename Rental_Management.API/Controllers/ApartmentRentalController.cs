@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Rental_Management.Business.DTOs.ApartmentRental;
 using Rental_Management.Business.Interfaces;
+using Shared.DTOs.ApartmentRental;
 namespace Rental_Management.API.Controllers
 {
     [Route("api/[controller]")]

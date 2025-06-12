@@ -10,6 +10,7 @@ namespace Rental_Management.Business.DTOs.Apartment
     {
        
         public int FloorNumber { get; set; }
+        public string Name { get; set; } = null!;
         public int NumberOfRooms { get; set; }
         public int NumberOfBathrooms { get; set; }
         public decimal SquaredMeters { get; set; }

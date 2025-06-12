@@ -15,7 +15,7 @@ namespace Rental_Management.Business.DTOs.Rental
         public decimal RentValue { get; set; }
 
 
-        public string RentPaymentFrequency { get; set; } = null!;
+        public int RentPaymentFrequencyId { get; set; }
 
         public DateOnly StartDate { get; set; }
 

@@ -39,7 +39,7 @@ namespace Rental_Management.Business.Services.PaymentNotificationServices
         {
             try
             {
-                var RentalsForLandlord = await _landlordRepository.GetAllActiveApartmentRentalsForLandlord(landlord.Id);
+                var RentalsForLandlord = await _landlordRepository.GetAllVacantApartmentRentalsForLandlord(landlord.Id);
                 var RentalsWithDueDate = RentalsForLandlord.Where(r => (DateTime.Now - r.Rental.LastNotificationDate.ToDateTime(TimeOnly.MinValue)).Days >= GetDaysForRentalPaymentFrequency(r.Rental));
 
                 string message = RentalsReport(RentalsWithDueDate.ToList());
@@ -67,15 +67,15 @@ namespace Rental_Management.Business.Services.PaymentNotificationServices
         private int GetDaysForRentalPaymentFrequency(Rental rental)
         {
 
-            switch (rental.RentPaymentFrequency)
+            switch (rental.RentPaymentFrequency.Frequency)
             {
-                case RentPaymentFrequency.Daily:
+                case "Daily":
                     return 1;
-                case RentPaymentFrequency.Weekly:
+                case "Weekly":
                     return 7;
-                case RentPaymentFrequency.Monthly:
+                case "Monthly":
                     return 30;
-                case RentPaymentFrequency.Yearly:
+                case "Yearly":
                     return 365;
                 default:
                     throw new ArgumentOutOfRangeException();

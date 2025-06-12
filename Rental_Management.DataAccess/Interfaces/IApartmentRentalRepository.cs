@@ -1,4 +1,5 @@
-﻿using Rental_Management.DataAccess.Entities;
+﻿using Rental_Management.Business.DTOs.ApartmentRental;
+using Rental_Management.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Rental_Management.DataAccess.Interfaces
 {
     public interface IApartmentRentalRepository : IRepository<ApartmentsRental>
     {
-        
+        public Task<ApartmentRentalDTOForUI?> GetByIdAsyncForUI(int id);
     }
    
 }

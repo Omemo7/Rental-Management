@@ -1,10 +1,16 @@
 ﻿using Rental_Management.Business.DTOs.Rental;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Rental_Management.Business.DTOs.ApartmentRental
+namespace Shared.DTOs.ApartmentRental
 {
     public class ApartmentRentalDTO
     {
-        public int ApartmentId { get; set; } 
-        public RentalDTO Rental { get; set; }
+        public int Id { get; set; }
+        public int ApartmentId { get; set; }
+        public RentalDTO Rental { get; set; } = null!;
     }
 }

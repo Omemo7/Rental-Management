@@ -8,7 +8,7 @@ using Shared;
 
 namespace Rental_Management.DataAccess.Interfaces
 {
-    public interface IRepository<T> where T:class
+    public interface IRepository<T> where T:class 
     {
         Task<ICollection<T>> GetAllAsync();
         Task<T?> GetByIdAsync(int id);

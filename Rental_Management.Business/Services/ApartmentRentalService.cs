@@ -4,6 +4,7 @@ using Rental_Management.Business.DTOs.ApartmentRental;
 using Rental_Management.Business.Interfaces;
 using Rental_Management.DataAccess.Entities;
 using Rental_Management.DataAccess.Interfaces;
+using Shared.DTOs.ApartmentRental;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,10 @@ namespace Rental_Management.Business.Services
         public ApartmentRentalService(IApartmentRentalRepository repository, ILogger<ApartmentRentalService> logger, IMapper mapper) 
             : base(repository, logger, mapper)
         {
+
         }
 
+       
 
 
 

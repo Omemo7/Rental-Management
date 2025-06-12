@@ -30,7 +30,7 @@
         {
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
-            dataGridViewWithFilterAndContextMenu1 = new DataGridViewWithFilterAndContextMenu();
+            dgvApartments = new DataGridViewWithFilterAndContextMenu();
             tabPage2 = new TabPage();
             dataGridViewWithFilterAndContextMenu2 = new DataGridViewWithFilterAndContextMenu();
             tabPage3 = new TabPage();
@@ -51,29 +51,29 @@
             tabControl1.Location = new Point(0, 135);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(740, 413);
+            tabControl1.Size = new Size(1044, 413);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(dataGridViewWithFilterAndContextMenu1);
+            tabPage1.Controls.Add(dgvApartments);
             tabPage1.Location = new Point(4, 37);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(732, 372);
+            tabPage1.Size = new Size(1036, 372);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Apartments";
             tabPage1.UseVisualStyleBackColor = true;
             // 
-            // dataGridViewWithFilterAndContextMenu1
+            // dgvApartments
             // 
-            dataGridViewWithFilterAndContextMenu1.BackColor = Color.White;
-            dataGridViewWithFilterAndContextMenu1.Font = new Font("Segoe UI", 12F);
-            dataGridViewWithFilterAndContextMenu1.Location = new Point(7, 6);
-            dataGridViewWithFilterAndContextMenu1.Margin = new Padding(4);
-            dataGridViewWithFilterAndContextMenu1.Name = "dataGridViewWithFilterAndContextMenu1";
-            dataGridViewWithFilterAndContextMenu1.Size = new Size(719, 361);
-            dataGridViewWithFilterAndContextMenu1.TabIndex = 0;
+            dgvApartments.BackColor = Color.White;
+            dgvApartments.Font = new Font("Segoe UI", 12F);
+            dgvApartments.Location = new Point(7, 6);
+            dgvApartments.Margin = new Padding(4);
+            dgvApartments.Name = "dgvApartments";
+            dgvApartments.Size = new Size(1020, 361);
+            dgvApartments.TabIndex = 0;
             // 
             // tabPage2
             // 
@@ -121,7 +121,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 22.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.Firebrick;
-            label6.Location = new Point(233, 33);
+            label6.Location = new Point(373, 39);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Size = new Size(292, 50);
@@ -133,7 +133,7 @@
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(740, 548);
+            ClientSize = new Size(1044, 548);
             Controls.Add(label6);
             Controls.Add(tabControl1);
             Font = new Font("Segoe UI", 12F);
@@ -141,6 +141,7 @@
             Name = "ShowAllRentals";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ShowAllRentals";
+            Load += ShowAllRentals_Load;
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
@@ -156,7 +157,7 @@
         private TabPage tabPage2;
         private TabPage tabPage3;
         private Label label6;
-        private DataGridViewWithFilterAndContextMenu dataGridViewWithFilterAndContextMenu1;
+        private DataGridViewWithFilterAndContextMenu dgvApartments;
         private DataGridViewWithFilterAndContextMenu dataGridViewWithFilterAndContextMenu2;
         private DataGridViewWithFilterAndContextMenu dataGridViewWithFilterAndContextMenu3;
     }

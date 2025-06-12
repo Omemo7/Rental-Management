@@ -34,7 +34,7 @@
             cbTenant = new ComboBox();
             label5 = new Label();
             label2 = new Label();
-            comboBox1 = new ComboBox();
+            cbRentPaymentFrequency = new ComboBox();
             label7 = new Label();
             openFileDialog1 = new OpenFileDialog();
             numericUpDown1 = new NumericUpDown();
@@ -42,17 +42,20 @@
             radioButton1 = new RadioButton();
             radioButton2 = new RadioButton();
             radioButton3 = new RadioButton();
-            label8 = new Label();
             dateTimePicker1 = new DateTimePicker();
             dateTimePicker2 = new DateTimePicker();
             label3 = new Label();
             label4 = new Label();
-            comboBox2 = new ComboBox();
+            cbItemForRent = new ComboBox();
             label9 = new Label();
             button1 = new Button();
             panel1 = new Panel();
+            lbContractPaths = new ListBox();
+            btnSelectImages = new Button();
+            groupBox1 = new GroupBox();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             panel1.SuspendLayout();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // label6
@@ -60,7 +63,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 22.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.Firebrick;
-            label6.Location = new Point(420, 38);
+            label6.Location = new Point(400, 38);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Size = new Size(202, 50);
@@ -77,11 +80,12 @@
             btnAdd.TabIndex = 29;
             btnAdd.Text = "Add ";
             btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
             // 
             // btnAddTenant
             // 
             btnAddTenant.FlatStyle = FlatStyle.Flat;
-            btnAddTenant.Location = new Point(332, 192);
+            btnAddTenant.Location = new Point(436, 189);
             btnAddTenant.Margin = new Padding(4);
             btnAddTenant.Name = "btnAddTenant";
             btnAddTenant.Size = new Size(37, 36);
@@ -91,8 +95,9 @@
             // 
             // cbTenant
             // 
+            cbTenant.DropDownStyle = ComboBoxStyle.DropDownList;
             cbTenant.FormattingEnabled = true;
-            cbTenant.Location = new Point(118, 189);
+            cbTenant.Location = new Point(222, 189);
             cbTenant.Margin = new Padding(4);
             cbTenant.Name = "cbTenant";
             cbTenant.Size = new Size(206, 36);
@@ -111,21 +116,22 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(513, 227);
+            label2.Location = new Point(513, 175);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(91, 28);
             label2.TabIndex = 19;
             label2.Text = "Contract:";
             // 
-            // comboBox1
+            // cbRentPaymentFrequency
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(267, 240);
-            comboBox1.Margin = new Padding(4);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(206, 36);
-            comboBox1.TabIndex = 32;
+            cbRentPaymentFrequency.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbRentPaymentFrequency.FormattingEnabled = true;
+            cbRentPaymentFrequency.Location = new Point(267, 240);
+            cbRentPaymentFrequency.Margin = new Padding(4);
+            cbRentPaymentFrequency.Name = "cbRentPaymentFrequency";
+            cbRentPaymentFrequency.Size = new Size(206, 36);
+            cbRentPaymentFrequency.TabIndex = 32;
             // 
             // label7
             // 
@@ -144,7 +150,7 @@
             // numericUpDown1
             // 
             numericUpDown1.DecimalPlaces = 2;
-            numericUpDown1.Location = new Point(627, 81);
+            numericUpDown1.Location = new Point(627, 28);
             numericUpDown1.Margin = new Padding(4);
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(84, 34);
@@ -154,7 +160,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(513, 81);
+            label1.Location = new Point(513, 28);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(106, 28);
@@ -164,18 +170,18 @@
             // radioButton1
             // 
             radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(234, 77);
+            radioButton1.Location = new Point(210, 33);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new Size(62, 32);
             radioButton1.TabIndex = 35;
-            radioButton1.TabStop = true;
             radioButton1.Text = "Car";
             radioButton1.UseVisualStyleBackColor = true;
             // 
             // radioButton2
             // 
             radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(68, 77);
+            radioButton2.Checked = true;
+            radioButton2.Location = new Point(44, 33);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new Size(127, 32);
             radioButton2.TabIndex = 36;
@@ -186,34 +192,23 @@
             // radioButton3
             // 
             radioButton3.AutoSize = true;
-            radioButton3.Location = new Point(332, 77);
+            radioButton3.Location = new Point(308, 33);
             radioButton3.Name = "radioButton3";
             radioButton3.Size = new Size(100, 32);
             radioButton3.TabIndex = 37;
-            radioButton3.TabStop = true;
             radioButton3.Text = "Custom";
             radioButton3.UseVisualStyleBackColor = true;
             // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(31, 36);
-            label8.Margin = new Padding(4, 0, 4, 0);
-            label8.Name = "label8";
-            label8.Size = new Size(180, 28);
-            label8.TabIndex = 38;
-            label8.Text = "Choose rental type:";
-            // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(627, 127);
+            dateTimePicker1.Location = new Point(627, 74);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(250, 34);
             dateTimePicker1.TabIndex = 39;
             // 
             // dateTimePicker2
             // 
-            dateTimePicker2.Location = new Point(627, 172);
+            dateTimePicker2.Location = new Point(627, 119);
             dateTimePicker2.Name = "dateTimePicker2";
             dateTimePicker2.Size = new Size(250, 34);
             dateTimePicker2.TabIndex = 40;
@@ -221,7 +216,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(513, 132);
+            label3.Location = new Point(513, 79);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new Size(101, 28);
@@ -231,21 +226,22 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(513, 177);
+            label4.Location = new Point(513, 124);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new Size(93, 28);
             label4.TabIndex = 42;
             label4.Text = "End date:";
             // 
-            // comboBox2
+            // cbItemForRent
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(164, 135);
-            comboBox2.Margin = new Padding(4);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(206, 36);
-            comboBox2.TabIndex = 44;
+            cbItemForRent.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbItemForRent.FormattingEnabled = true;
+            cbItemForRent.Location = new Point(222, 135);
+            cbItemForRent.Margin = new Padding(4);
+            cbItemForRent.Name = "cbItemForRent";
+            cbItemForRent.Size = new Size(206, 36);
+            cbItemForRent.TabIndex = 44;
             // 
             // label9
             // 
@@ -260,7 +256,7 @@
             // button1
             // 
             button1.FlatStyle = FlatStyle.Flat;
-            button1.Location = new Point(378, 135);
+            button1.Location = new Point(436, 135);
             button1.Margin = new Padding(4);
             button1.Name = "button1";
             button1.Size = new Size(37, 36);
@@ -271,10 +267,12 @@
             // panel1
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(label8);
+            panel1.Controls.Add(lbContractPaths);
+            panel1.Controls.Add(btnSelectImages);
+            panel1.Controls.Add(groupBox1);
             panel1.Controls.Add(button1);
             panel1.Controls.Add(label2);
-            panel1.Controls.Add(comboBox2);
+            panel1.Controls.Add(cbItemForRent);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(label9);
             panel1.Controls.Add(cbTenant);
@@ -283,17 +281,47 @@
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(dateTimePicker2);
-            panel1.Controls.Add(comboBox1);
+            panel1.Controls.Add(cbRentPaymentFrequency);
             panel1.Controls.Add(dateTimePicker1);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(numericUpDown1);
-            panel1.Controls.Add(radioButton3);
-            panel1.Controls.Add(radioButton1);
-            panel1.Controls.Add(radioButton2);
             panel1.Location = new Point(14, 107);
             panel1.Name = "panel1";
             panel1.Size = new Size(921, 322);
             panel1.TabIndex = 46;
+            // 
+            // lbContractPaths
+            // 
+            lbContractPaths.FormattingEnabled = true;
+            lbContractPaths.ItemHeight = 28;
+            lbContractPaths.Location = new Point(513, 228);
+            lbContractPaths.Name = "lbContractPaths";
+            lbContractPaths.Size = new Size(364, 60);
+            lbContractPaths.TabIndex = 48;
+            // 
+            // btnSelectImages
+            // 
+            btnSelectImages.FlatStyle = FlatStyle.Flat;
+            btnSelectImages.Location = new Point(627, 169);
+            btnSelectImages.Margin = new Padding(4);
+            btnSelectImages.Name = "btnSelectImages";
+            btnSelectImages.Size = new Size(250, 41);
+            btnSelectImages.TabIndex = 47;
+            btnSelectImages.Text = "Select images";
+            btnSelectImages.UseVisualStyleBackColor = true;
+            btnSelectImages.Click += btnSelectImages_Click;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(radioButton3);
+            groupBox1.Controls.Add(radioButton2);
+            groupBox1.Controls.Add(radioButton1);
+            groupBox1.Location = new Point(31, 28);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(442, 87);
+            groupBox1.TabIndex = 46;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Choose rental type";
             // 
             // AddRental
             // 
@@ -309,9 +337,12 @@
             Name = "AddRental";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "AddRental";
+            Load += AddRental_Load;
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -324,7 +355,7 @@
         private ComboBox cbTenant;
         private Label label5;
         private Label label2;
-        private ComboBox comboBox1;
+        private ComboBox cbRentPaymentFrequency;
         private Label label7;
         private OpenFileDialog openFileDialog1;
         private NumericUpDown numericUpDown1;
@@ -332,14 +363,16 @@
         private RadioButton radioButton1;
         private RadioButton radioButton2;
         private RadioButton radioButton3;
-        private Label label8;
         private DateTimePicker dateTimePicker1;
         private DateTimePicker dateTimePicker2;
         private Label label3;
         private Label label4;
-        private ComboBox comboBox2;
+        private ComboBox cbItemForRent;
         private Label label9;
         private Button button1;
         private Panel panel1;
+        private GroupBox groupBox1;
+        private Button btnSelectImages;
+        private ListBox lbContractPaths;
     }
 }

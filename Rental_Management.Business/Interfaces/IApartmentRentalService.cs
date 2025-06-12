@@ -1,4 +1,5 @@
 ﻿using Rental_Management.Business.DTOs.ApartmentRental;
+using Shared.DTOs.ApartmentRental;
 using System;
 using System.Collections.Generic;
 using System.Linq;

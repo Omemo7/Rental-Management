@@ -17,6 +17,7 @@ namespace Windows_Forms_Rental_Management.Apartment
         enum ContextMenuItemsEnum
         {
             AddRental,
+            AllRentals,
             Edit,
             Delete,
             MoreDetails
@@ -24,6 +25,7 @@ namespace Windows_Forms_Rental_Management.Apartment
         List<string> ContextMenuItems = new List<string>
             {
                 "Add rental",
+                "All rentals",
                 "Edit",
                 "Delete",
                 "More details"
@@ -34,33 +36,10 @@ namespace Windows_Forms_Rental_Management.Apartment
             InitializeComponent();
         }
 
-        async Task<List<ApartmentDTO>?> GetApartments()
-        {
-            
-            try
-            {
-                HttpResponseMessage response = await LocalClientWithBaseAddress.client.GetAsync($"Landlord/GetAllApartmentsForLandlord/{LocalLandlord.Id}");
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-                    var options = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    };
-                    var apartments = JsonSerializer.Deserialize<List<ApartmentDTO>>(json, options);
-                    return apartments;
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                MessageBox.Show($"Error fetching apartments: {ex.Message}");
-            }
-            return null;
-        }
 
         private async void ShowAllApartments_Load(object sender, EventArgs e)
         {
-            dataGridViewWithFilterAndContextMenu1.SetData(await GetApartments());
+            dataGridViewWithFilterAndContextMenu1.SetData(await Util.FetchAllDataFromApiAsync<ApartmentDTO>($"Landlord/GetAllApartmentsForLandlord/{LocalLandlord.Id}"));
             SetContextMenuItems();
         }
 
@@ -77,6 +56,9 @@ namespace Windows_Forms_Rental_Management.Apartment
             {
                 case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.AddRental]:
                     MessageBox.Show($"Add rental not implemented yet ,record id {e.RecordId}");
+                    break;
+                case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.AllRentals]:
+                   
                     break;
                 case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.Edit]:
                     throw new NotImplementedException();

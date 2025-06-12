@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Rental_Management.Business.DTOs.ApartmentRental;
 using Rental_Management.DataAccess.Entities;
 using Rental_Management.DataAccess.Interfaces;
 using Shared;
@@ -53,11 +54,70 @@ namespace Rental_Management.DataAccess.Repositories
             }
 
         }
-
         public override async Task<ApartmentsRental?> GetByIdAsync(int id)
         {
+
+            return await _dbSet.Include(x => x.Rental).FirstOrDefaultAsync(x => x.Id == id);
+        }
+        public override async Task<int> AddAsync(ApartmentsRental entity)
+        {
+            try
+            {
+                var apartment = await _context.Apartments.FirstOrDefaultAsync(a => a.Id == entity.ApartmentId);
+                if (apartment == null)
+                {
+                    _logger.LogWarning("Apartment with ID {0} not found.", entity.ApartmentId);
+                    return -1;
+                }
+
+                apartment.Occupied = true;
+                await _dbSet.AddAsync(entity);
+                await _context.SaveChangesAsync();
+
+
+
+                var id = entity.Id;
+                if (id > 0)
+                {
+                    _logger.LogInformation("Added entity of type {0} successfully with ID {1}", "apartment rental", id);
+                    return id;
+                }
+
+                _logger.LogWarning("Entity does not have an 'Id' property.");
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to add entity of type \"apartment rental\"\n" +
+                                  $"Exception Message: {ex.Message}\n" +
+                                  $"Inner Exception: {ex.InnerException?.Message ?? "No inner exception"}");
+
+                return -1;
+            }
+        }
        
-            return await _dbSet.Include(x=>x.Rental).FirstOrDefaultAsync(x=>x.Id==id);
+        public async Task<ApartmentRentalDTOForUI?> GetByIdAsyncForUI(int id)
+        {
+            
+            var apRental= _dbSet.Where(x => x.Id == id)
+                .Include(x => x.Rental)
+                .ThenInclude(x => x.Tenant)
+                .Include(x=>x.Rental)
+                .ThenInclude(x => x.RentPaymentFrequency)
+                .Include(x => x.Apartment)
+                .Select(_dbSet => new ApartmentRentalDTOForUI
+                {
+                    Id = _dbSet.Id,
+                    RentValue = _dbSet.Rental.RentValue,
+                    RentPaymentFrequency = _dbSet.Rental.RentPaymentFrequency.Frequency,
+                    StartDate = _dbSet.Rental.StartDate,
+                    EndDate = _dbSet.Rental.EndDate,
+                    TenantName = _dbSet.Rental.Tenant.Name,
+                    ApartmentName = _dbSet.Apartment.Name,
+                
+                }).FirstOrDefaultAsync();
+
+            return await apRental;
 
         }
         
