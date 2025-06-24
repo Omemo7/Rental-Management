@@ -5,6 +5,7 @@ using Rental_Management.Business.Interfaces;
 using Rental_Management.DataAccess.Entities;
 using Rental_Management.DataAccess.Interfaces;
 using Shared;
+using Shared.DTOs.Apartment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,23 @@ namespace Rental_Management.Business.Services
         {
             _apartmentRepository = repository;
         }
-       
-        
+
+        public async Task<int> AddApartmentMaintenance(AddApartmentMaintenanceDTO dto)
+        {
+            Maintenance maintenance = new Maintenance
+            {
+                ApartmentId = dto.ApartmentId,
+                Description = dto.Description,
+                MaintenanceDate = dto.MaintenanceDate,
+                Cost = dto.Cost
+            };
+
+            return await _apartmentRepository.AddApartmentMaintenance(maintenance);
+        }
+
+        public decimal GetApartmentTotalProfit(int apartmentId)
+        {
+            return _apartmentRepository.GetApartmentTotalProfit(apartmentId);
+        }
     }
 }

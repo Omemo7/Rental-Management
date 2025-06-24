@@ -18,6 +18,7 @@ public partial class CustomItem
     public virtual CustomItemType CustomItemType { get; set; } = null!;
 
     public virtual ICollection<CustomRental> CustomRentals { get; set; } = new List<CustomRental>();
+    public virtual ICollection<Maintenance> Maintenances { get; set; } = new List<Maintenance>();
 
     public virtual Landlord LandLord { get; set; } = null!;
 }

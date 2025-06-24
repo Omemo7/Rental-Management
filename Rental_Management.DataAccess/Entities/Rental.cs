@@ -8,7 +8,7 @@ public partial class Rental
 {
     public int Id { get; set; }
 
-    public string Contract { get; set; } = null!;
+    
 
     public decimal RentValue { get; set; }
 

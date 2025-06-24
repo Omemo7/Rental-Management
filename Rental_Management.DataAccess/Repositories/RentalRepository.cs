@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Client;
 using Rental_Management.DataAccess.Entities;
 using Rental_Management.DataAccess.Interfaces;
+using Shared.DTOs.RentPaymentFrequency;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +17,9 @@ namespace Rental_Management.DataAccess.Repositories
         {
         }
 
-       
-    }
-    
+        
 
+
+    }
 }
 

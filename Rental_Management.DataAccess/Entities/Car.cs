@@ -19,6 +19,7 @@ public partial class Car
     public int LandLordId { get; set; }
 
     public virtual ICollection<CarsRental> CarsRentals { get; set; } = new List<CarsRental>();
+    public virtual ICollection<Maintenance> Maintenances { get; set; } = new List<Maintenance>();
 
     public virtual Landlord LandLord { get; set; } = null!;
 }

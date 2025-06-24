@@ -10,7 +10,7 @@ namespace Rental_Management.Business.DTOs.Rental
     public class RentalDTO
     {
         public int TenantId { get; set; }
-        public string Contract { get; set; } = null!;
+       
 
         public decimal RentValue { get; set; }
 

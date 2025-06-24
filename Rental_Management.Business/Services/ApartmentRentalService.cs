@@ -11,10 +11,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Rental_Management.Business.Services
 {
     public class ApartmentRentalService:BaseService<ApartmentsRental, ApartmentRentalDTO, AddApartmentRentalDTO, UpdateApartmentRentalDTO>,IApartmentRentalService
     {
+
         public ApartmentRentalService(IApartmentRentalRepository repository, ILogger<ApartmentRentalService> logger, IMapper mapper) 
             : base(repository, logger, mapper)
         {

@@ -10,5 +10,6 @@ namespace Rental_Management.Business.Interfaces
 {
     public interface IApartmentRentalService:IService<ApartmentRentalDTO, AddApartmentRentalDTO, UpdateApartmentRentalDTO>
     {
+      
     }
 }

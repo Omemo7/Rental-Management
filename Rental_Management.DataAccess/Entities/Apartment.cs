@@ -22,6 +22,7 @@ public partial class Apartment
 
 
     public virtual ICollection<ApartmentsRental> ApartmentsRentals { get; set; } = new List<ApartmentsRental>();
+    public virtual ICollection<Maintenance> Maintenances { get; set; } = new List<Maintenance>();
     public virtual ApartmentBuilding ApartmentBuilding { get; set; } = null!;
    
 }

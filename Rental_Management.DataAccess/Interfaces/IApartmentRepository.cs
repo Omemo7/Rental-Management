@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Rental_Management.DataAccess.Entities;
+using Shared.DTOs.Apartment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,9 @@ namespace Rental_Management.DataAccess.Interfaces
 {
     public interface IApartmentRepository: IRepository<Apartment>
     {
-       
-       
+
+        Task<int> AddApartmentMaintenance(Maintenance entity);
+        decimal GetApartmentTotalProfit(int apartmentId);
+        
     }
 }

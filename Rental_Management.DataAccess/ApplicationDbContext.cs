@@ -16,6 +16,8 @@ public partial class ApplicationDbContext : DbContext
         : base(options)
     {
     }
+
+    public virtual DbSet<Maintenance> Maintenances { get; set; } 
     public virtual DbSet<RentPaymentFrequency> RentPaymentFrequency { get; set; }
     public virtual DbSet<Apartment> Apartments { get; set; }
 

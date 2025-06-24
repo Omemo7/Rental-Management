@@ -47,13 +47,9 @@ namespace Windows_Forms_Rental_Management
 
         async Task LoadApartmentBuildingsComboBox()
         {
-            var buildings = await Util.FetchAllDataFromApiAsync<ApartmentBuildingIdAndNODTO>($"Landlord/GetAllApartmentBuildingsIdAndNOForLandlord/{LocalLandlord.Id}");
-            if (buildings != null)
-            {
-                cbApartmentBuilding.DataSource = buildings;
-                cbApartmentBuilding.DisplayMember = "NO";
-                cbApartmentBuilding.ValueMember = "Id";
-            }
+            string endpoint = $"Landlord/GetAllApartmentBuildingsIdAndNOForLandlord/{LocalLandlord.Id}";
+            await Util.LoadComboBox<ApartmentBuildingIdAndNODTO>(cbApartmentBuilding, endpoint, "NO", "Id");
+            
         }
 
 

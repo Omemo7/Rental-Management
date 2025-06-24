@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Windows_Forms_Rental_Management.Rental;
 
 namespace Windows_Forms_Rental_Management.Apartment
 {
@@ -49,13 +50,20 @@ namespace Windows_Forms_Rental_Management.Apartment
             dataGridViewWithFilterAndContextMenu1.ContextMenuItemClicked += DataGridViewWithFilterAndContextMenu1_ContextMenuItemClicked;
         }
 
-        private void DataGridViewWithFilterAndContextMenu1_ContextMenuItemClicked(object? sender, DataGridViewWithFilterAndContextMenu.ContextMenuItemClickedEventArgs e)
+        private async void DataGridViewWithFilterAndContextMenu1_ContextMenuItemClicked(object? sender, DataGridViewWithFilterAndContextMenu.ContextMenuItemClickedEventArgs e)
         {
             
             switch (e.ClickedItem)
             {
                 case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.AddRental]:
-                    MessageBox.Show($"Add rental not implemented yet ,record id {e.RecordId}");
+                    AddRental addRentalForm = new AddRental(e.RecordId,AddRental.RentalType.Apartment);
+                    addRentalForm.FormClosing += async (s, args) =>
+                    {
+                        
+                        dataGridViewWithFilterAndContextMenu1.SetData(await
+                            Util.FetchAllDataFromApiAsync<ApartmentDTO>($"Landlord/GetAllApartmentsForLandlord/{LocalLandlord.Id}"));
+                    };
+                    addRentalForm.ShowDialog();
                     break;
                 case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.AllRentals]:
                    

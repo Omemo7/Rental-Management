@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rental_Management.DataAccess;
 
@@ -11,9 +12,11 @@ using Rental_Management.DataAccess;
 namespace Rental_Management.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250622134906_contractRemove")]
+    partial class contractRemove
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -291,44 +294,6 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("Landlords");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Maintenance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ApartmentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Cost")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("CustomItemId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly>("MaintenanceDate")
-                        .HasColumnType("date");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApartmentId");
-
-                    b.HasIndex("CarId");
-
-                    b.HasIndex("CustomItemId");
-
-                    b.ToTable("Maintenances");
-                });
-
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -577,27 +542,6 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("Rental");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Maintenance", b =>
-                {
-                    b.HasOne("Rental_Management.DataAccess.Entities.Apartment", "Apartment")
-                        .WithMany("Maintenances")
-                        .HasForeignKey("ApartmentId");
-
-                    b.HasOne("Rental_Management.DataAccess.Entities.Car", "Car")
-                        .WithMany("Maintenances")
-                        .HasForeignKey("CarId");
-
-                    b.HasOne("Rental_Management.DataAccess.Entities.CustomItem", "CustomItem")
-                        .WithMany("Maintenances")
-                        .HasForeignKey("CustomItemId");
-
-                    b.Navigation("Apartment");
-
-                    b.Navigation("Car");
-
-                    b.Navigation("CustomItem");
-                });
-
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Payment", b =>
                 {
                     b.HasOne("Rental_Management.DataAccess.Entities.Rental", "Rental")
@@ -653,8 +597,6 @@ namespace Rental_Management.DataAccess.Migrations
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Apartment", b =>
                 {
                     b.Navigation("ApartmentsRentals");
-
-                    b.Navigation("Maintenances");
                 });
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.ApartmentBuilding", b =>
@@ -665,15 +607,11 @@ namespace Rental_Management.DataAccess.Migrations
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.Car", b =>
                 {
                     b.Navigation("CarsRentals");
-
-                    b.Navigation("Maintenances");
                 });
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.CustomItem", b =>
                 {
                     b.Navigation("CustomRentals");
-
-                    b.Navigation("Maintenances");
                 });
 
             modelBuilder.Entity("Rental_Management.DataAccess.Entities.CustomItemType", b =>
