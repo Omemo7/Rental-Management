@@ -22,7 +22,7 @@ namespace Windows_Forms_Rental_Management
 
         private void addToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            AddApartment form = new AddApartment();
+            AddUpdateApartment form = new AddUpdateApartment();
             form.ShowDialog();
         }
 

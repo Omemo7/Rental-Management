@@ -29,22 +29,41 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            textBox1 = new TextBox();
+            txtFilter = new TextBox();
             label1 = new Label();
-            comboBox1 = new ComboBox();
+            cbFilter = new ComboBox();
             label2 = new Label();
             lblCount = new Label();
             dataGridView1 = new DataGridView();
             contextMenuStrip1 = new ContextMenuStrip(components);
+            FilterRangePanel = new Panel();
+            nudMax = new NumericUpDown();
+            label4 = new Label();
+            label3 = new Label();
+            nudMin = new NumericUpDown();
+            chkFilter = new CheckBox();
+            tcFilterType = new TabControl();
+            MinMaxRangePage = new TabPage();
+            btnFilter = new Button();
+            TextboxPage = new TabPage();
+            CheckboxPage = new TabPage();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            FilterRangePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudMax).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudMin).BeginInit();
+            tcFilterType.SuspendLayout();
+            MinMaxRangePage.SuspendLayout();
+            TextboxPage.SuspendLayout();
+            CheckboxPage.SuspendLayout();
             SuspendLayout();
             // 
-            // textBox1
+            // txtFilter
             // 
-            textBox1.Location = new Point(252, 16);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(203, 34);
-            textBox1.TabIndex = 1;
+            txtFilter.Location = new Point(3, 6);
+            txtFilter.Name = "txtFilter";
+            txtFilter.Size = new Size(254, 34);
+            txtFilter.TabIndex = 1;
+            txtFilter.TextChanged += txtFilter_TextChanged;
             // 
             // label1
             // 
@@ -57,20 +76,23 @@
             label1.TabIndex = 2;
             label1.Text = "Filter by:";
             // 
-            // comboBox1
+            // cbFilter
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(95, 14);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(151, 36);
-            comboBox1.TabIndex = 3;
+            cbFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbFilter.DropDownWidth = 300;
+            cbFilter.FormattingEnabled = true;
+            cbFilter.Location = new Point(95, 14);
+            cbFilter.Name = "cbFilter";
+            cbFilter.Size = new Size(231, 36);
+            cbFilter.TabIndex = 3;
+            cbFilter.SelectedIndexChanged += cbFilter_SelectedIndexChanged;
             // 
             // label2
             // 
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label2.Location = new Point(461, 19);
+            label2.Location = new Point(683, 22);
             label2.Name = "label2";
             label2.Size = new Size(73, 28);
             label2.TabIndex = 4;
@@ -81,7 +103,7 @@
             lblCount.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             lblCount.AutoSize = true;
             lblCount.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblCount.Location = new Point(536, 19);
+            lblCount.Location = new Point(758, 22);
             lblCount.Name = "lblCount";
             lblCount.Size = new Size(30, 28);
             lblCount.TabIndex = 5;
@@ -105,7 +127,7 @@
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(716, 311);
+            dataGridView1.Size = new Size(791, 311);
             dataGridView1.TabIndex = 6;
             dataGridView1.RowsAdded += dataGridView1_RowsAdded;
             dataGridView1.RowsRemoved += dataGridView1_RowsRemoved;
@@ -117,33 +139,174 @@
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new Size(61, 4);
             // 
+            // FilterRangePanel
+            // 
+            FilterRangePanel.Controls.Add(nudMax);
+            FilterRangePanel.Controls.Add(label4);
+            FilterRangePanel.Controls.Add(label3);
+            FilterRangePanel.Controls.Add(nudMin);
+            FilterRangePanel.Location = new Point(0, 0);
+            FilterRangePanel.Name = "FilterRangePanel";
+            FilterRangePanel.Size = new Size(265, 42);
+            FilterRangePanel.TabIndex = 7;
+            // 
+            // nudMax
+            // 
+            nudMax.DecimalPlaces = 2;
+            nudMax.Location = new Point(186, 3);
+            nudMax.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nudMax.Name = "nudMax";
+            nudMax.Size = new Size(78, 34);
+            nudMax.TabIndex = 3;
+            nudMax.TextAlign = HorizontalAlignment.Center;
+            nudMax.ValueChanged += nudMax_ValueChanged;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(134, 5);
+            label4.Name = "label4";
+            label4.Size = new Size(53, 28);
+            label4.TabIndex = 2;
+            label4.Text = "Max:";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(0, 5);
+            label3.Name = "label3";
+            label3.Size = new Size(50, 28);
+            label3.TabIndex = 1;
+            label3.Text = "Min:";
+            // 
+            // nudMin
+            // 
+            nudMin.DecimalPlaces = 2;
+            nudMin.Location = new Point(50, 3);
+            nudMin.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nudMin.Name = "nudMin";
+            nudMin.Size = new Size(78, 34);
+            nudMin.TabIndex = 0;
+            nudMin.TextAlign = HorizontalAlignment.Center;
+            nudMin.ValueChanged += nudMin_ValueChanged;
+            // 
+            // chkFilter
+            // 
+            chkFilter.AutoSize = true;
+            chkFilter.Location = new Point(3, 16);
+            chkFilter.Name = "chkFilter";
+            chkFilter.Size = new Size(18, 17);
+            chkFilter.TabIndex = 8;
+            chkFilter.UseVisualStyleBackColor = true;
+            chkFilter.CheckedChanged += chkFilter_CheckedChanged;
+            // 
+            // tcFilterType
+            // 
+            tcFilterType.Controls.Add(CheckboxPage);
+            tcFilterType.Controls.Add(MinMaxRangePage);
+            tcFilterType.Controls.Add(TextboxPage);
+            tcFilterType.ItemSize = new Size(0, 1);
+            tcFilterType.Location = new Point(329, 0);
+            tcFilterType.Margin = new Padding(0);
+            tcFilterType.Name = "tcFilterType";
+            tcFilterType.SelectedIndex = 0;
+            tcFilterType.Size = new Size(332, 55);
+            tcFilterType.SizeMode = TabSizeMode.Fixed;
+            tcFilterType.TabIndex = 9;
+            // 
+            // MinMaxRangePage
+            // 
+            MinMaxRangePage.Controls.Add(btnFilter);
+            MinMaxRangePage.Controls.Add(FilterRangePanel);
+            MinMaxRangePage.Location = new Point(4, 5);
+            MinMaxRangePage.Name = "MinMaxRangePage";
+            MinMaxRangePage.Padding = new Padding(3);
+            MinMaxRangePage.Size = new Size(324, 46);
+            MinMaxRangePage.TabIndex = 1;
+            MinMaxRangePage.Text = "tabPage2";
+            MinMaxRangePage.UseVisualStyleBackColor = true;
+            // 
+            // btnFilter
+            // 
+            btnFilter.Location = new Point(278, 12);
+            btnFilter.Name = "btnFilter";
+            btnFilter.Size = new Size(40, 23);
+            btnFilter.TabIndex = 8;
+            btnFilter.Text = "T";
+            btnFilter.UseVisualStyleBackColor = true;
+            btnFilter.Click += btnFilter_Click;
+            // 
+            // TextboxPage
+            // 
+            TextboxPage.Controls.Add(txtFilter);
+            TextboxPage.Location = new Point(4, 5);
+            TextboxPage.Name = "TextboxPage";
+            TextboxPage.Padding = new Padding(3);
+            TextboxPage.Size = new Size(324, 46);
+            TextboxPage.TabIndex = 2;
+            TextboxPage.Text = "tabPage3";
+            TextboxPage.UseVisualStyleBackColor = true;
+            // 
+            // CheckboxPage
+            // 
+            CheckboxPage.Controls.Add(chkFilter);
+            CheckboxPage.Location = new Point(4, 5);
+            CheckboxPage.Name = "CheckboxPage";
+            CheckboxPage.Padding = new Padding(3);
+            CheckboxPage.Size = new Size(324, 46);
+            CheckboxPage.TabIndex = 0;
+            CheckboxPage.Text = "tabPage1";
+            CheckboxPage.UseVisualStyleBackColor = true;
+            // 
             // DataGridViewWithFilterAndContextMenu
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            Controls.Add(tcFilterType);
             Controls.Add(dataGridView1);
             Controls.Add(lblCount);
             Controls.Add(label2);
-            Controls.Add(comboBox1);
+            Controls.Add(cbFilter);
             Controls.Add(label1);
-            Controls.Add(textBox1);
             Font = new Font("Segoe UI", 12F);
             Margin = new Padding(4);
             Name = "DataGridViewWithFilterAndContextMenu";
-            Size = new Size(722, 370);
+            Size = new Size(797, 370);
+            Load += DataGridViewWithFilterAndContextMenu_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            FilterRangePanel.ResumeLayout(false);
+            FilterRangePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudMax).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudMin).EndInit();
+            tcFilterType.ResumeLayout(false);
+            MinMaxRangePage.ResumeLayout(false);
+            TextboxPage.ResumeLayout(false);
+            TextboxPage.PerformLayout();
+            CheckboxPage.ResumeLayout(false);
+            CheckboxPage.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private TextBox textBox1;
+        private TextBox txtFilter;
         private Label label1;
-        private ComboBox comboBox1;
+        private ComboBox cbFilter;
         private Label label2;
         private Label lblCount;
         private DataGridView dataGridView1;
         private ContextMenuStrip contextMenuStrip1;
+        private Panel FilterRangePanel;
+        private NumericUpDown nudMax;
+        private Label label4;
+        private Label label3;
+        private NumericUpDown nudMin;
+        private CheckBox chkFilter;
+        private TabControl tcFilterType;
+        private TabPage CheckboxPage;
+        private TabPage MinMaxRangePage;
+        private TabPage TextboxPage;
+        private Button btnFilter;
     }
 }

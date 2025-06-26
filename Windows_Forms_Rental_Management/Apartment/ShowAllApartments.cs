@@ -40,7 +40,7 @@ namespace Windows_Forms_Rental_Management.Apartment
 
         private async void ShowAllApartments_Load(object sender, EventArgs e)
         {
-            dataGridViewWithFilterAndContextMenu1.SetData(await Util.FetchAllDataFromApiAsync<ApartmentDTO>($"Landlord/GetAllApartmentsForLandlord/{LocalLandlord.Id}"));
+            RefreshAndLoadData(null, null);
             SetContextMenuItems();
         }
 
@@ -57,25 +57,51 @@ namespace Windows_Forms_Rental_Management.Apartment
             {
                 case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.AddRental]:
                     AddRental addRentalForm = new AddRental(e.RecordId,AddRental.RentalType.Apartment);
-                    addRentalForm.FormClosing += async (s, args) =>
-                    {
-                        
-                        dataGridViewWithFilterAndContextMenu1.SetData(await
-                            Util.FetchAllDataFromApiAsync<ApartmentDTO>($"Landlord/GetAllApartmentsForLandlord/{LocalLandlord.Id}"));
-                    };
+                    addRentalForm.FormClosed += RefreshAndLoadData;
                     addRentalForm.ShowDialog();
                     break;
                 case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.AllRentals]:
-                   
+                    ShowAllRentals showAllRentalsForm = new ShowAllRentals(e.RecordId, AddRental.RentalType.Apartment);
+                    showAllRentalsForm.FormClosed += RefreshAndLoadData;
+                    showAllRentalsForm.ShowDialog();
                     break;
                 case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.Edit]:
-                    throw new NotImplementedException();
+                    AddUpdateApartment form = new AddUpdateApartment(e.RecordId);
+                    form.FormClosed += RefreshAndLoadData;
+                    form.ShowDialog();
+                    break;
                 case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.Delete]:
-                    throw new NotImplementedException();
+                        await DeleteApartment(e.RecordId);
+                    break;
                 case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.MoreDetails]:
                     throw new NotImplementedException();
 
 
+            }
+        }
+
+       
+
+        async void RefreshAndLoadData(object? sender, FormClosedEventArgs e)
+        {
+            dataGridViewWithFilterAndContextMenu1.SetData(await
+                    Util.FetchAllDataFromApiAsync<ApartmentDTO>($"Landlord/GetAllApartmentsForLandlord/{LocalLandlord.Id}"));
+
+        }
+        async Task DeleteApartment(int apartmentId)
+        {
+            if (MessageBox.Show("Are you sure you want to delete apartment?\nNote: apartment will not be deleted if it has relations", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                HttpResponseMessage response = await Util.DeleteItemAsync($"Apartment/Delete/{apartmentId}");
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Apartment deleted successfully.");
+                    RefreshAndLoadData(null, null);
+                }
+                else
+                {
+                    MessageBox.Show("Failed to delete apartment. It may have related rentals or other dependencies.");
+                }
             }
         }
     }

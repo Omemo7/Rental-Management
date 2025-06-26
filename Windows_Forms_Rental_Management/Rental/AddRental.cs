@@ -243,7 +243,7 @@ namespace Windows_Forms_Rental_Management.Rental
             switch (checkedrb?.Text)
             {
                 case "Apartment":
-                    AddApartment addApartment = new AddApartment();
+                    AddUpdateApartment addApartment = new AddUpdateApartment();
                     addApartment.FormClosing += async (s, args) =>
                     {
                         await Util.LoadComboBox<ApartmentIdAndNameDTO>(

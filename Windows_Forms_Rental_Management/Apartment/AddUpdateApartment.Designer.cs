@@ -1,6 +1,6 @@
 ﻿namespace Windows_Forms_Rental_Management
 {
-    partial class AddApartment
+    partial class AddUpdateApartment
     {
         /// <summary>
         /// Required designer variable.
@@ -39,8 +39,8 @@
             nudNumberOfBathrooms = new NumericUpDown();
             nudSquaredMeters = new NumericUpDown();
             btnAddApartmentBuilding = new Button();
-            btnAdd = new Button();
-            label6 = new Label();
+            btnAddUpdate = new Button();
+            lblTitle = new Label();
             txtName = new TextBox();
             label7 = new Label();
             ((System.ComponentModel.ISupportInitialize)nudFloorNO).BeginInit();
@@ -141,6 +141,7 @@
             nudSquaredMeters.DecimalPlaces = 2;
             nudSquaredMeters.Location = new Point(270, 434);
             nudSquaredMeters.Margin = new Padding(4);
+            nudSquaredMeters.Maximum = new decimal(new int[] { 10000000, 0, 0, 0 });
             nudSquaredMeters.Name = "nudSquaredMeters";
             nudSquaredMeters.Size = new Size(84, 34);
             nudSquaredMeters.TabIndex = 13;
@@ -158,29 +159,29 @@
             btnAddApartmentBuilding.UseVisualStyleBackColor = true;
             btnAddApartmentBuilding.Click += btnAddApartmentBuilding_Click;
             // 
-            // btnAdd
+            // btnAddUpdate
             // 
-            btnAdd.FlatStyle = FlatStyle.Flat;
-            btnAdd.Location = new Point(409, 427);
-            btnAdd.Margin = new Padding(4);
-            btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(149, 46);
-            btnAdd.TabIndex = 16;
-            btnAdd.Text = "Add ";
-            btnAdd.UseVisualStyleBackColor = true;
-            btnAdd.Click += btnAdd_Click;
+            btnAddUpdate.FlatStyle = FlatStyle.Flat;
+            btnAddUpdate.Location = new Point(409, 427);
+            btnAddUpdate.Margin = new Padding(4);
+            btnAddUpdate.Name = "btnAddUpdate";
+            btnAddUpdate.Size = new Size(149, 46);
+            btnAddUpdate.TabIndex = 16;
+            btnAddUpdate.Text = "Add ";
+            btnAddUpdate.UseVisualStyleBackColor = true;
+            btnAddUpdate.Click += btnAdd_Click;
             // 
-            // label6
+            // lblTitle
             // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 22.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.Firebrick;
-            label6.Location = new Point(171, 35);
-            label6.Margin = new Padding(4, 0, 4, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(276, 50);
-            label6.TabIndex = 17;
-            label6.Text = "Add Apartment";
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 22.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTitle.ForeColor = Color.Firebrick;
+            lblTitle.Location = new Point(171, 35);
+            lblTitle.Margin = new Padding(4, 0, 4, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(276, 50);
+            lblTitle.TabIndex = 17;
+            lblTitle.Text = "Add Apartment";
             // 
             // txtName
             // 
@@ -199,7 +200,7 @@
             label7.TabIndex = 19;
             label7.Text = "Name:";
             // 
-            // AddApartment
+            // AddUpdateApartment
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -207,8 +208,8 @@
             ClientSize = new Size(641, 574);
             Controls.Add(label7);
             Controls.Add(txtName);
-            Controls.Add(label6);
-            Controls.Add(btnAdd);
+            Controls.Add(lblTitle);
+            Controls.Add(btnAddUpdate);
             Controls.Add(btnAddApartmentBuilding);
             Controls.Add(nudSquaredMeters);
             Controls.Add(nudNumberOfBathrooms);
@@ -222,7 +223,7 @@
             Controls.Add(label1);
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(4);
-            Name = "AddApartment";
+            Name = "AddUpdateApartment";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "AddApartment";
             Load += AddApartment_Load;
@@ -247,8 +248,8 @@
         private NumericUpDown nudNumberOfBathrooms;
         private NumericUpDown nudSquaredMeters;
         private Button btnAddApartmentBuilding;
-        private Button btnAdd;
-        private Label label6;
+        private Button btnAddUpdate;
+        private Label lblTitle;
         private TextBox txtName;
         private Label label7;
     }

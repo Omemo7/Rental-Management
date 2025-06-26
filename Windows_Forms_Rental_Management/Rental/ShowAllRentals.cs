@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Windows_Forms_Rental_Management.Rental.AddRental;
 
 namespace Windows_Forms_Rental_Management.Rental
 {
@@ -18,6 +19,12 @@ namespace Windows_Forms_Rental_Management.Rental
         public ShowAllRentals()
         {
             InitializeComponent();
+        }
+
+        public ShowAllRentals(int itemId, RentalType rentalType)
+        {
+            InitializeComponent();
+            
         }
 
         private async void ShowAllRentals_Load(object sender, EventArgs e)
