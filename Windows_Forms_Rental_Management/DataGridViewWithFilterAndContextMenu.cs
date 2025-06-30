@@ -18,25 +18,49 @@ namespace Windows_Forms_Rental_Management
     {
         public class ContextMenuItemClickedEventArgs : EventArgs
         {
-            public string ClickedItem { get; set; }
-            public int RecordId { get; set; }
-            public ContextMenuItemClickedEventArgs(string item, int id)
+            public Enum ClickedItem { get; }
+            public int RecordId { get; }
+
+            public ContextMenuItemClickedEventArgs(Enum item, int id)
             {
                 ClickedItem = item;
                 RecordId = id;
             }
         }
 
+        public static class EnumHelper
+        {
+            public static List<(T EnumValue, string Description)> GetEnumValuesWithDescriptions<T>() where T : Enum
+            {
+                return Enum.GetValues(typeof(T))
+                           .Cast<T>()
+                           .Select(e => (e, GetEnumDescription(e)))
+                           .ToList();
+            }
+
+            public static string GetEnumDescription(Enum value)
+            {
+                var field = value.GetType().GetField(value.ToString());
+                var attr = (DescriptionAttribute?)Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute));
+                return attr?.Description ?? value.ToString();
+            }
+        }
+
+
+
         enum ColumnType
         {
             Numerical,
             Categorical,
-            Boolean
+            Boolean,
+            Date,
         }
         private object? OriginalData;
         Dictionary<string, ColumnType> VisibleColumnsNamesAndTypes = new Dictionary<string, ColumnType>();
         public event EventHandler<ContextMenuItemClickedEventArgs>? ContextMenuItemClicked;
         private int CurrentSelectedRecordId = -1;
+
+       
         public DataGridViewWithFilterAndContextMenu()
         {
             InitializeComponent();
@@ -69,10 +93,10 @@ namespace Windows_Forms_Rental_Management
             SaveVisibleColumnNamesWithTypes();
             FillcbFilterWithColumnNamesAndTypesItems();
         }
-       
+
         void FillcbFilterWithColumnNamesAndTypesItems()
         {
-            
+
             cbFilter.DataSource = new BindingSource(VisibleColumnsNamesAndTypes, null);
             cbFilter.DisplayMember = "Key";
             cbFilter.ValueMember = "Value";
@@ -102,17 +126,22 @@ namespace Windows_Forms_Rental_Management
             }
 
         }
-        public void SetContextMenuItems(List<string> items)
+       
+        public void SetContextMenuItems<T>() where T : Enum
         {
+
+            var items = EnumHelper.GetEnumValuesWithDescriptions<T>();
             contextMenuStrip1.Items.Clear();
             foreach (var item in items)
             {
-                var menuItem = new ToolStripMenuItem(item);
+                var menuItem = new ToolStripMenuItem(item.Description);
+                menuItem.Tag = item.EnumValue;
                 menuItem.Click += OnContextMenuItemClicked;
                 contextMenuStrip1.Items.Add(menuItem);
             }
-
         }
+
+
 
         private void OnContextMenuItemClicked(object? sender, EventArgs e)
         {
@@ -126,7 +155,13 @@ namespace Windows_Forms_Rental_Management
                 MessageBox.Show("No record selected.");
                 return;
             }
-            ContextMenuItemClicked?.Invoke(this, new ContextMenuItemClickedEventArgs(((ToolStripMenuItem)sender).Text, CurrentSelectedRecordId));
+
+            if (sender is ToolStripMenuItem menuItem && menuItem.Tag is Enum enumValue)
+            {
+                int recordId = CurrentSelectedRecordId;
+                var args = new ContextMenuItemClickedEventArgs(enumValue, recordId);
+                ContextMenuItemClicked?.Invoke(this, args);
+            }
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
@@ -177,6 +212,10 @@ namespace Windows_Forms_Rental_Management
                 {
                     columnType = ColumnType.Boolean;
                 }
+                else if (type == typeof(DateTime) || type == typeof(DateOnly))
+                {
+                    columnType = ColumnType.Date;
+                }
                 else
                 {
                     MessageBox.Show($"Unsupported column type: {type.Name} for column: {col.HeaderText}.");
@@ -204,6 +243,9 @@ namespace Windows_Forms_Rental_Management
                 case ColumnType.Boolean:
                     tcFilterType.SelectedTab = CheckboxPage;
                     chkFilter.Checked = true;
+                    break;
+                case ColumnType.Date:
+                    tcFilterType.SelectedTab = DatePage;
                     break;
             }
 
@@ -314,6 +356,45 @@ namespace Windows_Forms_Rental_Management
         private void chkFilter_CheckedChanged(object sender, EventArgs e)
         {
             FilterDataGridBasedOnCheckbox();
+        }
+        void FilterDataGridBasedOnDate()
+        {
+            if (cbFilter.SelectedItem == null)
+            {
+                SetDataGridViewDataWithGoodUI(OriginalData);
+                return;
+            }
+            string filterColumn = ((KeyValuePair<string, ColumnType>)cbFilter.SelectedItem).Key.Replace(" ", "");
+            DateTime minDate = dtpMin.Value.Date;
+            DateTime maxDate = dtpMax.Value.Date;
+            var filteredData = ((IEnumerable<object>)OriginalData)
+                .Where(row =>
+                {
+                    var value = row.GetType().GetProperty(filterColumn)?.GetValue(row, null);
+                    if (value is DateTime dateValue)
+                    {
+                        return dateValue >= minDate && dateValue <= maxDate;
+                    }
+                    else if (value is DateOnly dateOnlyValue)
+                    {
+                        return dateOnlyValue.ToDateTime(new TimeOnly()) >= minDate && dateOnlyValue.ToDateTime(new TimeOnly()) <= maxDate;
+                    }
+                    throw new Exception("not supported date filter type");
+                })
+                .ToList();
+            SetDataGridViewDataWithGoodUI(filteredData);
+        }
+        private void btnFilterDate_Click(object sender, EventArgs e)
+        {
+            if(dtpMin.Value > dtpMax.Value)
+            {
+                MessageBox.Show("Minimum date cannot be greater than maximum date.");
+                dtpMin.Value = dtpMax.Value;
+            }
+
+            FilterDataGridBasedOnDate();
+
+
         }
     }
 }

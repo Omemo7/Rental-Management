@@ -43,18 +43,25 @@
             nudMin = new NumericUpDown();
             chkFilter = new CheckBox();
             tcFilterType = new TabControl();
+            DatePage = new TabPage();
+            btnFilterDate = new Button();
+            dtpMax = new DateTimePicker();
+            dtpMin = new DateTimePicker();
+            label6 = new Label();
+            label5 = new Label();
+            CheckboxPage = new TabPage();
             MinMaxRangePage = new TabPage();
             btnFilter = new Button();
             TextboxPage = new TabPage();
-            CheckboxPage = new TabPage();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             FilterRangePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudMax).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudMin).BeginInit();
             tcFilterType.SuspendLayout();
+            DatePage.SuspendLayout();
+            CheckboxPage.SuspendLayout();
             MinMaxRangePage.SuspendLayout();
             TextboxPage.SuspendLayout();
-            CheckboxPage.SuspendLayout();
             SuspendLayout();
             // 
             // txtFilter
@@ -92,7 +99,7 @@
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label2.Location = new Point(683, 22);
+            label2.Location = new Point(814, 20);
             label2.Name = "label2";
             label2.Size = new Size(73, 28);
             label2.TabIndex = 4;
@@ -103,7 +110,7 @@
             lblCount.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             lblCount.AutoSize = true;
             lblCount.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblCount.Location = new Point(758, 22);
+            lblCount.Location = new Point(889, 20);
             lblCount.Name = "lblCount";
             lblCount.Size = new Size(30, 28);
             lblCount.TabIndex = 5;
@@ -127,7 +134,7 @@
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(791, 311);
+            dataGridView1.Size = new Size(921, 311);
             dataGridView1.TabIndex = 6;
             dataGridView1.RowsAdded += dataGridView1_RowsAdded;
             dataGridView1.RowsRemoved += dataGridView1_RowsRemoved;
@@ -202,6 +209,8 @@
             // 
             // tcFilterType
             // 
+            tcFilterType.Appearance = TabAppearance.Buttons;
+            tcFilterType.Controls.Add(DatePage);
             tcFilterType.Controls.Add(CheckboxPage);
             tcFilterType.Controls.Add(MinMaxRangePage);
             tcFilterType.Controls.Add(TextboxPage);
@@ -210,9 +219,79 @@
             tcFilterType.Margin = new Padding(0);
             tcFilterType.Name = "tcFilterType";
             tcFilterType.SelectedIndex = 0;
-            tcFilterType.Size = new Size(332, 55);
+            tcFilterType.Size = new Size(472, 55);
             tcFilterType.SizeMode = TabSizeMode.Fixed;
             tcFilterType.TabIndex = 9;
+            // 
+            // DatePage
+            // 
+            DatePage.Controls.Add(btnFilterDate);
+            DatePage.Controls.Add(dtpMax);
+            DatePage.Controls.Add(dtpMin);
+            DatePage.Controls.Add(label6);
+            DatePage.Controls.Add(label5);
+            DatePage.Location = new Point(4, 5);
+            DatePage.Name = "DatePage";
+            DatePage.Padding = new Padding(3);
+            DatePage.Size = new Size(464, 46);
+            DatePage.TabIndex = 3;
+            DatePage.Text = "DatePage";
+            DatePage.UseVisualStyleBackColor = true;
+            // 
+            // btnFilterDate
+            // 
+            btnFilterDate.Location = new Point(420, 17);
+            btnFilterDate.Name = "btnFilterDate";
+            btnFilterDate.Size = new Size(32, 23);
+            btnFilterDate.TabIndex = 11;
+            btnFilterDate.Text = "button1";
+            btnFilterDate.UseVisualStyleBackColor = true;
+            btnFilterDate.Click += btnFilterDate_Click;
+            // 
+            // dtpMax
+            // 
+            dtpMax.Format = DateTimePickerFormat.Short;
+            dtpMax.Location = new Point(270, 9);
+            dtpMax.Name = "dtpMax";
+            dtpMax.Size = new Size(144, 34);
+            dtpMax.TabIndex = 10;
+            // 
+            // dtpMin
+            // 
+            dtpMin.Format = DateTimePickerFormat.Short;
+            dtpMin.Location = new Point(62, 9);
+            dtpMin.Name = "dtpMin";
+            dtpMin.Size = new Size(144, 34);
+            dtpMin.TabIndex = 9;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(211, 12);
+            label6.Name = "label6";
+            label6.Size = new Size(53, 28);
+            label6.TabIndex = 1;
+            label6.Text = "Max:";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(6, 12);
+            label5.Name = "label5";
+            label5.Size = new Size(50, 28);
+            label5.TabIndex = 0;
+            label5.Text = "Min:";
+            // 
+            // CheckboxPage
+            // 
+            CheckboxPage.Controls.Add(chkFilter);
+            CheckboxPage.Location = new Point(4, 5);
+            CheckboxPage.Name = "CheckboxPage";
+            CheckboxPage.Padding = new Padding(3);
+            CheckboxPage.Size = new Size(464, 46);
+            CheckboxPage.TabIndex = 0;
+            CheckboxPage.Text = "tabPage1";
+            CheckboxPage.UseVisualStyleBackColor = true;
             // 
             // MinMaxRangePage
             // 
@@ -221,7 +300,7 @@
             MinMaxRangePage.Location = new Point(4, 5);
             MinMaxRangePage.Name = "MinMaxRangePage";
             MinMaxRangePage.Padding = new Padding(3);
-            MinMaxRangePage.Size = new Size(324, 46);
+            MinMaxRangePage.Size = new Size(464, 46);
             MinMaxRangePage.TabIndex = 1;
             MinMaxRangePage.Text = "tabPage2";
             MinMaxRangePage.UseVisualStyleBackColor = true;
@@ -242,21 +321,10 @@
             TextboxPage.Location = new Point(4, 5);
             TextboxPage.Name = "TextboxPage";
             TextboxPage.Padding = new Padding(3);
-            TextboxPage.Size = new Size(324, 46);
+            TextboxPage.Size = new Size(464, 46);
             TextboxPage.TabIndex = 2;
             TextboxPage.Text = "tabPage3";
             TextboxPage.UseVisualStyleBackColor = true;
-            // 
-            // CheckboxPage
-            // 
-            CheckboxPage.Controls.Add(chkFilter);
-            CheckboxPage.Location = new Point(4, 5);
-            CheckboxPage.Name = "CheckboxPage";
-            CheckboxPage.Padding = new Padding(3);
-            CheckboxPage.Size = new Size(324, 46);
-            CheckboxPage.TabIndex = 0;
-            CheckboxPage.Text = "tabPage1";
-            CheckboxPage.UseVisualStyleBackColor = true;
             // 
             // DataGridViewWithFilterAndContextMenu
             // 
@@ -272,7 +340,7 @@
             Font = new Font("Segoe UI", 12F);
             Margin = new Padding(4);
             Name = "DataGridViewWithFilterAndContextMenu";
-            Size = new Size(797, 370);
+            Size = new Size(927, 370);
             Load += DataGridViewWithFilterAndContextMenu_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             FilterRangePanel.ResumeLayout(false);
@@ -280,11 +348,13 @@
             ((System.ComponentModel.ISupportInitialize)nudMax).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudMin).EndInit();
             tcFilterType.ResumeLayout(false);
+            DatePage.ResumeLayout(false);
+            DatePage.PerformLayout();
+            CheckboxPage.ResumeLayout(false);
+            CheckboxPage.PerformLayout();
             MinMaxRangePage.ResumeLayout(false);
             TextboxPage.ResumeLayout(false);
             TextboxPage.PerformLayout();
-            CheckboxPage.ResumeLayout(false);
-            CheckboxPage.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -308,5 +378,11 @@
         private TabPage MinMaxRangePage;
         private TabPage TextboxPage;
         private Button btnFilter;
+        private TabPage DatePage;
+        private DateTimePicker dtpMax;
+        private DateTimePicker dtpMin;
+        private Label label6;
+        private Label label5;
+        private Button btnFilterDate;
     }
 }

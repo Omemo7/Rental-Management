@@ -15,23 +15,28 @@ namespace Windows_Forms_Rental_Management.Apartment
 {
     public partial class ShowAllApartments : Form
     {
-        enum ContextMenuItemsEnum
-        {
-            AddRental,
-            AllRentals,
-            Edit,
-            Delete,
-            MoreDetails
-        }
-        List<string> ContextMenuItems = new List<string>
-            {
-                "Add rental",
-                "All rentals",
-                "Edit",
-                "Delete",
-                "More details"
 
-            };
+        
+
+public enum ContextMenuItemsEnum
+{
+    [Description("Add rental")]
+    AddRental,
+
+    [Description("All rentals")]
+    AllRentals,
+
+    [Description("Edit")]
+    Edit,
+
+    [Description("Delete")]
+    Delete,
+
+    [Description("More details")]
+    MoreDetails
+}
+
+     
         public ShowAllApartments()
         {
             InitializeComponent();
@@ -46,7 +51,7 @@ namespace Windows_Forms_Rental_Management.Apartment
 
         void SetContextMenuItems()
         {
-            dataGridViewWithFilterAndContextMenu1.SetContextMenuItems(ContextMenuItems);
+            dataGridViewWithFilterAndContextMenu1.SetContextMenuItems<ContextMenuItemsEnum>();
             dataGridViewWithFilterAndContextMenu1.ContextMenuItemClicked += DataGridViewWithFilterAndContextMenu1_ContextMenuItemClicked;
         }
 
@@ -55,26 +60,30 @@ namespace Windows_Forms_Rental_Management.Apartment
             
             switch (e.ClickedItem)
             {
-                case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.AddRental]:
+                case ContextMenuItemsEnum.AddRental:
                     AddRental addRentalForm = new AddRental(e.RecordId,AddRental.RentalType.Apartment);
                     addRentalForm.FormClosed += RefreshAndLoadData;
                     addRentalForm.ShowDialog();
                     break;
-                case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.AllRentals]:
+                case ContextMenuItemsEnum.AllRentals:
                     ShowAllRentals showAllRentalsForm = new ShowAllRentals(e.RecordId, AddRental.RentalType.Apartment);
                     showAllRentalsForm.FormClosed += RefreshAndLoadData;
                     showAllRentalsForm.ShowDialog();
                     break;
-                case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.Edit]:
+                case ContextMenuItemsEnum.Edit:
                     AddUpdateApartment form = new AddUpdateApartment(e.RecordId);
                     form.FormClosed += RefreshAndLoadData;
                     form.ShowDialog();
                     break;
-                case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.Delete]:
+                case ContextMenuItemsEnum.Delete:
                         await DeleteApartment(e.RecordId);
                     break;
-                case var t when t == ContextMenuItems[(int)ContextMenuItemsEnum.MoreDetails]:
-                    throw new NotImplementedException();
+                case ContextMenuItemsEnum.MoreDetails:
+                    ApartmentDetails frm=new ApartmentDetails(e.RecordId);
+                    frm.FormClosed += RefreshAndLoadData;
+                    frm.ShowDialog();
+                    break;
+
 
 
             }
