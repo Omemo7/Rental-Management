@@ -63,10 +63,6 @@ namespace Rental_Management.Business.Services
             return await _landlordRepository.GetAllTenantsIdAndNameForLandlord(landlordId);
         }
 
-        public async Task<ICollection<ApartmentRentalDTOForUI>> GetAllApartmentRentalsForLandlordUI(int landlordId)
-        {
-          
-            return await _landlordRepository.GetAllApartmentRentalsForLandlordForUI(landlordId);
-        }
+       
     }
 }

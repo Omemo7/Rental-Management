@@ -20,21 +20,7 @@ namespace Rental_Management.API.Controllers
             _landlordService = service;
         }
 
-        [HttpGet("GetAllApartmentRentalsForLandlordUI/{landlordId}")]
-        public async Task<IActionResult> GetAllApartmentRentalsForLandlordUI(int landlordId)
-        {
-            try
-            {
-                var rentals = await _landlordService.GetAllApartmentRentalsForLandlordUI(landlordId);
-                if (rentals == null || !rentals.Any())
-                    return NotFound("No apartment rentals found for landlord.");
-                return Ok(rentals);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
+        
 
         [HttpGet("GetAllApartmentBuildingsIdAndNOForLandlord/{landlordId}")]
         public async Task<IActionResult> GetAllApartmentBuildingsIdAndNOForLandlord(int landlordId)

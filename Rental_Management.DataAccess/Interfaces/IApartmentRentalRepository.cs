@@ -11,6 +11,8 @@ namespace Rental_Management.DataAccess.Interfaces
     public interface IApartmentRentalRepository : IRepository<ApartmentsRental>
     {
         public Task<ApartmentRentalDTOForUI?> GetByIdAsyncForUI(int id);
+        public Task<ICollection<ApartmentRentalDTOForUI>> GetAllApartmentRentalsForApartment(int apartmentId);
+        public Task<ICollection<ApartmentRentalDTOForUI>> GetAllApartmentRentalsForLandlordForUI(int landlordId);
     }
    
 }

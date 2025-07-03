@@ -25,9 +25,13 @@ namespace Windows_Forms_Rental_Management.Apartment
 
         private async void ApartmentDetails_Load(object sender, EventArgs e)
         {
-            var apartmentRentals = await Util.FetchAllDataFromApiAsync<ApartmentRentalDTOForUI>($"Landlord/GetAllApartmentRentalsForLandlordUI/{LocalLandlord.Id}");
+            nudTotalProfit.Value =await Util.FetchSingleItemFromApiAsync<decimal>($"Apartment/GetApartmentTotalProfit/{_apartmentId}");
+            nudTotalMaintenance.Value = await Util.FetchSingleItemFromApiAsync<decimal>($"Apartment/GetApartmentTotalMaintenance/{_apartmentId}");
+            var apartmentRentals = await Util.FetchAllDataFromApiAsync<ApartmentRentalDTOForUI>($"ApartmentRental/GetAllApartmentRentalsForApartment/{_apartmentId}");
             
             dataGridViewWithFilterAndContextMenu1.SetData(apartmentRentals);
+
+
         }
     }
 }

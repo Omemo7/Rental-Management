@@ -23,9 +23,10 @@ namespace Rental_Management.DataAccess.Interfaces
 
         public Task<ICollection<ApartmentsRental>> GetAllVacantApartmentRentalsForLandlord(int landlordId);
 
-        public Task<ICollection<ApartmentRentalDTOForUI>> GetAllApartmentRentalsForLandlordForUI(int landlordId);
+      
 
         public Task<ICollection<ApartmentBuildingIdAndNODTO>> GetAllApartmentBuildingsIdAndNOForLandlord(int landlordId);
+
         
     }
 }

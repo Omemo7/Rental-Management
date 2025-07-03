@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Client;
+using Rental_Management.Business.DTOs.ApartmentRental;
 using Rental_Management.DataAccess.Entities;
 using Rental_Management.DataAccess.Interfaces;
 using Shared.DTOs.Apartment;
@@ -27,6 +28,12 @@ namespace Rental_Management.DataAccess.Repositories
             
         }
 
+
+       public decimal GetApartmentTotalMaintenance(int apartmentId)
+        {
+            return _context.Maintenances.Where(m => m.ApartmentId == apartmentId)
+                .Sum(m => m.Cost);
+        }
         public decimal GetApartmentTotalProfit(int apartmentId)
         {
            var cost= _context.Maintenances.Where(m=>m.ApartmentId==apartmentId)

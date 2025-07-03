@@ -47,6 +47,13 @@ namespace Rental_Management.API.Controllers
 
 
         }
+        [HttpGet("GetApartmentTotalMaintenance/{apartmentId}")]
+        public IActionResult GetApartmentTotalMaintenance(int apartmentId)
+        {
+            var totalMaintenance = _apartmentService.GetApartmentTotalMaintenance(apartmentId);
+
+            return Ok(totalMaintenance);
+        }
 
         }
 }

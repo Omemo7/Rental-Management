@@ -16,27 +16,26 @@ namespace Windows_Forms_Rental_Management.Apartment
     public partial class ShowAllApartments : Form
     {
 
-        
 
-public enum ContextMenuItemsEnum
-{
-    [Description("Add rental")]
-    AddRental,
 
-    [Description("All rentals")]
-    AllRentals,
+        public enum ContextMenuItemsEnum
+        {
+            [Description("Add rental")]
+            AddRental,
 
-    [Description("Edit")]
-    Edit,
 
-    [Description("Delete")]
-    Delete,
 
-    [Description("More details")]
-    MoreDetails
-}
+            [Description("Edit")]
+            Edit,
 
-     
+            [Description("Delete")]
+            Delete,
+
+            [Description("More details")]
+            MoreDetails
+        }
+
+
         public ShowAllApartments()
         {
             InitializeComponent();
@@ -65,11 +64,7 @@ public enum ContextMenuItemsEnum
                     addRentalForm.FormClosed += RefreshAndLoadData;
                     addRentalForm.ShowDialog();
                     break;
-                case ContextMenuItemsEnum.AllRentals:
-                    ShowAllRentals showAllRentalsForm = new ShowAllRentals(e.RecordId, AddRental.RentalType.Apartment);
-                    showAllRentalsForm.FormClosed += RefreshAndLoadData;
-                    showAllRentalsForm.ShowDialog();
-                    break;
+                
                 case ContextMenuItemsEnum.Edit:
                     AddUpdateApartment form = new AddUpdateApartment(e.RecordId);
                     form.FormClosed += RefreshAndLoadData;

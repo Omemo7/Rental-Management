@@ -23,7 +23,7 @@ namespace Rental_Management.Business.Interfaces
         public Task<ICollection<ApartmentIdAndNameDTO>> GetAllApartmentsIdAndNameForLandlord(int landlordId);
         public Task<ICollection<TenantIdAndNameDTO>> GetAllTenantsIdAndNameForLandlord(int landlordId);
         public Task<ICollection<ApartmentDTO>> GetAllApartmentsForLandlord(int landlordId);
-        public Task<ICollection<ApartmentRentalDTOForUI>> GetAllApartmentRentalsForLandlordUI(int landlordId);
+        
         public Task<ICollection<TenantDTO>> GetAllTenantsForLandlord(int landlordId);
 
     }

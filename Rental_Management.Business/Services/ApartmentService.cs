@@ -36,7 +36,10 @@ namespace Rental_Management.Business.Services
 
             return await _apartmentRepository.AddApartmentMaintenance(maintenance);
         }
-
+        public decimal GetApartmentTotalMaintenance(int apartmentId)
+        {
+            return _apartmentRepository.GetApartmentTotalMaintenance(apartmentId);
+        }
         public decimal GetApartmentTotalProfit(int apartmentId)
         {
             return _apartmentRepository.GetApartmentTotalProfit(apartmentId);

@@ -138,7 +138,7 @@
             dataGridView1.TabIndex = 6;
             dataGridView1.RowsAdded += dataGridView1_RowsAdded;
             dataGridView1.RowsRemoved += dataGridView1_RowsRemoved;
-            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
+            
             // 
             // contextMenuStrip1
             // 
@@ -225,6 +225,7 @@
             // 
             // DatePage
             // 
+            DatePage.BackColor = Color.White;
             DatePage.Controls.Add(btnFilterDate);
             DatePage.Controls.Add(dtpMax);
             DatePage.Controls.Add(dtpMin);
@@ -236,7 +237,6 @@
             DatePage.Size = new Size(464, 46);
             DatePage.TabIndex = 3;
             DatePage.Text = "DatePage";
-            DatePage.UseVisualStyleBackColor = true;
             // 
             // btnFilterDate
             // 

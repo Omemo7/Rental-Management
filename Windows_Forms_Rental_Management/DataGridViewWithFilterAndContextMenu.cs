@@ -1,4 +1,6 @@
-﻿using RangeSelection;
+﻿using Microsoft.IdentityModel.Tokens;
+using RangeSelection;
+using Rental_Management.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,12 +21,14 @@ namespace Windows_Forms_Rental_Management
         public class ContextMenuItemClickedEventArgs : EventArgs
         {
             public Enum ClickedItem { get; }
+            public DataGridViewRow? CurrentRow {  get; }
             public int RecordId { get; }
 
-            public ContextMenuItemClickedEventArgs(Enum item, int id)
+            public ContextMenuItemClickedEventArgs(Enum item, int id, DataGridViewRow? currentRow)
             {
                 ClickedItem = item;
                 RecordId = id;
+                CurrentRow = currentRow;
             }
         }
 
@@ -58,12 +62,47 @@ namespace Windows_Forms_Rental_Management
         private object? OriginalData;
         Dictionary<string, ColumnType> VisibleColumnsNamesAndTypes = new Dictionary<string, ColumnType>();
         public event EventHandler<ContextMenuItemClickedEventArgs>? ContextMenuItemClicked;
-        private int CurrentSelectedRecordId = -1;
+        
 
        
         public DataGridViewWithFilterAndContextMenu()
         {
             InitializeComponent();
+            BeautifytcFilterType();
+           
+
+        }
+
+        void BeautifytcFilterType()
+        {
+            tcFilterType.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tcFilterType.Appearance = TabAppearance.Normal;
+            tcFilterType.BackColor = Color.White;
+            tcFilterType.Region = new Region(tcFilterType.DisplayRectangle);
+
+            tcFilterType.DrawItem += (s, e) =>
+            {
+                TabPage page = tcFilterType.TabPages[e.Index];
+                Rectangle tabBounds = e.Bounds;
+
+                using (Brush backBrush = new SolidBrush(Color.White))
+                    e.Graphics.FillRectangle(backBrush, tabBounds);
+
+                TextRenderer.DrawText(
+                    e.Graphics,
+                    page.Text,
+                    tcFilterType.Font,
+                    tabBounds,
+                    Color.Black,
+                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+                );
+            };
+
+            foreach (TabPage tabPage in tcFilterType.TabPages)
+            {
+                tabPage.BackColor = Color.White;
+            }
+            tcFilterType.Location = new Point(tcFilterType.Location.X, tcFilterType.Location.Y+3 - tcFilterType.ItemSize.Height);
         }
 
         private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -87,7 +126,11 @@ namespace Windows_Forms_Rental_Management
 
         public void SetData<T>(IEnumerable<T>? data)
         {
-
+            if(data.IsNullOrEmpty())
+            {
+                MessageBox.Show("No data to display.");
+                return;
+            }    
             OriginalData = data;
             SetDataGridViewDataWithGoodUI(OriginalData);
             SaveVisibleColumnNamesWithTypes();
@@ -150,45 +193,20 @@ namespace Windows_Forms_Rental_Management
                 MessageBox.Show("Invalid context menu item clicked.");
                 return;
             }
-            if (CurrentSelectedRecordId < 0)
-            {
-                MessageBox.Show("No record selected.");
-                return;
-            }
+            
 
             if (sender is ToolStripMenuItem menuItem && menuItem.Tag is Enum enumValue)
             {
-                int recordId = CurrentSelectedRecordId;
-                var args = new ContextMenuItemClickedEventArgs(enumValue, recordId);
+                var currentRow = dataGridView1.CurrentRow;
+                int recordId = (int)currentRow.Cells["Id"].Value;
+                
+
+                var args = new ContextMenuItemClickedEventArgs(enumValue, recordId,currentRow);
                 ContextMenuItemClicked?.Invoke(this, args);
             }
         }
 
-        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
-        {
-
-            try
-            {
-                if (dataGridView1.CurrentRow == null || dataGridView1.CurrentRow.Cells["Id"] == null)
-                {
-                    return;
-                }
-                var idValue = dataGridView1.CurrentRow.Cells["Id"].Value;
-                if (idValue != null && int.TryParse(idValue.ToString(), out int id))
-                {
-                    CurrentSelectedRecordId = id;
-                }
-                else
-                {
-                    MessageBox.Show("Id value is not valid or not selected.");
-                }
-            }
-            catch
-            { MessageBox.Show("Id column doesn't exist"); }
-
-
-
-        }
+       
         void SaveVisibleColumnNamesWithTypes()
         {
             foreach (DataGridViewColumn col in dataGridView1.Columns)

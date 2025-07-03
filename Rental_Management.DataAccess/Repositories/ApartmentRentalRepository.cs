@@ -95,7 +95,52 @@ namespace Rental_Management.DataAccess.Repositories
                 return -1;
             }
         }
-       
+        public async Task<ICollection<ApartmentRentalDTOForUI>> GetAllApartmentRentalsForLandlordForUI(int landlordId)
+        {
+            var apartmentRentals = await _dbSet
+                .Include(x => x.Rental)
+                .ThenInclude(x => x.Tenant)
+                .Include(x => x.Rental)
+                .ThenInclude(x => x.RentPaymentFrequency)
+                .Include(x => x.Apartment)
+                .ThenInclude(x => x.ApartmentBuilding)
+                .Where(x => x.Apartment.ApartmentBuilding.LandLordId == landlordId)
+                .Select(_dbSet => new ApartmentRentalDTOForUI
+                {
+                    Id = _dbSet.Id,
+                    RentValue = _dbSet.Rental.RentValue,
+                    RentPaymentFrequency = _dbSet.Rental.RentPaymentFrequency.Frequency,
+                    StartDate = _dbSet.Rental.StartDate,
+                    EndDate = _dbSet.Rental.EndDate,
+                    TenantName = _dbSet.Rental.Tenant.Name,
+                    ApartmentName = _dbSet.Apartment.Name,
+                    ApartmentId = _dbSet.Apartment.Id,
+                    TenantId = _dbSet.Rental.Tenant.Id,
+                    RentalId = _dbSet.Rental.Id
+                }).ToListAsync();
+            return apartmentRentals;
+        }
+        public async Task<ICollection<ApartmentRentalDTOForUI>> GetAllApartmentRentalsForApartment(int apartmentId)
+        {
+            var apartmentRentals = await _dbSet
+                .Where(x => x.ApartmentId == apartmentId)
+                .Include(x => x.Rental)
+                .ThenInclude(x => x.Tenant)
+                .Include(x => x.Rental)
+                .ThenInclude(x => x.RentPaymentFrequency)
+                .Select(_dbSet => new ApartmentRentalDTOForUI
+                {
+                    Id = _dbSet.Id,
+                    RentValue = _dbSet.Rental.RentValue,
+                    RentPaymentFrequency = _dbSet.Rental.RentPaymentFrequency.Frequency,
+                    StartDate = _dbSet.Rental.StartDate,
+                    EndDate = _dbSet.Rental.EndDate,
+                    TenantName = _dbSet.Rental.Tenant.Name,
+                    ApartmentName = _dbSet.Apartment.Name,
+
+                }).ToListAsync();
+            return apartmentRentals;
+        }
         public async Task<ApartmentRentalDTOForUI?> GetByIdAsyncForUI(int id)
         {
             

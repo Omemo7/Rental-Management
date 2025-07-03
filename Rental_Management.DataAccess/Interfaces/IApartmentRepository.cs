@@ -14,6 +14,9 @@ namespace Rental_Management.DataAccess.Interfaces
 
         Task<int> AddApartmentMaintenance(Maintenance entity);
         decimal GetApartmentTotalProfit(int apartmentId);
-        
+
+        decimal GetApartmentTotalMaintenance(int apartmentId);
+
+
     }
 }

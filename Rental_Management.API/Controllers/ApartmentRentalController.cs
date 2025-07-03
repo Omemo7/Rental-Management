@@ -5,6 +5,7 @@ using Rental_Management.Business.Interfaces;
 using Shared.DTOs.ApartmentRental;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Rental_Management.Business.Services;
 
 namespace Rental_Management.API.Controllers
 {
@@ -17,6 +18,38 @@ namespace Rental_Management.API.Controllers
         {
             _apartmentRentalService = service;
         }
+        [HttpGet("GetAllApartmentRentalsForLandlordUI/{landlordId}")]
+        public async Task<IActionResult> GetAllApartmentRentalsForLandlordUI(int landlordId)
+        {
+            try
+            {
+                var rentals = await _apartmentRentalService.GetAllApartmentRentalsForLandlordForUI(landlordId);
+                if (rentals == null || !rentals.Any())
+                    return NotFound("No apartment rentals found for landlord.");
+                return Ok(rentals);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("GetAllApartmentRentalsForApartment/{apartmentId}")]
+        public async Task<IActionResult> GetAllApartmentRentalsForApartment(int apartmentId)
+        {
+            try
+            {
+                var rentals = await _apartmentRentalService.GetAllApartmentRentalsForApartment(apartmentId);
+                if (rentals == null || !rentals.Any())
+                    return NotFound("No apartment rentals found for apartment.");
+                return Ok(rentals);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet("GetContractImagesByApartmentRentalId/{apartmentRentalId}")]
         public IActionResult GetContractImagesByApartmentRentalId(int apartmentRentalId)
         {

@@ -66,29 +66,7 @@ namespace Rental_Management.DataAccess.Repositories
                 .ToListAsync();
         }
 
-        public async Task<ICollection<ApartmentRentalDTOForUI>> GetAllApartmentRentalsForLandlordForUI(int landlordId)
-        {
-            var apRentals = await _context.ApartmentsRentals
-                .Where(x => x.Apartment.ApartmentBuilding.LandLordId == landlordId)
-                .Include(x => x.Rental)
-                    .ThenInclude(r => r.Tenant)
-                .Include(x => x.Rental)
-                    .ThenInclude(r => r.RentPaymentFrequency)
-                .Include(x => x.Apartment)
-                .Select(r => new ApartmentRentalDTOForUI
-                {
-                    Id = r.Id,
-                    RentValue = r.Rental.RentValue,
-                    RentPaymentFrequency = r.Rental.RentPaymentFrequency.Frequency,
-                    StartDate = r.Rental.StartDate,
-                    EndDate = r.Rental.EndDate,
-                    TenantName = r.Rental.Tenant.Name,
-                    ApartmentName = r.Apartment.Name
-                })
-                .ToListAsync();
-
-            return apRentals;
-        }
+       
 
         
     }
