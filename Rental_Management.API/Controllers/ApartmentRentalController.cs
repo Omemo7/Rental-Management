@@ -34,6 +34,22 @@ namespace Rental_Management.API.Controllers
             }
         }
 
+        [HttpGet("GetAllApartmentRentalsForTenant/{tenantId}")]
+        public async Task<IActionResult> GetAllApartmentRentalsForTenant(int tenantId)
+        {
+            try
+            {
+                var rentals = await _apartmentRentalService.GetAllApartmentRentalsForTenant(tenantId);
+                if (rentals == null || !rentals.Any())
+                    return NotFound("No apartment rentals found for tenant.");
+                return Ok(rentals);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet("GetAllApartmentRentalsForApartment/{apartmentId}")]
         public async Task<IActionResult> GetAllApartmentRentalsForApartment(int apartmentId)
         {

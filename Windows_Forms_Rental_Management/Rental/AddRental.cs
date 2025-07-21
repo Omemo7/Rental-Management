@@ -1,5 +1,6 @@
 ﻿using Humanizer;
 using NuGet.Configuration;
+using Rental_Management.Business.DTOs.Apartment;
 using Rental_Management.Business.DTOs.ApartmentRental;
 using Rental_Management.Business.DTOs.Rental;
 using Shared.DTOs.Apartment;
@@ -17,15 +18,21 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Windows_Forms_Rental_Management.Implementations;
+using Windows_Forms_Rental_Management.Interfaces;
 using Windows_Forms_Rental_Management.Tenant;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using RadioButton = System.Windows.Forms.RadioButton;
 
 namespace Windows_Forms_Rental_Management.Rental
 {
     public partial class AddRental : Form
     {
-
+        
+      
         private string ContractImagesFolder = "C:\\Users\\Omsr\\Desktop\\f";
-       
+        int _rentalId = -1;
+        IRentableForm _rental = new ApartmentRental();
         public enum RentalType
         {
             Apartment,
@@ -33,29 +40,90 @@ namespace Windows_Forms_Rental_Management.Rental
             Custom
         }
 
-        public AddRental()
+
+        private AddRental()
         {
             InitializeComponent();
 
-            dtpStartDate.MinDate = DateTime.Now;
-            dtpEndDate.MinDate = DateTime.Now.AddDays(1);
+            foreach (RadioButton rb in groupBox1.Controls.OfType<RadioButton>())
+            {
+                rb.CheckedChanged += RadioButton_CheckedChanged;
+            }
+
+
         }
 
-        public AddRental(int itemId,RentalType chosenRentalType)
+        private void RadioButton_CheckedChanged(object? sender, EventArgs e)
         {
-            InitializeComponent();
+            var rb = sender as RadioButton;
+            if (rb != null && rb.Checked)
+            {
+                if (rb.Text == RentalType.Apartment.ToString())
+                {
+                    _rental = new ApartmentRental();
 
-            cbItemForRent.SelectedValue = itemId;
-            cbItemForRent.Enabled = false;
-            groupBox1.Enabled = false;  
-            btnAddNewItem.Enabled = false;
+                }
+                else if (rb.Text == RentalType.Car.ToString())
+                {
+                  MessageBox.Show("Car rental is not implemented yet.");
+                  rbApartment.Checked = true; // Reset to Apartment if Car is selected
+                }
+                else if (rb.Text == RentalType.Custom.ToString())
+                {
+                    MessageBox.Show("Custom rental is not implemented yet.");
+                    rbApartment.Checked = true; // Reset to Apartment if Car is selected
+                }
+                _rental.LoadComboBoxItemForRent(cbItemForRent);
+            }
 
-            groupBox1.Controls.OfType<RadioButton>()
-                .Where(rb => rb.Text == chosenRentalType.ToString())
-                .ToList().ForEach(rb => rb.Checked = true);
+        }
+
+        public static async Task<AddRental> CreateAsync(
+            IRentableForm? rentalType=null,
+    int? tenantId = null,
+    int? itemId = null)
+        {
+
+            
+            var form = new AddRental();
+
+            if (rentalType != null)
+            {
+
+                var rb = form.groupBox1.Controls.OfType<RadioButton>()
+                    .FirstOrDefault(rb => rb.Text == rentalType.GetRentalType().ToString());
+                if (rb != null)
+                    rb.Checked = true;
+                else
+                    throw new ArgumentException("Invalid rental type provided.", nameof(rentalType));
+
+
+            }
+            
+            await form.LoadComboBoxesAsync();
+
+
+            if (tenantId.HasValue)
+            {
+                form.cbTenant.SelectedValue = tenantId.Value;
+                form.cbTenant.Enabled = false;
+            }
+
+            if (itemId.HasValue)
+            {
+                form.cbItemForRent.SelectedValue = itemId.Value;
+                form.cbItemForRent.Enabled = false;
+                form.groupBox1.Enabled = false;
+                form.btnAddNewItem.Enabled = false;
+
+                
+            }
+
+            return form;
         }
 
 
+       
         private void SaveSelectedImagesOnRental(string rentalType,int rentalId)
         {
            
@@ -110,11 +178,7 @@ namespace Windows_Forms_Rental_Management.Rental
         {
 
 
-            await Util.LoadComboBox<ApartmentIdAndNameDTO>(
-    cbItemForRent,
-    $"Landlord/GetAllApartmentsIdAndNameForLandlord/{LocalLandlord.Id}",
-    "Name",
-    "Id");
+            await _rental.LoadComboBoxItemForRent(cbItemForRent);
 
             await Util.LoadComboBox<TenantIdAndNameDTO>(
                 cbTenant,
@@ -129,33 +193,18 @@ namespace Windows_Forms_Rental_Management.Rental
                 "Id");
 
         }
-        private async void AddRental_Load(object sender, EventArgs e)
+        private void AddRental_Load(object sender, EventArgs e)
         {
-
-            await LoadComboBoxesAsync();
+            dtpStartDate.MinDate = DateTime.Now;
+            dtpEndDate.MinDate = DateTime.Now.AddDays(1);
+            
 
 
         }
 
 
-      
 
-        private async Task<int?> PostRentalAsync<T>(string url, T rentalDto)
-        {
-            var response = await LocalClientWithBaseAddress.client.PostAsJsonAsync(url, rentalDto);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var location = response.Headers.Location?.ToString();
-                if (!string.IsNullOrEmpty(location) && int.TryParse(location.Split('/').Last(), out int id))
-                {
-                    return id;
-                }
-            }
-
-            return null;
-        }
-
+       
         private RentalDTO CreateRentalDTO()
         {
             return new RentalDTO
@@ -165,7 +214,8 @@ namespace Windows_Forms_Rental_Management.Rental
                 RentPaymentFrequencyId = (int)cbRentPaymentFrequency.SelectedValue,
                 TenantId = (int)cbTenant.SelectedValue,
                 RentValue = nudRentValue.Value,
-               
+                IsActive = true 
+
             };
         }
 
@@ -179,53 +229,28 @@ namespace Windows_Forms_Rental_Management.Rental
                 return;
             }
 
-            var selectedType = groupBox1.Controls
-               .OfType<RadioButton>()
-               .FirstOrDefault(rb => rb.Checked)?.Text;
-
-            int selectedItemForRentId=(int)cbItemForRent.SelectedValue;
-
-
             var rentalDTO = CreateRentalDTO();
+            var selectedItemIdForRent = (int)cbItemForRent.SelectedValue;
 
-            int? rentalId = null;
+            int? rentalId =await _rental.AddRental(rentalDTO,selectedItemIdForRent);
 
-            switch (selectedType)
-            {
-                case "Apartment":
-                    var apartmentDto = new AddApartmentRentalDTO
-                    {
-                        ApartmentId =selectedItemForRentId ,
-                        Rental = rentalDTO
-                    };
-                    rentalId = await PostRentalAsync("ApartmentRental/Add", apartmentDto);
-                    
-                    break;
 
-                case "Car": throw new NotImplementedException("Car rental not implemented yet.");
-                    //todo
-                //    var carDto = new AddCarRentalDTO
-                //    {
-                //        CarId = selectedItemForRentId,
-                //        Rental = rentalDTO
-                //    };
-                //    rentalId = await PostRentalAsync("CarRental/Add", carDto);
-                //    break;
-
-                case "Custom": throw new NotImplementedException("Custom rental not implemented yet.");
-                    //    var customDto = new AddCustomRentalDTO
-                    //    {
-                    //        customItemID = selectedItemForRentId,
-                    //        Rental = rentalDTO
-                    //    };
-                    //    rentalId = await PostRentalAsync("CustomRental/Add", customDto);
-                    //    break;
-            }
 
             if (rentalId.HasValue)
             {
                 MessageBox.Show($"Added successfully with ID: {rentalId}");
-                SaveSelectedImagesOnRental(selectedType, rentalId.Value);
+
+                if (lbContractImagesNames.Items.Count > 0)
+                {
+                    //todo, convert this to a method in the interface
+                    //SaveSelectedImagesOnRental(selectedType, rentalId.Value);
+                    await _rental.SaveContractImages();
+                }
+                else
+                {
+                    MessageBox.Show("No images selected. Rental added without images.");
+                }
+                
             }
             else
             {
@@ -238,38 +263,14 @@ namespace Windows_Forms_Rental_Management.Rental
 
         private async void btnAddNewItem_Click(object sender, EventArgs e)
         {
-            var checkedrb = groupBox1.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked);
+            
+            await _rental.OpenAddNewRentalItemForm(cbItemForRent);
 
-            switch (checkedrb?.Text)
-            {
-                case "Apartment":
-                    AddUpdateApartment addApartment = new AddUpdateApartment();
-                    addApartment.FormClosing += async (s, args) =>
-                    {
-                        await Util.LoadComboBox<ApartmentIdAndNameDTO>(
-   cbItemForRent,
-   $"Landlord/GetAllApartmentsIdAndNameForLandlord/{LocalLandlord.Id}",
-   "Name",
-   "Id");
-
-                    };
-                    addApartment.ShowDialog();
-                    break;
-                case "Car":
-                    MessageBox.Show("Car rental not implemented yet.");
-                    break;
-                case "Custom":
-                    MessageBox.Show("Car rental not implemented yet.");
-                    break;
-                default:
-                    MessageBox.Show("Please select a rental type.");
-                    return;
-            }
         }
 
         private void btnAddTenant_Click(object sender, EventArgs e)
         {
-            AddTenant addTenant = new AddTenant();
+            AddUpdateTenant addTenant = new AddUpdateTenant();
             addTenant.FormClosing += async (s, args) =>
             {
                 await Util.LoadComboBox<TenantIdAndNameDTO>(

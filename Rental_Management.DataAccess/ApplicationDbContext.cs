@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Numerics;
 using Microsoft.EntityFrameworkCore;
 using Rental_Management.DataAccess.Entities;
 
@@ -49,7 +50,23 @@ public partial class ApplicationDbContext : DbContext
         optionsBuilder.UseSqlServer("Server=DESKTOP-SE57QM8;Database=Rental_Management;Trusted_Connection=True;TrustServerCertificate=True;");
     }
 
-       
-  
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<TenantPhone>()
+            .HasOne(p => p.Tenant)
+            .WithMany(t => t.Phones)
+            .HasForeignKey(p => p.TenantId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Rental>()
+            .Property(e => e.IsActive)
+            .HasDefaultValue(true);
+    }
+
+
+
+
 
 }

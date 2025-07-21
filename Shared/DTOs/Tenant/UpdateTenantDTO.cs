@@ -15,5 +15,7 @@ namespace Rental_Management.Business.DTOs.Tenant
         public string Name { get; set; } = null!;
 
         public string Email { get; set; } = null!;
+
+        public List<string> Phones { get; set; } = new List<string>();
     }
 }

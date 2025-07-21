@@ -13,6 +13,7 @@ namespace Rental_Management.Business.Interfaces
     public interface ITenantService:IService<TenantDTO,AddTenantDTO,UpdateTenantDTO>
     {
         public OperationResultStatus AddPhones(ICollection<string> phones, int tenantId);
+        public decimal GetTotalPaidAmount(int tenantId);
         public ICollection<string> GetPhones(int tenantId);
     }
 }

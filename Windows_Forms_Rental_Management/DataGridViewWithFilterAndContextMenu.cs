@@ -21,7 +21,7 @@ namespace Windows_Forms_Rental_Management
         public class ContextMenuItemClickedEventArgs : EventArgs
         {
             public Enum ClickedItem { get; }
-            public DataGridViewRow? CurrentRow {  get; }
+            public DataGridViewRow? CurrentRow { get; }
             public int RecordId { get; }
 
             public ContextMenuItemClickedEventArgs(Enum item, int id, DataGridViewRow? currentRow)
@@ -62,14 +62,14 @@ namespace Windows_Forms_Rental_Management
         private object? OriginalData;
         Dictionary<string, ColumnType> VisibleColumnsNamesAndTypes = new Dictionary<string, ColumnType>();
         public event EventHandler<ContextMenuItemClickedEventArgs>? ContextMenuItemClicked;
-        
 
-       
+
+
         public DataGridViewWithFilterAndContextMenu()
         {
             InitializeComponent();
             BeautifytcFilterType();
-           
+
 
         }
 
@@ -102,7 +102,7 @@ namespace Windows_Forms_Rental_Management
             {
                 tabPage.BackColor = Color.White;
             }
-            tcFilterType.Location = new Point(tcFilterType.Location.X, tcFilterType.Location.Y+3 - tcFilterType.ItemSize.Height);
+            tcFilterType.Location = new Point(tcFilterType.Location.X, tcFilterType.Location.Y + 3 - tcFilterType.ItemSize.Height);
         }
 
         private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -126,11 +126,11 @@ namespace Windows_Forms_Rental_Management
 
         public void SetData<T>(IEnumerable<T>? data)
         {
-            if(data.IsNullOrEmpty())
+            if (data.IsNullOrEmpty())
             {
                 MessageBox.Show("No data to display.");
                 return;
-            }    
+            }
             OriginalData = data;
             SetDataGridViewDataWithGoodUI(OriginalData);
             SaveVisibleColumnNamesWithTypes();
@@ -169,7 +169,7 @@ namespace Windows_Forms_Rental_Management
             }
 
         }
-       
+
         public void SetContextMenuItems<T>() where T : Enum
         {
 
@@ -193,20 +193,20 @@ namespace Windows_Forms_Rental_Management
                 MessageBox.Show("Invalid context menu item clicked.");
                 return;
             }
-            
+
 
             if (sender is ToolStripMenuItem menuItem && menuItem.Tag is Enum enumValue)
             {
                 var currentRow = dataGridView1.CurrentRow;
                 int recordId = (int)currentRow.Cells["Id"].Value;
-                
 
-                var args = new ContextMenuItemClickedEventArgs(enumValue, recordId,currentRow);
+
+                var args = new ContextMenuItemClickedEventArgs(enumValue, recordId, currentRow);
                 ContextMenuItemClicked?.Invoke(this, args);
             }
         }
 
-       
+
         void SaveVisibleColumnNamesWithTypes()
         {
             foreach (DataGridViewColumn col in dataGridView1.Columns)
@@ -404,7 +404,7 @@ namespace Windows_Forms_Rental_Management
         }
         private void btnFilterDate_Click(object sender, EventArgs e)
         {
-            if(dtpMin.Value > dtpMax.Value)
+            if (dtpMin.Value > dtpMax.Value)
             {
                 MessageBox.Show("Minimum date cannot be greater than maximum date.");
                 dtpMin.Value = dtpMax.Value;
@@ -413,6 +413,34 @@ namespace Windows_Forms_Rental_Management
             FilterDataGridBasedOnDate();
 
 
+        }
+
+        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dataGridView1.ClearSelection();
+                dataGridView1.Rows[e.RowIndex].Selected = true;
+                dataGridView1.CurrentCell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            }
+        }
+
+        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dataGridView1.Rows.Count > 0)
+            {
+                dataGridView1.ClearSelection();
+
+                DataGridViewColumn? firstVisibleColumn = dataGridView1.Columns
+                    .Cast<DataGridViewColumn>()
+                    .FirstOrDefault(c => c.Visible);
+
+                if (firstVisibleColumn != null)
+                {
+                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[firstVisibleColumn.Index];
+                    dataGridView1.Rows[0].Selected = true;
+                }
+            }
         }
     }
 }

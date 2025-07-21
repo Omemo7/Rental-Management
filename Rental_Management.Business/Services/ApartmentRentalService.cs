@@ -36,10 +36,10 @@ namespace Rental_Management.Business.Services
             return await apartmentRentalRepository.GetAllApartmentRentalsForApartment(apartmentId);
         }
 
-
-
-
-
+        public async Task<ICollection<ApartmentRentalDTOForTenant>> GetAllApartmentRentalsForTenant(int tenantId)
+        {
+            return await apartmentRentalRepository.GetAllApartmentRentalsForTenant(tenantId);
+        }
     }
 
 

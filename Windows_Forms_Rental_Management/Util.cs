@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -38,6 +39,7 @@ namespace Windows_Forms_Rental_Management
                     List<T>? result = JsonSerializer.Deserialize<List<T>>(json, options);
                     return result;
                 }
+                
             }
             catch (HttpRequestException ex)
             {
@@ -72,33 +74,23 @@ namespace Windows_Forms_Rental_Management
             }
         }
 
-        public static async Task<HttpResponseMessage> AddItemAsync<T>(string endpoint, T item)
+        public static async Task<int?> AddItemAsync<T>(string endpoint, T item)
         {
-            try
-            {
-                var json = JsonSerializer.Serialize(item);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+             
+            var response = await LocalClientWithBaseAddress.client.PostAsJsonAsync(endpoint, item);
 
-                HttpResponseMessage response = await LocalClientWithBaseAddress.client.PostAsync(endpoint, content);
-                return response;
-            }
-            catch (HttpRequestException ex)
+            if (response.IsSuccessStatusCode)
             {
-                MessageBox.Show($"HTTP error while adding: {ex.Message}", "Network Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return new HttpResponseMessage(HttpStatusCode.ServiceUnavailable)
+                var location = response.Headers.Location?.ToString();
+                if (!string.IsNullOrEmpty(location) && int.TryParse(location.Split('/').Last(), out int id))
                 {
-                    ReasonPhrase = "HttpRequestException: " + ex.Message
-                };
+                    return id;
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Unexpected error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return new HttpResponseMessage(HttpStatusCode.InternalServerError)
-                {
-                    ReasonPhrase = "Exception: " + ex.Message
-                };
-            }
+
+            return null;
         }
+        
 
 
         public static async Task<HttpResponseMessage> UpdateItemAsync<T>(string endpoint, T item)

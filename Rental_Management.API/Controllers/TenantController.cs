@@ -27,7 +27,28 @@ namespace Rental_Management.API.Controllers
             {
                 return BadRequest();
             }
+            if (result == OperationResultStatus.NotFound)
+            {
+                return NotFound("Tenant not found.");
+            }
             return Ok(phones);
+        }
+
+
+        
+        [HttpGet("GetTotalPaidAmount/{tenantId}")]
+        public IActionResult GetTotalPaidAmount(int tenantId)
+        {
+            if (tenantId <= 0)
+            {
+                return BadRequest("Invalid tenant ID.");
+            }
+            var totalPaidAmount = _service.GetTotalPaidAmount(tenantId);
+            if (totalPaidAmount < 0)
+            {
+                return NotFound("Tenant not found");
+            }
+            return Ok(totalPaidAmount);
         }
         [HttpGet("GetPhones/{tenantId}")]
         public IActionResult GetPhones(int tenantId)

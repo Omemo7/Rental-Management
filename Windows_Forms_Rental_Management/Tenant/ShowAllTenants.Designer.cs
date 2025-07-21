@@ -54,6 +54,7 @@
             dataGridViewWithFilterAndContextMenu1.Name = "dataGridViewWithFilterAndContextMenu1";
             dataGridViewWithFilterAndContextMenu1.Size = new Size(976, 444);
             dataGridViewWithFilterAndContextMenu1.TabIndex = 46;
+            dataGridViewWithFilterAndContextMenu1.ContextMenuItemClicked += dataGridViewWithFilterAndContextMenu1_ContextMenuItemClicked;
             // 
             // ShowAllTenants
             // 

@@ -4,6 +4,7 @@ using Rental_Management.Business.DTOs.ApartmentRental;
 using Rental_Management.DataAccess.Entities;
 using Rental_Management.DataAccess.Interfaces;
 using Shared;
+using Shared.DTOs.ApartmentRental;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -116,7 +117,8 @@ namespace Rental_Management.DataAccess.Repositories
                     ApartmentName = _dbSet.Apartment.Name,
                     ApartmentId = _dbSet.Apartment.Id,
                     TenantId = _dbSet.Rental.Tenant.Id,
-                    RentalId = _dbSet.Rental.Id
+                    RentalId = _dbSet.Rental.Id,
+                    IsActive = _dbSet.Rental.IsActive,
                 }).ToListAsync();
             return apartmentRentals;
         }
@@ -137,6 +139,7 @@ namespace Rental_Management.DataAccess.Repositories
                     EndDate = _dbSet.Rental.EndDate,
                     TenantName = _dbSet.Rental.Tenant.Name,
                     ApartmentName = _dbSet.Apartment.Name,
+                    IsActive = _dbSet.Rental.IsActive,
 
                 }).ToListAsync();
             return apartmentRentals;
@@ -159,13 +162,34 @@ namespace Rental_Management.DataAccess.Repositories
                     EndDate = _dbSet.Rental.EndDate,
                     TenantName = _dbSet.Rental.Tenant.Name,
                     ApartmentName = _dbSet.Apartment.Name,
-                
+                    IsActive = _dbSet.Rental.IsActive,
+
                 }).FirstOrDefaultAsync();
 
             return await apRental;
 
         }
-        
 
+        public async Task<ICollection<ApartmentRentalDTOForTenant>> GetAllApartmentRentalsForTenant(int tenantId)
+        {
+          var rentals = await _dbSet
+         .Where(ar => ar.Rental.TenantId == tenantId)
+         .Select(ar => new ApartmentRentalDTOForTenant
+         {
+             Id = ar.Id,
+             ApartmentId = ar.ApartmentId,
+             ApartmentName = ar.Apartment.Name,
+             RentValue = ar.Rental.RentValue,
+             RentPaymentFrequency = ar.Rental.RentPaymentFrequency.Frequency,
+             RentalId = ar.Rental.Id,
+             StartDate = ar.Rental.StartDate,
+             EndDate = ar.Rental.EndDate,
+             IsActive = ar.Rental.IsActive
+
+         })
+         .ToListAsync();
+
+            return rentals;
+        }
     }
 }

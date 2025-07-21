@@ -34,7 +34,51 @@ namespace Rental_Management.DataAccess.Repositories
             }
             return tenant.Phones.Select(p=>p.PhoneNumber).ToList();
         }
-        
+
+        public decimal GetTotalPaidAmount(int tenantId)
+        {
+
+            if (_dbSet.Find(tenantId)==null)
+            {
+                _logger.LogWarning($"Invalid tenant: {tenantId}");
+                return -1;
+            }
+            return _dbSet.Where(t=>t.Id == tenantId)
+                .SelectMany(t => t.Rentals)
+                .SelectMany(r=>r.Payments)
+                .Sum(p=>p.PaidAmount);
+        }
+        public async Task<bool> ClearPhones(int tenantId)
+        {
+            try
+            {
+                var phones = await _context.TenantsPhones
+        .Where(p => p.TenantId == tenantId)
+        .ToListAsync();
+
+                if (phones.Any())
+                {
+                    _context.TenantsPhones.RemoveRange(phones);
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation($"Phones removed successfully for tenant with ID {tenantId}.");
+                    return true;
+                }
+                else
+                {
+                    _logger.LogWarning($"No phones found for tenant with ID {tenantId}.");
+                    return false;
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to remove phones for tenant with ID {tenantId}\n" +
+                    $"Exception Message: {ex.Message}\n" +
+                    $"Inner Exception: {ex.InnerException?.Message ?? "No inner exception"}");
+                return false;
+            }
+        }
         public OperationResultStatus AddPhones(ICollection<string> phones, int tenantId)
         {
             try

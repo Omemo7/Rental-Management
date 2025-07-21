@@ -11,7 +11,7 @@ namespace Rental_Management.Business.DTOs.Rental
     {
         public int TenantId { get; set; }
        
-
+        public bool IsActive { get; set; }
         public decimal RentValue { get; set; }
 
 

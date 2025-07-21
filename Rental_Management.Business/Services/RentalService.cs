@@ -41,6 +41,9 @@ namespace Rental_Management.Business.Services
                 _logger.LogWarning($"Invalid {typeof(TAddDTO).Name}");
                 return -1;
             }
+
+
+
             return await _repository.AddAsync(_mapper.Map<TEntity>(AddDTO));
         }
 

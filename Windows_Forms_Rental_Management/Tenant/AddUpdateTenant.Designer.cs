@@ -1,6 +1,6 @@
 ﻿namespace Windows_Forms_Rental_Management.Tenant
 {
-    partial class AddTenant
+    partial class AddUpdateTenant
     {
         /// <summary>
         /// Required designer variable.
@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label6 = new Label();
-            btnAdd = new Button();
+            lblTitle = new Label();
+            btnAddUpdate = new Button();
             label5 = new Label();
             label3 = new Label();
             label2 = new Label();
@@ -45,29 +45,29 @@
             btnClear = new Button();
             SuspendLayout();
             // 
-            // label6
+            // lblTitle
             // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 22.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.Firebrick;
-            label6.Location = new Point(388, 29);
-            label6.Margin = new Padding(4, 0, 4, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(208, 50);
-            label6.TabIndex = 30;
-            label6.Text = "Add Tenant";
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 22.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTitle.ForeColor = Color.Firebrick;
+            lblTitle.Location = new Point(388, 29);
+            lblTitle.Margin = new Padding(4, 0, 4, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(208, 50);
+            lblTitle.TabIndex = 30;
+            lblTitle.Text = "Add Tenant";
             // 
-            // btnAdd
+            // btnAddUpdate
             // 
-            btnAdd.FlatStyle = FlatStyle.Flat;
-            btnAdd.Location = new Point(412, 349);
-            btnAdd.Margin = new Padding(4);
-            btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(149, 47);
-            btnAdd.TabIndex = 29;
-            btnAdd.Text = "Add ";
-            btnAdd.UseVisualStyleBackColor = true;
-            btnAdd.Click += btnAdd_Click;
+            btnAddUpdate.FlatStyle = FlatStyle.Flat;
+            btnAddUpdate.Location = new Point(412, 349);
+            btnAddUpdate.Margin = new Padding(4);
+            btnAddUpdate.Name = "btnAddUpdate";
+            btnAddUpdate.Size = new Size(149, 47);
+            btnAddUpdate.TabIndex = 29;
+            btnAddUpdate.Text = "Add ";
+            btnAddUpdate.UseVisualStyleBackColor = true;
+            btnAddUpdate.Click += btnAdd_Click;
             // 
             // label5
             // 
@@ -193,7 +193,7 @@
             btnClear.UseVisualStyleBackColor = true;
             btnClear.Click += btnClear_Click;
             // 
-            // AddTenant
+            // AddUpdateTenant
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -208,15 +208,15 @@
             Controls.Add(txtEmail);
             Controls.Add(txtName);
             Controls.Add(txtNationalNO);
-            Controls.Add(label6);
-            Controls.Add(btnAdd);
+            Controls.Add(lblTitle);
+            Controls.Add(btnAddUpdate);
             Controls.Add(label5);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
             Font = new Font("Segoe UI", 12F);
             Margin = new Padding(4);
-            Name = "AddTenant";
+            Name = "AddUpdateTenant";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "AddTenant";
             Load += AddTenant_Load;
@@ -226,8 +226,8 @@
 
         #endregion
 
-        private Label label6;
-        private Button btnAdd;
+        private Label lblTitle;
+        private Button btnAddUpdate;
         private Label label5;
         private Label label3;
         private Label label2;

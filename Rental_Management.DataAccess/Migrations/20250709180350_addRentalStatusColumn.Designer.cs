@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rental_Management.DataAccess;
 
@@ -11,9 +12,11 @@ using Rental_Management.DataAccess;
 namespace Rental_Management.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250709180350_addRentalStatusColumn")]
+    partial class addRentalStatusColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -381,11 +384,6 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
                     b.Property<DateOnly>("LastNotificationDate")
                         .HasColumnType("date");
 
@@ -394,6 +392,9 @@ namespace Rental_Management.DataAccess.Migrations
 
                     b.Property<decimal>("RentValue")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("RentalStatus")
+                        .HasColumnType("bit");
 
                     b.Property<DateOnly>("StartDate")
                         .HasColumnType("date");

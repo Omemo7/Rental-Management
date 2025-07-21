@@ -12,5 +12,7 @@ namespace Rental_Management.DataAccess.Interfaces
     {
         public OperationResultStatus AddPhones(ICollection<string> phones, int tenantId);
         public ICollection<string> GetPhones(int tenantId);
+        public decimal GetTotalPaidAmount(int tenantId);
+        public Task<bool> ClearPhones(int tenantId);
     }
 }

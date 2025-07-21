@@ -14,10 +14,17 @@ namespace Windows_Forms_Rental_Management.Payment
     {
 
         int _rentalId;
-        public AddPayment(int RentalId)
+        decimal _rentValue;
+        public AddPayment(int RentalId, decimal rentValue)
         {
             InitializeComponent();
             _rentalId = RentalId;
+            _rentValue = rentValue;
+        }
+
+        private void AddPayment_Load(object sender, EventArgs e)
+        {
+            nudPaidAmount.Value = _rentValue;
         }
     }
 }

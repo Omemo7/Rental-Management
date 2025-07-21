@@ -7,6 +7,7 @@ namespace Rental_Management.Business.DTOs.ApartmentRental
         public int Id { get; set; }
         public int RentalId { get; set; }
         public int ApartmentId { get; set; }
+        public bool IsActive { get; set; }
         public string ApartmentName { get; set; } =null!;
         public int TenantId { get; set; }
         public string TenantName { get; set; } = null!;

@@ -6,8 +6,5 @@ using System.Threading.Tasks;
 
 namespace Shared.DTOs.Tenant
 {
-    public class TenantPhoneDTO
-    {
-        public string PhoneNumber { get; set; } = null!;    
-    }
+    
 }

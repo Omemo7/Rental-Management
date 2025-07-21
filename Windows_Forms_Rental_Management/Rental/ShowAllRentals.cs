@@ -56,7 +56,8 @@ namespace Windows_Forms_Rental_Management.Rental
             {
                 case ContextMenuItemsEnum.AddPayment:
                     var rentalId = (int)e.CurrentRow?.Cells["RentalId"].Value;
-                    AddPayment addPaymentForm = new AddPayment(rentalId);
+                    var rentValue = (decimal)e.CurrentRow?.Cells["RentValue"].Value;
+                    AddPayment addPaymentForm = new AddPayment(rentalId,rentValue);
                     addPaymentForm.ShowDialog();
                     break;
                 //case ContextMenuItemsEnum.EndRental:

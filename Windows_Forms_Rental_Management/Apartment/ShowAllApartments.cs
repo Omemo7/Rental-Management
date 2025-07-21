@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Windows_Forms_Rental_Management.Implementations;
 using Windows_Forms_Rental_Management.Rental;
 
 namespace Windows_Forms_Rental_Management.Apartment
@@ -60,7 +61,7 @@ namespace Windows_Forms_Rental_Management.Apartment
             switch (e.ClickedItem)
             {
                 case ContextMenuItemsEnum.AddRental:
-                    AddRental addRentalForm = new AddRental(e.RecordId,AddRental.RentalType.Apartment);
+                    AddRental addRentalForm =await AddRental.CreateAsync(itemId:e.RecordId,rentalType:new ApartmentRental());
                     addRentalForm.FormClosed += RefreshAndLoadData;
                     addRentalForm.ShowDialog();
                     break;

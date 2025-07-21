@@ -34,7 +34,7 @@ namespace Windows_Forms_Rental_Management
 
         private void addToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            AddTenant form = new AddTenant();
+            AddUpdateTenant form = new AddUpdateTenant();
             form.ShowDialog();
         }
 
@@ -44,9 +44,9 @@ namespace Windows_Forms_Rental_Management
             form.ShowDialog();
         }
 
-        private void addToolStripMenuItem2_Click(object sender, EventArgs e)
+        private async void addToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            AddRental form = new AddRental();
+            AddRental form = await AddRental.CreateAsync();
             form.ShowDialog();
         }
 

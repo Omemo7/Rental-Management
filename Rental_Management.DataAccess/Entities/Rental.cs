@@ -4,11 +4,12 @@ using System.Collections.Generic;
 namespace Rental_Management.DataAccess.Entities;
 
 
+
 public partial class Rental
 {
     public int Id { get; set; }
 
-    
+    public bool IsActive { get; set; }
 
     public decimal RentValue { get; set; }
 

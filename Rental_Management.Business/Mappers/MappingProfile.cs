@@ -50,7 +50,7 @@ namespace Rental_Management.Business.Mappers
             CreateMap<Payment, PaymentDTO>().ReverseMap();
             CreateMap<Payment, UpdatePaymentDTO>().ReverseMap();
 
-            CreateMap<TenantPhone, TenantPhoneDTO>().ReverseMap();
+           
 
 
 

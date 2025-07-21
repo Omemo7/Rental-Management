@@ -136,9 +136,10 @@
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(921, 311);
             dataGridView1.TabIndex = 6;
+            dataGridView1.CellMouseDown += dataGridView1_CellMouseDown;
+            dataGridView1.DataBindingComplete += dataGridView1_DataBindingComplete;
             dataGridView1.RowsAdded += dataGridView1_RowsAdded;
             dataGridView1.RowsRemoved += dataGridView1_RowsRemoved;
-            
             // 
             // contextMenuStrip1
             // 

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label6 = new Label();
+            lblTitle = new Label();
             btnAdd = new Button();
             btnAddTenant = new Button();
             cbTenant = new ComboBox();
@@ -59,17 +59,17 @@
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
-            // label6
+            // lblTitle
             // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 22.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.Firebrick;
-            label6.Location = new Point(400, 38);
-            label6.Margin = new Padding(4, 0, 4, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(202, 50);
-            label6.TabIndex = 30;
-            label6.Text = "Add Rental";
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 22.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTitle.ForeColor = Color.Firebrick;
+            lblTitle.Location = new Point(400, 38);
+            lblTitle.Margin = new Padding(4, 0, 4, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(202, 50);
+            lblTitle.TabIndex = 30;
+            lblTitle.Text = "Add Rental";
             // 
             // btnAdd
             // 
@@ -339,18 +339,18 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Choose rental type";
             // 
-            // AddRental
+            // AddUpdateRental
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(944, 528);
             Controls.Add(panel1);
-            Controls.Add(label6);
+            Controls.Add(lblTitle);
             Controls.Add(btnAdd);
             Font = new Font("Segoe UI", 12F);
             Margin = new Padding(4);
-            Name = "AddRental";
+            Name = "AddUpdateRental";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "AddRental";
             Load += AddRental_Load;
@@ -365,7 +365,7 @@
 
         #endregion
 
-        private Label label6;
+        private Label lblTitle;
         private Button btnAdd;
         private Button btnAddTenant;
         private ComboBox cbTenant;
