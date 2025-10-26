@@ -1,22 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
 using Rental_Management.DataAccess.Entities;
-using Shared.DTOs.Apartment;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Rental_Management.DataAccess.Interfaces
+namespace Rental_Management.DataAccess.Interfaces;
+
+public interface IApartmentRepository : IRepository<Apartment>
 {
-    public interface IApartmentRepository: IRepository<Apartment>
-    {
-
-        Task<int> AddApartmentMaintenance(Maintenance entity);
-        decimal GetApartmentTotalProfit(int apartmentId);
-
-        decimal GetApartmentTotalMaintenance(int apartmentId);
-
-
-    }
+    Task<int> AddApartmentMaintenance(Maintenance entity);
+    decimal GetApartmentTotalMaintenance(int apartmentId);
+    decimal GetApartmentTotalPayments(int apartmentId);
 }

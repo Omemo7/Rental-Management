@@ -1,18 +1,12 @@
-﻿using Rental_Management.Business.DTOs.ApartmentRental;
+using Rental_Management.Business.DTOs.ApartmentRental;
 using Shared.DTOs.ApartmentRental;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Rental_Management.Business.Interfaces
+namespace Rental_Management.Business.Interfaces;
+
+public interface IApartmentRentalService : IService<ApartmentRentalDTO, AddApartmentRentalDTO, UpdateApartmentRentalDTO>
 {
-    public interface IApartmentRentalService:IService<ApartmentRentalDTO, AddApartmentRentalDTO, UpdateApartmentRentalDTO>
-    {
-        public Task<ICollection<ApartmentRentalDTOForUI>> GetAllApartmentRentalsForApartment(int apartmentId);
-        public Task<ICollection<ApartmentRentalDTOForUI>> GetAllApartmentRentalsForLandlordForUI(int landlordId);
-
-        public Task<ICollection<ApartmentRentalDTOForTenant>> GetAllApartmentRentalsForTenant(int tenantId);
-    }
+    Task<ICollection<ApartmentRentalDTOForUI>> GetAllApartmentRentalsForApartment(int apartmentId);
+    Task<ICollection<ApartmentRentalDTOForUI>> GetAllApartmentRentalsForLandlordForUI(int landlordId);
+    Task<ICollection<ApartmentRentalDTOForTenant>> GetAllApartmentRentalsForTenant(int tenantId);
+    Task<ICollection<string>> GetContractImageUrlsAsync(int apartmentRentalId, string baseUrl);
 }

@@ -1,27 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using Shared.DTOs.RentPaymentFrequency;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Rental_Management.DataAccess.Entities;
 
-namespace Rental_Management.DataAccess.Repositories
+namespace Rental_Management.DataAccess.Repositories;
+
+public static class RentPaymentFrequencyRepository
 {
-    public static class RentPaymentFrequencyRepository
+    private static readonly ApplicationDbContext _context = new ApplicationDbContext();
+
+    public static async Task<List<RentPaymentFrequency>> GetRentPaymentFrequenciesAsync()
     {
-        static ApplicationDbContext _context=new ApplicationDbContext();
-
-        public async static Task<List<RentPaymentFrequencyWithIdDTO>> GetRentPaymentFrequeniesWithIds()
-        {
-           return await _context.RentPaymentFrequency
-                .Select(x => new RentPaymentFrequencyWithIdDTO
-                {
-                    Id = x.Id,
-                    Frequency = x.Frequency
-                }).ToListAsync();
-        }
-
+        return await _context.RentPaymentFrequency.ToListAsync();
     }
 }

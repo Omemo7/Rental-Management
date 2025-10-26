@@ -1,19 +1,20 @@
-﻿using Org.BouncyCastle.Pqc.Crypto.Lms;
 using Rental_Management.DataAccess.Repositories;
 using Shared.DTOs.RentPaymentFrequency;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Rental_Management.Business.Services
+namespace Rental_Management.Business.Services;
+
+public static class RentPaymentFrequencyService
 {
-    public static class RentPaymentFrequencyService
+    public static async Task<List<RentPaymentFrequencyWithIdDTO>> GetRentPaymentFrequencies()
     {
-        public static async Task<List<RentPaymentFrequencyWithIdDTO>> GetRentPaymentFrequencies()
-        {
-            return await RentPaymentFrequencyRepository.GetRentPaymentFrequeniesWithIds();
-        }
+        var frequencies = await RentPaymentFrequencyRepository.GetRentPaymentFrequenciesAsync();
+        return frequencies
+            .Select(frequency => new RentPaymentFrequencyWithIdDTO
+            {
+                Id = frequency.Id,
+                Frequency = frequency.Frequency
+            })
+            .ToList();
     }
 }
