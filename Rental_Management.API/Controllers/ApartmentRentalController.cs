@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Rental_Management.Business.DTOs.ApartmentRental;
 using Rental_Management.Business.Interfaces;
 using Shared.DTOs.ApartmentRental;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Rental_Management.Business.Services;
+using System.Linq;
 
 namespace Rental_Management.API.Controllers
 {
@@ -67,27 +65,22 @@ namespace Rental_Management.API.Controllers
         }
 
         [HttpGet("GetContractImagesByApartmentRentalId/{apartmentRentalId}")]
-        public IActionResult GetContractImagesByApartmentRentalId(int apartmentRentalId)
+        public async Task<IActionResult> GetContractImagesByApartmentRentalId(int apartmentRentalId)
         {
-            var baseUrl = $"{Request.Scheme}://{Request.Host}";
-            var wwwRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-            var folderPath = Path.Combine(wwwRootPath, "ContractImages", apartmentRentalId.ToString());
+            try
+            {
+                var baseUrl = $"{Request.Scheme}://{Request.Host}";
+                var urls = await _apartmentRentalService.GetContractImageUrlsAsync(apartmentRentalId, baseUrl);
 
-            if (!Directory.Exists(folderPath))
-                return NotFound("No contract images found for the specified apartment rental.");
+                if (urls == null || !urls.Any())
+                    return NotFound("No contract images found for the specified apartment rental.");
 
-            var fileNames = Directory.GetFiles(folderPath)
-                .Select(Path.GetFileName)
-                .ToList();
-
-            var urls = fileNames
-                .Select(file => $"{baseUrl}/ContractImages/{apartmentRentalId}/{file}")
-                .ToList();
-
-            if (!urls.Any())
-                return NotFound("No contract images found for the specified apartment rental.");
-
-            return Ok(urls);
+                return Ok(urls);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
 

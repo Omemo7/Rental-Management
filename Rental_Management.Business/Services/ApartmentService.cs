@@ -6,11 +6,6 @@ using Rental_Management.DataAccess.Entities;
 using Rental_Management.DataAccess.Interfaces;
 using Shared;
 using Shared.DTOs.Apartment;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rental_Management.Business.Services
 {
@@ -42,7 +37,9 @@ namespace Rental_Management.Business.Services
         }
         public decimal GetApartmentTotalProfit(int apartmentId)
         {
-            return _apartmentRepository.GetApartmentTotalProfit(apartmentId);
+            var totalPayments = _apartmentRepository.GetApartmentTotalPayments(apartmentId);
+            var totalMaintenance = _apartmentRepository.GetApartmentTotalMaintenance(apartmentId);
+            return totalPayments - totalMaintenance;
         }
     }
 }
