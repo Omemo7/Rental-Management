@@ -45,10 +45,6 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Tenant> Tenants { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer("Server=DESKTOP-SE57QM8;Database=Rental_Management;Trusted_Connection=True;TrustServerCertificate=True;");
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
