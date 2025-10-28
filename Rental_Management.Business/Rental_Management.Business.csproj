@@ -11,9 +11,4 @@
     <PackageReference Include="MailKit" Version="4.11.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Rental_Management.DataAccess\Rental_Management.DataAccess.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
-  </ItemGroup>
-
 </Project>

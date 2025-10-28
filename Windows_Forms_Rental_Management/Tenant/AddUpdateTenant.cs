@@ -1,7 +1,7 @@
 ﻿using Rental_Management.Business.DTOs.Apartment;
 using Rental_Management.Business.DTOs.Tenant;
-using Rental_Management.DataAccess.Entities;
-using Shared.DTOs.Tenant;
+using Rental_Management.Business.Entities;
+using Rental_Management.Business.DTOs.Tenant;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

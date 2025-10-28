@@ -2,10 +2,10 @@
 using Microsoft.Extensions.Logging;
 using Rental_Management.Business.DTOs.Apartment;
 using Rental_Management.Business.Interfaces;
-using Rental_Management.DataAccess.Entities;
-using Rental_Management.DataAccess.Interfaces;
-using Shared;
-using Shared.DTOs.Apartment;
+using Rental_Management.Business.Entities;
+using Rental_Management.Business.Interfaces.Repositories;
+using Rental_Management.Business.Common;
+using Rental_Management.Business.DTOs.Apartment;
 
 namespace Rental_Management.Business.Services
 {

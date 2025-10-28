@@ -1,5 +1,5 @@
 ﻿using Rental_Management.Business.DTOs.Landlord;
-using Shared;
+using Rental_Management.Business.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using Rental_Management.Business.DTOs.Apartment;
 using Rental_Management.Business.DTOs.ApartmentRental;
-using Rental_Management.DataAccess.Entities;
+using Rental_Management.Business.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

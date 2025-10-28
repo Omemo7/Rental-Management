@@ -1,14 +1,9 @@
-﻿using Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Rental_Management.Business.Common;
 using System.Threading.Tasks;
 
-namespace Rental_Management.Business.Interfaces
+namespace Rental_Management.Business.Interfaces;
+
+public interface IPaymentNotification
 {
-    public interface IPaymentNotification
-    {
-        public Task NotifyAllLandlords();
-    }
+    Task NotifyAllLandlords();
 }

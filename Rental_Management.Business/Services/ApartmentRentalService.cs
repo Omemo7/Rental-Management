@@ -2,9 +2,9 @@ using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Rental_Management.Business.DTOs.ApartmentRental;
 using Rental_Management.Business.Interfaces;
-using Rental_Management.DataAccess.Entities;
-using Rental_Management.DataAccess.Interfaces;
-using Shared.DTOs.ApartmentRental;
+using Rental_Management.Business.Entities;
+using Rental_Management.Business.Interfaces.Repositories;
+using Rental_Management.Business.DTOs.ApartmentRental;
 using System.IO;
 using System.Linq;
 

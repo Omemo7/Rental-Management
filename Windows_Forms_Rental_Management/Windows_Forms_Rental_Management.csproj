@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Rental_Management.API\Rental_Management.API.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Rental_Management.Business\Rental_Management.Business.csproj" />
   </ItemGroup>
 
 </Project>

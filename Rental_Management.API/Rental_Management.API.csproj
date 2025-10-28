@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Rental_Management.Business\Rental_Management.Business.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Rental_Management.DataAccess\Rental_Management.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

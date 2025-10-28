@@ -1,4 +1,4 @@
-﻿using Shared.DTOs.ApartmentRental;
+﻿using Rental_Management.Business.DTOs.ApartmentRental;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

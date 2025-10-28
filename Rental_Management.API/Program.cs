@@ -1,6 +1,6 @@
 using Rental_Management.Business.Interfaces;
 using Rental_Management.Business.Services;
-using Rental_Management.DataAccess.Interfaces;
+using Rental_Management.Business.Interfaces.Repositories;
 using Rental_Management.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Rental_Management.DataAccess;
@@ -20,6 +20,9 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddScoped<IApartmentRentalService, ApartmentRentalService>();
 builder.Services.AddScoped<IApartmentRentalRepository, ApartmentRentalRepository>();
+
+builder.Services.AddScoped<IRentPaymentFrequencyService, RentPaymentFrequencyService>();
+builder.Services.AddScoped<IRentPaymentFrequencyRepository, RentPaymentFrequencyRepository>();
 
 builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 

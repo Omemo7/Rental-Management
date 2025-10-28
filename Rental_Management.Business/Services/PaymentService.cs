@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Rental_Management.Business.DTOs.Payment;
 using Rental_Management.Business.Interfaces;
-using Rental_Management.DataAccess.Entities;
-using Rental_Management.DataAccess.Interfaces;
+using Rental_Management.Business.Entities;
+using Rental_Management.Business.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
-using Rental_Management.DataAccess.Entities;
-using Rental_Management.DataAccess.Interfaces;
+using Rental_Management.Business.Entities;
+using Rental_Management.Business.Interfaces.Repositories;
 
 namespace Rental_Management.DataAccess.Repositories;
 

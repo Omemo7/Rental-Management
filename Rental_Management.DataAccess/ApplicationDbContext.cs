@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Numerics;
 using Microsoft.EntityFrameworkCore;
-using Rental_Management.DataAccess.Entities;
+using Rental_Management.Business.Entities;
 
 namespace Rental_Management.DataAccess;
 

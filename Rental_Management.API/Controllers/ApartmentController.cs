@@ -4,8 +4,8 @@ using Rental_Management.Business.DTOs.Apartment;
 using Rental_Management.Business.DTOs.Landlord;
 using Rental_Management.Business.Interfaces;
 using Rental_Management.Business.Services;
-using Shared;
-using Shared.DTOs.Apartment;
+using Rental_Management.Business.Common;
+using Rental_Management.Business.DTOs.Apartment;
 
 namespace Rental_Management.API.Controllers
 {

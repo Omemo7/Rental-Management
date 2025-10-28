@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Rental_Management.Business.DTOs.Apartment;
 using Rental_Management.Business.DTOs.ApartmentBuilding;
-using Shared;
+using Rental_Management.Business.Common;
 namespace Rental_Management.Business.Interfaces
 {
     public interface IApartmentBuildingService : IService<ApartmentBuildingDTO, AddApartmentBuildingDTO, UpdateApartmentBuildingDTO>

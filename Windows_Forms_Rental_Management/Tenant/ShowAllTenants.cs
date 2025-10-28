@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Rental_Management.Business.DTOs.Tenant;
-using Rental_Management.DataAccess.Entities;
+using Rental_Management.Business.Entities;
 using Windows_Forms_Rental_Management.Rental;
 
 namespace Windows_Forms_Rental_Management.Tenant

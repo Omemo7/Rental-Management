@@ -1,6 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using RangeSelection;
-using Rental_Management.DataAccess.Entities;
+using Rental_Management.Business.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

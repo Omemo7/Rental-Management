@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Rental_Management.Business.DTOs.ApartmentRental;
 using Rental_Management.Business.Interfaces;
-using Shared.DTOs.ApartmentRental;
+using Rental_Management.Business.DTOs.ApartmentRental;
 using System.Linq;
 
 namespace Rental_Management.API.Controllers

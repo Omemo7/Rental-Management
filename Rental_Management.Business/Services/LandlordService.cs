@@ -5,11 +5,11 @@ using Rental_Management.Business.DTOs.ApartmentBuilding;
 using Rental_Management.Business.DTOs.Landlord;
 using Rental_Management.Business.DTOs.Tenant;
 using Rental_Management.Business.Interfaces;
-using Rental_Management.DataAccess.Entities;
-using Rental_Management.DataAccess.Interfaces;
-using Shared.DTOs.Apartment;
-using Shared.DTOs.ApartmentBuilding;
-using Shared.DTOs.Tenant;
+using Rental_Management.Business.Entities;
+using Rental_Management.Business.Interfaces.Repositories;
+using Rental_Management.Business.DTOs.Apartment;
+using Rental_Management.Business.DTOs.ApartmentBuilding;
+using Rental_Management.Business.DTOs.Tenant;
 using System.Linq;
 
 namespace Rental_Management.Business.Services;

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Rental_Management.Business.DTOs.Tenant;
 using Rental_Management.Business.Interfaces;
-using Shared;
+using Rental_Management.Business.Common;
 
 namespace Rental_Management.API.Controllers
 {

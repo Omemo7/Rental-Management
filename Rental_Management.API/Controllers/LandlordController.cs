@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Rental_Management.Business.Services;
 using Rental_Management.Business.Interfaces;
-using Shared;
+using Rental_Management.Business.Common;
 using System.Linq.Expressions;
-using Rental_Management.DataAccess.Entities;
+using Rental_Management.Business.Entities;
 using Rental_Management.Business.DTOs.Landlord;
-using Shared.DTOs.ApartmentBuilding;
+using Rental_Management.Business.DTOs.ApartmentBuilding;
 namespace Rental_Management.API.Controllers
 {
     [Route("api/[controller]")]

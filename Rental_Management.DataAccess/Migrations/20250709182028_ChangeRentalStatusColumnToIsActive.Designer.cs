@@ -25,7 +25,7 @@ namespace Rental_Management.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Apartment", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Apartment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,7 +62,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("Apartments");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.ApartmentBuilding", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.ApartmentBuilding", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -96,7 +96,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("ApartmentBuildings");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.ApartmentsRental", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.ApartmentsRental", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -120,7 +120,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("ApartmentsRentals");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Car", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Car", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -157,7 +157,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("Cars");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.CarsRental", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.CarsRental", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -181,7 +181,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("CarsRentals");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.CustomItem", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.CustomItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -215,7 +215,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("CustomItems");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.CustomItemType", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.CustomItemType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -237,7 +237,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("CustomItemTypes");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.CustomRental", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.CustomRental", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -261,7 +261,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("CustomRentals");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Landlord", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Landlord", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -294,7 +294,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("Landlords");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Maintenance", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Maintenance", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -332,7 +332,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("Maintenances");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Payment", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Payment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -356,7 +356,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.RentPaymentFrequency", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.RentPaymentFrequency", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -373,7 +373,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("RentPaymentFrequency");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Rental", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Rental", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -411,7 +411,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("Rentals");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Tenant", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Tenant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -441,7 +441,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("Tenants");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.TenantPhone", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.TenantPhone", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -463,9 +463,9 @@ namespace Rental_Management.DataAccess.Migrations
                     b.ToTable("TenantsPhones");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Apartment", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Apartment", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.ApartmentBuilding", "ApartmentBuilding")
+                    b.HasOne("Rental_Management.Business.Entities.ApartmentBuilding", "ApartmentBuilding")
                         .WithMany("Apartments")
                         .HasForeignKey("ApartmentBuildingId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -474,9 +474,9 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("ApartmentBuilding");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.ApartmentBuilding", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.ApartmentBuilding", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.Landlord", "LandLord")
+                    b.HasOne("Rental_Management.Business.Entities.Landlord", "LandLord")
                         .WithMany("ApartmentBuildings")
                         .HasForeignKey("LandLordId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -485,17 +485,17 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("LandLord");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.ApartmentsRental", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.ApartmentsRental", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.Apartment", "Apartment")
+                    b.HasOne("Rental_Management.Business.Entities.Apartment", "Apartment")
                         .WithMany("ApartmentsRentals")
                         .HasForeignKey("ApartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Rental_Management.DataAccess.Entities.Rental", "Rental")
+                    b.HasOne("Rental_Management.Business.Entities.Rental", "Rental")
                         .WithOne("ApartmentRental")
-                        .HasForeignKey("Rental_Management.DataAccess.Entities.ApartmentsRental", "RentalId")
+                        .HasForeignKey("Rental_Management.Business.Entities.ApartmentsRental", "RentalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -504,9 +504,9 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("Rental");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Car", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Car", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.Landlord", "LandLord")
+                    b.HasOne("Rental_Management.Business.Entities.Landlord", "LandLord")
                         .WithMany("Cars")
                         .HasForeignKey("LandLordId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -515,17 +515,17 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("LandLord");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.CarsRental", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.CarsRental", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.Car", "Car")
+                    b.HasOne("Rental_Management.Business.Entities.Car", "Car")
                         .WithMany("CarsRentals")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Rental_Management.DataAccess.Entities.Rental", "Rental")
+                    b.HasOne("Rental_Management.Business.Entities.Rental", "Rental")
                         .WithOne("CarRental")
-                        .HasForeignKey("Rental_Management.DataAccess.Entities.CarsRental", "RentalId")
+                        .HasForeignKey("Rental_Management.Business.Entities.CarsRental", "RentalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -534,15 +534,15 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("Rental");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.CustomItem", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.CustomItem", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.CustomItemType", "CustomItemType")
+                    b.HasOne("Rental_Management.Business.Entities.CustomItemType", "CustomItemType")
                         .WithMany("CustomItems")
                         .HasForeignKey("CustomItemTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Rental_Management.DataAccess.Entities.Landlord", "LandLord")
+                    b.HasOne("Rental_Management.Business.Entities.Landlord", "LandLord")
                         .WithMany("CustomItems")
                         .HasForeignKey("LandLordId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -553,9 +553,9 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("LandLord");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.CustomItemType", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.CustomItemType", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.Landlord", "LandLord")
+                    b.HasOne("Rental_Management.Business.Entities.Landlord", "LandLord")
                         .WithMany("CustomItemTypes")
                         .HasForeignKey("LandLordId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -564,17 +564,17 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("LandLord");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.CustomRental", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.CustomRental", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.CustomItem", "CustomItem")
+                    b.HasOne("Rental_Management.Business.Entities.CustomItem", "CustomItem")
                         .WithMany("CustomRentals")
                         .HasForeignKey("CustomItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Rental_Management.DataAccess.Entities.Rental", "Rental")
+                    b.HasOne("Rental_Management.Business.Entities.Rental", "Rental")
                         .WithOne("CustomRental")
-                        .HasForeignKey("Rental_Management.DataAccess.Entities.CustomRental", "RentalId")
+                        .HasForeignKey("Rental_Management.Business.Entities.CustomRental", "RentalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -583,17 +583,17 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("Rental");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Maintenance", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Maintenance", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.Apartment", "Apartment")
+                    b.HasOne("Rental_Management.Business.Entities.Apartment", "Apartment")
                         .WithMany("Maintenances")
                         .HasForeignKey("ApartmentId");
 
-                    b.HasOne("Rental_Management.DataAccess.Entities.Car", "Car")
+                    b.HasOne("Rental_Management.Business.Entities.Car", "Car")
                         .WithMany("Maintenances")
                         .HasForeignKey("CarId");
 
-                    b.HasOne("Rental_Management.DataAccess.Entities.CustomItem", "CustomItem")
+                    b.HasOne("Rental_Management.Business.Entities.CustomItem", "CustomItem")
                         .WithMany("Maintenances")
                         .HasForeignKey("CustomItemId");
 
@@ -604,9 +604,9 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("CustomItem");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Payment", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Payment", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.Rental", "Rental")
+                    b.HasOne("Rental_Management.Business.Entities.Rental", "Rental")
                         .WithMany("Payments")
                         .HasForeignKey("RentalId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -615,15 +615,15 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("Rental");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Rental", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Rental", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.RentPaymentFrequency", "RentPaymentFrequency")
+                    b.HasOne("Rental_Management.Business.Entities.RentPaymentFrequency", "RentPaymentFrequency")
                         .WithMany("Rentals")
                         .HasForeignKey("RentPaymentFrequencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Rental_Management.DataAccess.Entities.Tenant", "Tenant")
+                    b.HasOne("Rental_Management.Business.Entities.Tenant", "Tenant")
                         .WithMany("Rentals")
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -634,9 +634,9 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("Tenant");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Tenant", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Tenant", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.Landlord", "Landlord")
+                    b.HasOne("Rental_Management.Business.Entities.Landlord", "Landlord")
                         .WithMany("Tenants")
                         .HasForeignKey("LandlordId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -645,9 +645,9 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("Landlord");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.TenantPhone", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.TenantPhone", b =>
                 {
-                    b.HasOne("Rental_Management.DataAccess.Entities.Tenant", "Tenant")
+                    b.HasOne("Rental_Management.Business.Entities.Tenant", "Tenant")
                         .WithMany("Phones")
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -656,38 +656,38 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("Tenant");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Apartment", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Apartment", b =>
                 {
                     b.Navigation("ApartmentsRentals");
 
                     b.Navigation("Maintenances");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.ApartmentBuilding", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.ApartmentBuilding", b =>
                 {
                     b.Navigation("Apartments");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Car", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Car", b =>
                 {
                     b.Navigation("CarsRentals");
 
                     b.Navigation("Maintenances");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.CustomItem", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.CustomItem", b =>
                 {
                     b.Navigation("CustomRentals");
 
                     b.Navigation("Maintenances");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.CustomItemType", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.CustomItemType", b =>
                 {
                     b.Navigation("CustomItems");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Landlord", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Landlord", b =>
                 {
                     b.Navigation("ApartmentBuildings");
 
@@ -700,12 +700,12 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("Tenants");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.RentPaymentFrequency", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.RentPaymentFrequency", b =>
                 {
                     b.Navigation("Rentals");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Rental", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Rental", b =>
                 {
                     b.Navigation("ApartmentRental");
 
@@ -716,7 +716,7 @@ namespace Rental_Management.DataAccess.Migrations
                     b.Navigation("Payments");
                 });
 
-            modelBuilder.Entity("Rental_Management.DataAccess.Entities.Tenant", b =>
+            modelBuilder.Entity("Rental_Management.Business.Entities.Tenant", b =>
                 {
                     b.Navigation("Phones");
 

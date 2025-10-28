@@ -1,14 +1,23 @@
-using Rental_Management.DataAccess.Repositories;
-using Shared.DTOs.RentPaymentFrequency;
+using Rental_Management.Business.DTOs.RentPaymentFrequency;
+using Rental_Management.Business.Interfaces;
+using Rental_Management.Business.Interfaces.Repositories;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Rental_Management.Business.Services;
 
-public static class RentPaymentFrequencyService
+public class RentPaymentFrequencyService : IRentPaymentFrequencyService
 {
-    public static async Task<List<RentPaymentFrequencyWithIdDTO>> GetRentPaymentFrequencies()
+    private readonly IRentPaymentFrequencyRepository _rentPaymentFrequencyRepository;
+
+    public RentPaymentFrequencyService(IRentPaymentFrequencyRepository rentPaymentFrequencyRepository)
     {
-        var frequencies = await RentPaymentFrequencyRepository.GetRentPaymentFrequenciesAsync();
+        _rentPaymentFrequencyRepository = rentPaymentFrequencyRepository;
+    }
+
+    public async Task<List<RentPaymentFrequencyWithIdDTO>> GetRentPaymentFrequenciesAsync()
+    {
+        var frequencies = await _rentPaymentFrequencyRepository.GetRentPaymentFrequenciesAsync();
         return frequencies
             .Select(frequency => new RentPaymentFrequencyWithIdDTO
             {

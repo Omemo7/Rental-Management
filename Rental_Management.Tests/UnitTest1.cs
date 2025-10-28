@@ -3,8 +3,8 @@ using Moq;
 using Rental_Management.Business;
 using Rental_Management.Business.Interfaces;
 using Rental_Management.Business.Services;
-using Rental_Management.DataAccess.Entities;
-using Rental_Management.DataAccess.Interfaces;
+using Rental_Management.Business.Entities;
+using Rental_Management.Business.Interfaces.Repositories;
 
 namespace Rental_Management.Tests
 {

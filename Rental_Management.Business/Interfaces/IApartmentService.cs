@@ -1,5 +1,4 @@
 using Rental_Management.Business.DTOs.Apartment;
-using Shared.DTOs.Apartment;
 
 namespace Rental_Management.Business.Interfaces;
 

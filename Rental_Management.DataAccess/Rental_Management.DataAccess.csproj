@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Rental_Management.Business\Rental_Management.Business.csproj" />
   </ItemGroup>
 
 </Project>
