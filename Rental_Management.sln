@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows_Forms_Rental_Manage
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{B9CD62A4-EF0C-429D-8FC0-44B4FD2E041B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{B83F9B88-60B2-46F0-BCC8-B82BFDB6EF8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{F17BA8EE-3813-44FC-81A6-03284E70056B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{B9CD62A4-EF0C-429D-8FC0-44B4FD2E041B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9CD62A4-EF0C-429D-8FC0-44B4FD2E041B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9CD62A4-EF0C-429D-8FC0-44B4FD2E041B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B83F9B88-60B2-46F0-BCC8-B82BFDB6EF8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B83F9B88-60B2-46F0-BCC8-B82BFDB6EF8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B83F9B88-60B2-46F0-BCC8-B82BFDB6EF8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B83F9B88-60B2-46F0-BCC8-B82BFDB6EF8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F17BA8EE-3813-44FC-81A6-03284E70056B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F17BA8EE-3813-44FC-81A6-03284E70056B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F17BA8EE-3813-44FC-81A6-03284E70056B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F17BA8EE-3813-44FC-81A6-03284E70056B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

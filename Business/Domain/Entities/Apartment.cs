@@ -1,31 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿
+namespace RentalManagement.Business.Domain.Entities;
 
-
-namespace Rental_Management.Business.Domain.Entities;
-public partial class Apartment
+public sealed class Apartment
 {
-    public int Id { get; set; }
+    public Guid Id { get; private set; }
+    public Guid BuildingId { get; private set; }   // the building it belongs to
+    public Guid LandlordId { get; private set; }   // owner of this unit
 
-    public string Name { get; set; } = null!;
-    public int FloorNumber { get; set; }
+    public string UnitNumber { get; private set; } // e.g. "3B"
+    public int Bedrooms { get; private set; }
+    public int Bathrooms { get; private set; }
+    public decimal AreaSqm { get; private set; }
 
+    public byte[] RowVersion { get; private set; } = Array.Empty<byte>();
 
-    public int NumberOfRooms { get; set; }
-    public int NumberOfBathrooms { get; set; }
+    private Apartment() { } // EF
 
-    public bool Occupied { get; set; }
-    public decimal SquaredMeters { get; set; }
+    public Apartment(Guid id, Guid buildingId, Guid landlordId, string unitNumber, int bedrooms, int bathrooms, decimal areaSqm)
+    {
+        if (id == Guid.Empty || buildingId == Guid.Empty || landlordId == Guid.Empty)
+            throw new ArgumentException("Ids required.");
+        if (string.IsNullOrWhiteSpace(unitNumber)) throw new ArgumentException("Unit number required.", nameof(unitNumber));
+        if (bedrooms < 0 || bathrooms < 0) throw new ArgumentOutOfRangeException("Negative rooms not allowed.");
+        if (areaSqm <= 0) throw new ArgumentOutOfRangeException(nameof(areaSqm), "Area must be positive.");
 
-    public int ApartmentBuildingId { get; set; }
+        Id = id;
+        BuildingId = buildingId;
+        LandlordId = landlordId;
+        UnitNumber = unitNumber.Trim().ToUpperInvariant();
+        Bedrooms = bedrooms;
+        Bathrooms = bathrooms;
+        AreaSqm = areaSqm;
+    }
 
+    public void ChangeSpecs(int bedrooms, int bathrooms, decimal areaSqm)
+    {
+        if (bedrooms < 0 || bathrooms < 0) throw new ArgumentOutOfRangeException();
+        if (areaSqm <= 0) throw new ArgumentOutOfRangeException(nameof(areaSqm));
+        Bedrooms = bedrooms;
+        Bathrooms = bathrooms;
+        AreaSqm = areaSqm;
+    }
 
-    public virtual ICollection<ApartmentsRental> ApartmentsRentals { get; set; } = new List<ApartmentsRental>();
-    public virtual ICollection<Maintenance> Maintenances { get; set; } = new List<Maintenance>();
-    public virtual ApartmentBuilding ApartmentBuilding { get; set; } = null!;
-   
+    public void RenameUnit(string newUnitNumber)
+    {
+        if (string.IsNullOrWhiteSpace(newUnitNumber)) throw new ArgumentException("Unit number required.", nameof(newUnitNumber));
+        UnitNumber = newUnitNumber.Trim().ToUpperInvariant();
+    }
+
+    public void TransferOwnership(Guid newLandlordId)
+    {
+        if (newLandlordId == Guid.Empty) throw new ArgumentException(nameof(newLandlordId));
+        LandlordId = newLandlordId;
+    }
 }
-
-
-
