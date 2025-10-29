@@ -19,7 +19,7 @@ public sealed class PaymentConfig : IEntityTypeConfiguration<Payment>
 
         e.OwnsOne(x => x.Amount, MappingHelpers.MapMoney);
 
-        e.Property("Method").HasMaxLength(50);
-        e.Property("Notes").HasMaxLength(500);
+        e.Property(x => x.Method).HasMaxLength(50);
+        e.Property(x => x.Notes).HasMaxLength(500);
     }
 }

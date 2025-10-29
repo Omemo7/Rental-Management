@@ -18,7 +18,7 @@ public sealed class LeaseConfig : IEntityTypeConfiguration<Lease>
         // MappingHelpers.ConfigureNullableDateOnly(e.Property(x => x.EndDate));
 
         // If you used DateTime(Utc) instead, just ensure it's required where needed:
-        e.Property("StartDate").IsRequired();
+        e.Property(x=>x.StartDate).IsRequired();
 
         e.OwnsOne(x => x.MonthlyRent, MappingHelpers.MapMoney);
         e.OwnsOne(x => x.SecurityDeposit, MappingHelpers.MapMoney);
