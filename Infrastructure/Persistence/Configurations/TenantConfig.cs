@@ -12,7 +12,8 @@ public sealed class TenantConfig : IEntityTypeConfiguration<Tenant>
         e.ToTable("Tenants");
         e.HasKey(x => x.Id);
 
-        e.Property(x => x.FullName).IsRequired().HasMaxLength(200);
+        e.Property(x => x.FirstName).IsRequired().HasMaxLength(200);
+        e.Property(x => x.LastName).IsRequired().HasMaxLength(200);
         e.Property(x => x.Email).HasMaxLength(200);
         e.Property(x => x.PhoneNumber).HasMaxLength(50);
 

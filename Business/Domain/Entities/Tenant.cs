@@ -3,7 +3,8 @@
 public sealed class Tenant
 {
     public Guid Id { get; private set; }
-    public string FullName { get; private set; }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
     public string? Email { get; private set; }
     public string? PhoneNumber { get; private set; }
 
@@ -12,14 +13,18 @@ public sealed class Tenant
 
     private Tenant() { } // EF only
 
-    public Tenant(Guid id, string fullName, string? email = null, string? phoneNumber = null)
+    public Tenant(Guid id, string firstName,string lastName, string? email = null, string? phoneNumber = null)
     {
         if (id == Guid.Empty) throw new ArgumentException("Id is required.", nameof(id));
-        if (string.IsNullOrWhiteSpace(fullName))
-            throw new ArgumentException("Full name is required.", nameof(fullName));
+        if (string.IsNullOrWhiteSpace(firstName))
+            throw new ArgumentException("First name is required.", nameof(firstName));
+        if (string.IsNullOrWhiteSpace(lastName))
+            throw new ArgumentException("Last name is required.", nameof(lastName));
 
         Id = id;
-        FullName = NormalizeName(fullName);
+       
+        FirstName= firstName.Trim();
+        LastName= lastName.Trim();
 
         if (!string.IsNullOrWhiteSpace(email))
             Email = NormalizeEmail(email);
@@ -28,12 +33,12 @@ public sealed class Tenant
             PhoneNumber = phoneNumber.Trim();
     }
 
-    public void ChangeFullName(string newName)
+    public void ChangeFullName(string firstName, string lastName)
     {
-        if (string.IsNullOrWhiteSpace(newName))
-            throw new ArgumentException("Name cannot be empty.", nameof(newName));
-
-        FullName = NormalizeName(newName);
+        if (string.IsNullOrWhiteSpace(firstName)) throw new ArgumentException("first Name cannot be empty.", nameof(firstName));
+        if (string.IsNullOrWhiteSpace(lastName)) throw new ArgumentException("last Name cannot be empty.", nameof(lastName));
+        this.FirstName = firstName;
+        this.LastName = lastName;
     }
 
     public void ChangeEmail(string? newEmail)
@@ -50,8 +55,7 @@ public sealed class Tenant
             : newPhone.Trim();
     }
 
-    private static string NormalizeName(string name)
-        => name.Trim();
+    
 
     private static string NormalizeEmail(string email)
     {

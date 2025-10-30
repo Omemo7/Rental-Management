@@ -20,9 +20,9 @@ public sealed class LeaseConfig : IEntityTypeConfiguration<Lease>
         // If you used DateTime(Utc) instead, just ensure it's required where needed:
         e.Property(x=>x.StartDate).IsRequired();
 
-        e.OwnsOne(x => x.MonthlyRent, MappingHelpers.MapMoney);
+        e.OwnsOne(x => x.RentAmount, MappingHelpers.MapMoney);
         e.OwnsOne(x => x.SecurityDeposit, MappingHelpers.MapMoney);
-
+        e.Property(x=>x.PaymentFrequency).IsRequired();
         e.Property(x => x.RowVersion).IsRowVersion().IsConcurrencyToken();
 
         e.HasIndex(x => new { x.ApartmentId, x.EndDate }); // support queries

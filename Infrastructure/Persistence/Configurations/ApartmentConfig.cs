@@ -15,7 +15,7 @@ public sealed class ApartmentConfig : IEntityTypeConfiguration<Apartment>
         e.Property(x => x.UnitNumber).IsRequired().HasMaxLength(20);
         e.Property(x => x.Bedrooms).IsRequired();
         e.Property(x => x.Bathrooms).IsRequired();
-        e.Property(x => x.AreaSqm).HasPrecision(18, 2);
+        e.Property(x => x.AreaSqm).IsRequired().HasPrecision(18, 2);
 
         // FKs (no domain navigations required)
         e.HasIndex(x => new { x.BuildingId, x.UnitNumber }).IsUnique();

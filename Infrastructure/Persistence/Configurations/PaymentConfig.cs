@@ -15,7 +15,7 @@ public sealed class PaymentConfig : IEntityTypeConfiguration<Payment>
 
         e.HasIndex(x => x.LeaseId);
 
-        e.Property(x => x.PaidAtUtc).IsRequired();
+        e.Property(x => x.PaidAt).IsRequired();
 
         e.OwnsOne(x => x.Amount, MappingHelpers.MapMoney);
 

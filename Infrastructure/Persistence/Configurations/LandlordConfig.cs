@@ -18,12 +18,11 @@ public sealed class LandlordConfig : IEntityTypeConfiguration<Landlord>
          .HasForeignKey<Landlord>(l => l.Id)       // **shared primary key**
          .OnDelete(DeleteBehavior.Restrict);       // be safe
 
-        e.Property(x => x.FullName).IsRequired().HasMaxLength(200);
-        e.Property(x => x.Email).HasMaxLength(200);
-        e.Property(x => x.PhoneNumber).HasMaxLength(50);
-        e.Property(x => x.IsActive).IsRequired();
+        e.Property(x => x.FirstName).IsRequired().HasMaxLength(100);
+        e.Property(x => x.LastName).IsRequired().HasMaxLength(100);
 
-        
+
+
 
         e.Property(x => x.RowVersion).IsRowVersion().IsConcurrencyToken();
     }

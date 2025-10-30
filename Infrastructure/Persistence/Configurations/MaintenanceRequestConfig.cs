@@ -13,7 +13,7 @@ public sealed class MaintenanceRequestConfig : IEntityTypeConfiguration<Maintena
         e.HasKey(x => x.Id);
 
         e.Property(x => x.Category).IsRequired().HasMaxLength(100);
-        e.Property(x => x.Description).IsRequired().HasMaxLength(1000);
+        e.Property(x => x.Description).HasMaxLength(1000);
 
         e.Property(x => x.Priority).IsRequired();
         e.Property(x => x.Status).IsRequired();
@@ -25,7 +25,7 @@ public sealed class MaintenanceRequestConfig : IEntityTypeConfiguration<Maintena
         e.Property(x => x.LaborCost).HasPrecision(18, 2);
         e.Property(x => x.PartsCost).HasPrecision(18, 2);
         e.Property(x => x.Currency).HasMaxLength(3).IsFixedLength();
-        e.Property(x => x.BillToTenant).IsRequired();
+        
 
         e.HasIndex(x => new { x.ApartmentId, x.Status });
         e.HasIndex(x => x.CreatedAt);

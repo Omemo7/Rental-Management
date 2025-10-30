@@ -8,10 +8,9 @@ public sealed class MaintenanceRequest
 {
     public Guid Id { get; private set; }
     public Guid ApartmentId { get; private set; }  // the asset that needs work
-    public Guid? LeaseId { get; private set; }  // optional (who currently occupies)
-    public Guid? TenantId { get; private set; }  // optional reporter/billing context
+
     public string Category { get; private set; }   // "Plumbing", "Electrical", ...
-    public string Description { get; private set; }
+    public string? Description { get; private set; }
     public MaintenancePriority Priority { get; private set; }
     public MaintenanceStatus Status { get; private set; }
 
@@ -23,7 +22,7 @@ public sealed class MaintenanceRequest
     public decimal? LaborCost { get; private set; }
     public decimal? PartsCost { get; private set; }
     public string Currency { get; private set; } = "JOD";
-    public bool BillToTenant { get; private set; }
+   
 
     public byte[] RowVersion { get; private set; } = Array.Empty<byte>();
 
@@ -31,40 +30,35 @@ public sealed class MaintenanceRequest
 
     public MaintenanceRequest(
         Guid id,
-       
         Guid apartmentId,
         string category,
-        string description,
-        MaintenancePriority priority,
-        Guid? leaseId = null,
-        Guid? tenantId = null)
+        string? description,
+        MaintenancePriority priority)
     {
         if (id == Guid.Empty) throw new ArgumentException(nameof(id));
         if (apartmentId == Guid.Empty) throw new ArgumentException(nameof(apartmentId));
         if (string.IsNullOrWhiteSpace(category)) throw new ArgumentException(nameof(category));
-        if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException(nameof(description));
-
+        
         Id = id;
         ApartmentId = apartmentId;
-        LeaseId = leaseId;
-        TenantId = tenantId;
+       
 
         Category = category.Trim();
-        Description = description.Trim();
+        Description = description?.Trim();
         Priority = priority;
         Status = MaintenanceStatus.Open;
 
-        CreatedAt = DateTime.UtcNow;
+        CreatedAt = DateTime.Now;
     }
 
     public void Schedule(DateTime when)
     {
         if (Status == MaintenanceStatus.Closed) throw new InvalidOperationException("Request is closed.");
-        ScheduledAt = when.ToUniversalTime();
+        ScheduledAt = when;
         Status = MaintenanceStatus.Scheduled;
     }
 
-    public void Complete(decimal? labor, decimal? parts, string? currency, bool billToTenant)
+    public void Complete(decimal? labor, decimal? parts, string? currency)
     {
         if (Status == MaintenanceStatus.Closed) throw new InvalidOperationException("Already closed.");
 
@@ -74,11 +68,11 @@ public sealed class MaintenanceRequest
         if (!string.IsNullOrWhiteSpace(currency))
             Currency = currency.Trim().ToUpperInvariant();
 
-        BillToTenant = billToTenant;
-        CompletedAt = DateTime.UtcNow;
+        
+        CompletedAt = DateTime.Now;
         Status = MaintenanceStatus.Closed;
 
-        // Optional: raise a domain event like MaintenanceChargeCreated if BillToTenant == true
+       
     }
 }
  

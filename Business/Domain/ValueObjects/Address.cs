@@ -2,16 +2,16 @@
 
 public sealed record Address
 {
-    public string Line1 { get; init; }
-    public string? Line2 { get; init; }
+    public string? Street { get; init; }
+    public string? Neighborhood { get; init; }
     public string City { get; init; }
     public string Country { get; init; }
     public string? PostalCode { get; init; }
 
-    public Address(string line1, string? line2, string city, string country, string? postalCode)
+    public Address(string? street, string? neighborhood, string city, string country, string? postalCode)
     {
-        Line1 = string.IsNullOrWhiteSpace(line1) ? throw new ArgumentException("Line1 required.", nameof(line1)) : line1.Trim();
-        Line2 = string.IsNullOrWhiteSpace(line2) ? null : line2.Trim();
+        Street = string.IsNullOrWhiteSpace(street) ? throw new ArgumentException("Line1 required.", nameof(street)) : street.Trim();
+        Neighborhood = string.IsNullOrWhiteSpace(neighborhood) ? null : neighborhood.Trim();
         City = string.IsNullOrWhiteSpace(city) ? throw new ArgumentException("City required.", nameof(city)) : city.Trim();
         Country = string.IsNullOrWhiteSpace(country) ? throw new ArgumentException("Country required.", nameof(country)) : country.Trim();
         PostalCode = string.IsNullOrWhiteSpace(postalCode) ? null : postalCode.Trim();

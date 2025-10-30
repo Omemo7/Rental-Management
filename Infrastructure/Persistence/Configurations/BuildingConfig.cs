@@ -13,12 +13,12 @@ public sealed class BuildingConfig : IEntityTypeConfiguration<Building>
         e.ToTable("Buildings");
         e.HasKey(x => x.Id);
 
-        e.Property(x => x.Name).IsRequired().HasMaxLength(200);
+        e.Property(x => x.Name).HasMaxLength(200);
 
         e.OwnsOne(x => x.Address, a =>
         {
-            a.Property(p => p.Line1).HasMaxLength(200).IsRequired();
-            a.Property(p => p.Line2).HasMaxLength(200);
+            a.Property(p => p.Street).HasMaxLength(300);
+            a.Property(p => p.Neighborhood).HasMaxLength(200);
             a.Property(p => p.City).HasMaxLength(100).IsRequired();
             a.Property(p => p.Country).HasMaxLength(100).IsRequired();
             a.Property(p => p.PostalCode).HasMaxLength(20);

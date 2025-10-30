@@ -6,7 +6,6 @@ public sealed class Apartment
     public Guid Id { get; private set; }
     public Guid BuildingId { get; private set; }   // the building it belongs to
     public Guid LandlordId { get; private set; }   // owner of this unit
-
     public string UnitNumber { get; private set; } // e.g. "3B"
     public int Bedrooms { get; private set; }
     public int Bathrooms { get; private set; }
@@ -48,9 +47,5 @@ public sealed class Apartment
         UnitNumber = newUnitNumber.Trim().ToUpperInvariant();
     }
 
-    public void TransferOwnership(Guid newLandlordId)
-    {
-        if (newLandlordId == Guid.Empty) throw new ArgumentException(nameof(newLandlordId));
-        LandlordId = newLandlordId;
-    }
+ 
 }
