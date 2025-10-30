@@ -1,4 +1,5 @@
 ﻿// .../Configurations/LandlordConfig.cs
+using Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RentalManagement.Business.Domain.Entities;
@@ -12,14 +13,17 @@ public sealed class LandlordConfig : IEntityTypeConfiguration<Landlord>
         e.ToTable("Landlords");
         e.HasKey(x => x.Id);
 
+        e.HasOne<ApplicationUser>()                 // no nav in domain
+         .WithOne()
+         .HasForeignKey<Landlord>(l => l.Id)       // **shared primary key**
+         .OnDelete(DeleteBehavior.Restrict);       // be safe
+
         e.Property(x => x.FullName).IsRequired().HasMaxLength(200);
         e.Property(x => x.Email).HasMaxLength(200);
         e.Property(x => x.PhoneNumber).HasMaxLength(50);
         e.Property(x => x.IsActive).IsRequired();
 
-        // If you linked to Identity:
-        e.Property("UserId").IsRequired();
-        e.HasIndex("UserId").IsUnique();
+        
 
         e.Property(x => x.RowVersion).IsRowVersion().IsConcurrencyToken();
     }
