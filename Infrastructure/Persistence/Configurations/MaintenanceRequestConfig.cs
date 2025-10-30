@@ -18,9 +18,9 @@ public sealed class MaintenanceRequestConfig : IEntityTypeConfiguration<Maintena
         e.Property(x => x.Priority).IsRequired();
         e.Property(x => x.Status).IsRequired();
 
-        e.Property(x => x.CreatedAtUtc).IsRequired();
-        e.Property(x => x.ScheduledAtUtc);
-        e.Property(x => x.CompletedAtUtc);
+        e.Property(x => x.CreatedAt).IsRequired();
+        e.Property(x => x.ScheduledAt);
+        e.Property(x => x.CompletedAt);
 
         e.Property(x => x.LaborCost).HasPrecision(18, 2);
         e.Property(x => x.PartsCost).HasPrecision(18, 2);
@@ -28,8 +28,7 @@ public sealed class MaintenanceRequestConfig : IEntityTypeConfiguration<Maintena
         e.Property(x => x.BillToTenant).IsRequired();
 
         e.HasIndex(x => new { x.ApartmentId, x.Status });
-        e.HasIndex(x => x.LandlordId);
-        e.HasIndex(x => x.CreatedAtUtc);
+        e.HasIndex(x => x.CreatedAt);
 
         e.Property(x => x.RowVersion).IsRowVersion().IsConcurrencyToken();
     }
