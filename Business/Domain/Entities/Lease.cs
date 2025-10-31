@@ -27,7 +27,7 @@ public sealed class Lease
 
     private Lease() { } // EF
 
-    public Lease(Guid id, Guid apartmentId, Guid tenantId, DateOnly startDate,RentPaymentFrequency paymentFrequency=RentPaymentFrequency.Monthly, Money RentAmount, Money? securityDeposit = null)
+    public Lease(Guid id, Guid apartmentId, Guid tenantId, DateOnly startDate, Money RentAmount, Money? securityDeposit = null,RentPaymentFrequency paymentFrequency=RentPaymentFrequency.Monthly)
     {
         if (id == Guid.Empty) throw new ArgumentException("Id required.", nameof(id));
         if (apartmentId == Guid.Empty) throw new ArgumentException("ApartmentId required.", nameof(apartmentId));

@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Application + Infrastructure DI
 //builder.Services.AddApplication();  
-var cs = builder.Configuration.GetConnectionString("Default")
+var cs = builder.Configuration.GetConnectionString("DefaultConnection")
          ?? throw new InvalidOperationException("Missing connection string 'Default'.");
 builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlServer(cs));
 
