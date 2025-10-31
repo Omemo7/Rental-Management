@@ -2,8 +2,7 @@
 
 public interface IRepository<TEntity> where TEntity : class
 {
+    Task<Guid> Add(TEntity entity);
     Task<TEntity?> GetById(Guid id);
-    Task Add(TEntity entity);
-    Task Update(TEntity entity);
-    Task Remove(Guid id);
+
 }

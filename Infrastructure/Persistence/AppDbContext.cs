@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RentalManagement.Business.Domain.Entities;
+            
 using RentalManagement.Infrastructure.Persistence.Configurations;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 
 namespace RentalManagement.Infrastructure.Persistence;
 
-public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+public sealed class AppDbContext
+    : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -20,12 +20,18 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
     public DbSet<Tenant> Tenants => Set<Tenant>();
     public DbSet<Landlord> Landlords => Set<Landlord>();
     public DbSet<MaintenanceRequest> MaintenanceRequests => Set<MaintenanceRequest>();
-    public DbSet<Payment> Payments => Set<Payment>(); 
+    public DbSet<Payment> Payments => Set<Payment>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // IMPORTANT: let ASP.NET Identity configure its tables & keys first
+        base.OnModelCreating(modelBuilder);
+
+        // Apply your entity configurations
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-        modelBuilder.ApplyConfiguration(new LandlordConfig());
+
+        // If LandlordConfig is in this assembly, the line above already applies it.
+        // Keep this only if LandlordConfig is NOT discovered automatically:
+        // modelBuilder.ApplyConfiguration(new LandlordConfig());
     }
-      
 }

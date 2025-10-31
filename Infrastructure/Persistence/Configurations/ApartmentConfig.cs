@@ -17,6 +17,16 @@ public sealed class ApartmentConfig : IEntityTypeConfiguration<Apartment>
         e.Property(x => x.Bathrooms).IsRequired();
         e.Property(x => x.AreaSqm).IsRequired().HasPrecision(18, 2);
 
+        e.HasMany<Lease>()
+            .WithOne()
+            .HasForeignKey(l => l.ApartmentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        e.HasMany<MaintenanceRequest>()
+            .WithOne()
+            .HasForeignKey(m => m.ApartmentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         // FKs (no domain navigations required)
         e.HasIndex(x => new { x.BuildingId, x.UnitNumber }).IsUnique();
         e.HasIndex(x => x.LandlordId);

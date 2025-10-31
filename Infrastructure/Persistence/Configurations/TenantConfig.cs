@@ -16,7 +16,10 @@ public sealed class TenantConfig : IEntityTypeConfiguration<Tenant>
         e.Property(x => x.LastName).IsRequired().HasMaxLength(200);
         e.Property(x => x.Email).HasMaxLength(200);
         e.Property(x => x.PhoneNumber).HasMaxLength(50);
-
+        e.HasMany<Lease>()
+            .WithOne()
+            .HasForeignKey(l => l.TenantId)
+            .OnDelete(DeleteBehavior.Cascade);
         e.Property(x => x.RowVersion).IsRowVersion().IsConcurrencyToken();
     }
 }

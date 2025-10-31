@@ -18,6 +18,11 @@ public sealed class LandlordConfig : IEntityTypeConfiguration<Landlord>
          .HasForeignKey<Landlord>(l => l.Id)       // **shared primary key**
          .OnDelete(DeleteBehavior.Restrict);       // be safe
 
+        e.HasMany<Apartment>()                  // no nav in domain
+         .WithOne()
+         .HasForeignKey(a => a.LandlordId)
+         .OnDelete(DeleteBehavior.Cascade);     
+
         e.Property(x => x.FirstName).IsRequired().HasMaxLength(100);
         e.Property(x => x.LastName).IsRequired().HasMaxLength(100);
 

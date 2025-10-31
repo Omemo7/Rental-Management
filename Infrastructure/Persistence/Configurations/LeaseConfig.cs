@@ -26,7 +26,10 @@ public sealed class LeaseConfig : IEntityTypeConfiguration<Lease>
         e.Property(x => x.RowVersion).IsRowVersion().IsConcurrencyToken();
 
         e.HasIndex(x => new { x.ApartmentId, x.EndDate }); // support queries
-
+        e.HasMany<Payment>()
+            .WithOne()
+            .HasForeignKey(p => p.LeaseId)
+            .OnDelete(DeleteBehavior.Cascade);
         // Filtered unique index: at most one active lease per apartment
         // Must be created in a migration for SQL Server. Example:
         // migrationBuilder.Sql("""

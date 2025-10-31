@@ -25,5 +25,9 @@ public sealed class BuildingConfig : IEntityTypeConfiguration<Building>
         });
 
         e.Property(x => x.RowVersion).IsRowVersion().IsConcurrencyToken();
+        e.HasMany<Apartment>()
+            .WithOne()
+            .HasForeignKey(a => a.BuildingId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -1,4 +1,7 @@
+using Business.Application.Abstractions;
+using Business.Application.Landlords;
 using Infrastructure.Identity;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RentalManagement.Infrastructure;
@@ -13,20 +16,23 @@ var cs = builder.Configuration.GetConnectionString("DefaultConnection")
 builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlServer(cs));
 
 
-// 2) Identity (Guid keys) + EF stores
-builder.Services.AddIdentityCore<ApplicationUser>(o =>
-{
-    o.User.RequireUniqueEmail = true;
-})
-.AddRoles<IdentityRole<Guid>>()
-.AddEntityFrameworkStores<AppDbContext>();
+builder.Services
+    .AddIdentityCore<ApplicationUser>(o => o.User.RequireUniqueEmail = true)
+    .AddRoles<IdentityRole<Guid>>()
+    .AddEntityFrameworkStores<AppDbContext>();
 
-// 3) SignInManager/cookies (ONLY if you use cookie auth)
 
-//builder.Services.AddHttpContextAccessor();
-//builder.Services.AddAuthentication().AddIdentityCookies();
-//builder.Services.AddAuthorization();
 
+
+
+// 4) Infrastructure registrations
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<ILandlordRepository, LandlordRepository>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+builder.Services.AddScoped<ILandlordService, LandlordService>();
 // Controllers (or Minimal APIs, see below)
 builder.Services.AddControllers();
 
