@@ -1,6 +1,8 @@
 ﻿using Business.Application.Abstractions;
 using Business.Application.Buildings.Commands;
 using Business.Application.Buildings.Summaries;
+using Business.Common;
+using Business.Common.Errors;
 using Business.Common.Pagination;
 using RentalManagement.Business.Domain.Entities;
 using RentalManagement.Business.Domain.ValueObjects;
@@ -22,7 +24,7 @@ namespace Business.Application.Buildings
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Guid> AddAsync(AddBuildingCommand cmd)
+        public async Task<Result<Guid>> AddAsync(AddBuildingCommand cmd)
         {
             var building = new Building(
                 Guid.NewGuid(),
@@ -35,10 +37,17 @@ namespace Business.Application.Buildings
                     cmd.PostalCode
                 )
             );
+            try
+            {
+                await _buildingRepository.Add(building);
+                await _unitOfWork.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return Result<Guid>.Fail(new CustomError("An error occurred while adding the building: " + ex.Message));
+            }
 
-            await _buildingRepository.Add(building);
-            await _unitOfWork.SaveChanges();
-            return building.Id;
+            return Result<Guid>.Ok(building.Id);
         }
 
         public Task<bool> ChangeAddressAsync(ChangeAddressCommand cmd)
@@ -56,12 +65,12 @@ namespace Business.Application.Buildings
             throw new NotImplementedException();
         }
 
-        public async Task<BuildingSummary?> GetByIdAsync(Guid buildingId)
+        public async Task<Result<BuildingSummary>> GetByIdAsync(Guid buildingId)
         {
             var building = await _buildingRepository.GetById(buildingId);
-            if (building == null) return null;
+            if (building == null) return Result<BuildingSummary>.Fail(new NotFoundError($"Building with ID {buildingId} not found."));
             var bs = BuildingSummary.FromBuilding(building);
-            return bs;
+            return Result<BuildingSummary>.Ok(bs);
         }
 
         public Task<bool> RemoveAsync(Guid buildingId)
