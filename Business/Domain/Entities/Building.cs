@@ -17,9 +17,9 @@ public sealed class Building
     public Building(Guid id, string? name, Address address)
     {
         if (id == Guid.Empty) throw new ArgumentException("Id required.", nameof(id));
-        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name required.", nameof(name));
+
         Id = id;
-        Name = name.Trim();
+        Name = name?.Trim();
         Address = address ?? throw new ArgumentNullException(nameof(address));
     }
 

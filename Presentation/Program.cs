@@ -1,4 +1,5 @@
 using Business.Application.Abstractions;
+using Business.Application.Buildings;
 using Business.Application.Landlords;
 using Infrastructure.Identity;
 using Infrastructure.Repositories;
@@ -30,9 +31,11 @@ builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<ILandlordRepository, LandlordRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IBuildingRepository, BuildingRepository>();
 
 
 builder.Services.AddScoped<ILandlordService, LandlordService>();
+builder.Services.AddScoped<IBuildingService, BuildingService>();
 // Controllers (or Minimal APIs, see below)
 builder.Services.AddControllers();
 
