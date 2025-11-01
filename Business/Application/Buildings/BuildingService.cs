@@ -24,7 +24,7 @@ namespace Business.Application.Buildings
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<Guid>> AddAsync(AddBuildingCommand cmd)
+        public async Task<Result<Guid,Error>> AddAsync(AddBuildingCommand cmd)
         {
             var building = new Building(
                 Guid.NewGuid(),
@@ -44,10 +44,10 @@ namespace Business.Application.Buildings
             }
             catch (Exception ex)
             {
-                return Result<Guid>.Fail(new CustomError("An error occurred while adding the building: " + ex.Message));
+                return Error.BadRequest("An error occurred while adding the building: " + ex.Message);
             }
 
-            return Result<Guid>.Ok(building.Id);
+            return building.Id;
         }
 
         public Task<bool> ChangeAddressAsync(ChangeAddressCommand cmd)
@@ -65,12 +65,12 @@ namespace Business.Application.Buildings
             throw new NotImplementedException();
         }
 
-        public async Task<Result<BuildingSummary>> GetByIdAsync(Guid buildingId)
+        public async Task<Result<BuildingSummary,Error>> GetByIdAsync(Guid buildingId)
         {
             var building = await _buildingRepository.GetById(buildingId);
-            if (building == null) return Result<BuildingSummary>.Fail(new NotFoundError($"Building with ID {buildingId} not found."));
+            if (building == null) return Error.NotFound($"Building with ID {buildingId} not found.");
             var bs = BuildingSummary.FromBuilding(building);
-            return Result<BuildingSummary>.Ok(bs);
+            return bs;
         }
 
         public Task<bool> RemoveAsync(Guid buildingId)

@@ -40,9 +40,9 @@ namespace Presentation.Controllers
 
             if (!result.IsSuccess)
             {
-                return result.Error switch
+                return result.Error.Type switch
                 {
-                    NotFoundError n => NotFound(n.Message),
+                    ErrorType.NotFound => NotFound(result.Error.Message),
                     _ => BadRequest(result.Error.Message)
                 };
             }

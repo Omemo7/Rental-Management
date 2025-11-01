@@ -1,4 +1,5 @@
-﻿using Business.Common.Errors;
+﻿using Business.Common;
+using Business.Common.Errors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,26 +8,34 @@ using System.Threading.Tasks;
 
 namespace Business.Common
 {
-    public class Result<TValue>
+    public class Result<TValue,TError>
     {
         TValue? _value;
-        CommonError? _error;
+        TError? _error;
 
         public Result(TValue value)
         {
             _value = value;
         }
 
-        public Result(CommonError error)
+        public Result(TError error)
         {
             _error = error;
         }
 
         public bool IsSuccess => _value != null;
 
-        public static Result<TValue> Ok(TValue value) => new Result<TValue>(value);
-        public static Result<TValue> Fail(CommonError error) => new Result<TValue>(error);
+        public static implicit operator Result<TValue, TError>(TValue value)
+        {
+            return new Result<TValue, TError>(value);
+        }
+        public static implicit operator Result<TValue, TError>(TError error)
+        {
+            return new Result<TValue, TError>(error);
+        }
         public TValue Value => _value!;
-        public CommonError Error => _error!;
+        public TError Error => _error!;
     }
 }
+
+
