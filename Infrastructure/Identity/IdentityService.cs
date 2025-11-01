@@ -43,6 +43,9 @@ public sealed class IdentityService : IIdentityService
         return user.Id;
     }
 
-   
+    public Task ChangePassword(Guid userId, string currentPassword, string newPassword)
+    {
+        throw new NotImplementedException();
+    }
 }
 

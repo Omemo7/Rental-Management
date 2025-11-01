@@ -53,9 +53,21 @@ namespace Business.Application.Landlords
             return landlord.Id;
         }
 
-        public async Task<Landlord> GetById(Guid id)
+        public async Task<Landlord?> GetById(Guid id)
         {
             return await _landlords.GetById(id);
+        }
+
+        public async Task<bool> Update(Guid id, UpdateLandlordCommand cmd)
+        {
+            var landlord = await _landlords.GetById(id);
+            if (landlord == null) return false;
+
+            landlord.ChangeFullName(cmd.FirstName, cmd.LastName);
+            _landlords.Update(landlord);
+
+            await _uow.SaveChanges();
+            return true;
         }
     }
 }

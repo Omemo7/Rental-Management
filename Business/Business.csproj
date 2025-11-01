@@ -10,6 +10,7 @@
     <Folder Include="Application\Apartments\Commands\" />
     <Folder Include="Application\Apartments\Queries\" />
     <Folder Include="Application\Leases\" />
+    <Folder Include="Application\Users\" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,9 @@ namespace Business.Application.Landlords
     public interface ILandlordService
     {
         public Task<Guid> Add(AddLandlordCommand cmd);
-        public Task<Landlord> GetById(Guid id);
+        public Task<Landlord?> GetById(Guid id);
+        public Task<bool> Update(Guid id, UpdateLandlordCommand cmd);
+
 
     }
 }

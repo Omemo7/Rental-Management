@@ -12,7 +12,7 @@ namespace Presentation.Controllers
     {
         private readonly ILandlordService _landlordService;
 
-        public LandlordsController(ILandlordService s)
+        public LandlordsController(ILandlordService s) 
         {
             _landlordService = s;
         }
@@ -39,6 +39,18 @@ namespace Presentation.Controllers
             if (landlord is null) return NotFound();
 
             return Ok(landlord);
+        }
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateLandlordRequest req)
+        {
+            var cmd = new UpdateLandlordCommand
+            {
+                FirstName = req.FirstName,
+                LastName = req.LastName
+            };
+            var updated = await _landlordService.Update(id, cmd);
+            if (!updated) return NotFound();
+            return NoContent();
         }
     }
 }
