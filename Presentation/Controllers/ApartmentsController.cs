@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Contracts.Apartments;
 using System.Security.Cryptography;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
@@ -30,8 +31,14 @@ namespace Presentation.Controllers
                 AreaSqm = request.AreaSqm
             };
 
-            await _apartmentService.Add(cmd);
-            return Ok("Apartment created successfully.");
+            var result = await _apartmentService.AddAsync(cmd);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Error.Message);
+            }
+
+            return Ok(result.Value);
         }
     }
 }

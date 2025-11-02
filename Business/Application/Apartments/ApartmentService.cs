@@ -1,5 +1,8 @@
 ﻿using Business.Application.Abstractions;
 using Business.Application.Apartments.Commands;
+using Business.Application.Apartments.Summaries;
+using Business.Common;
+using Business.Common.Errors;
 using Business.Common.Pagination;
 using RentalManagement.Business.Domain.Entities;
 using System;
@@ -20,47 +23,51 @@ namespace Business.Application.Apartments
             _uow = uow;
         }
 
-        public async Task<Guid> Add(AddApartmentCommand cmd)
-        {
+       
+       
 
+
+        public async Task<Result<Guid, Error>> AddAsync(AddApartmentCommand cmd)
+        {
             var apartment = new Apartment(
     id: Guid.NewGuid(),
-    buildingId: cmd.BuildingId, 
-    landlordId: cmd.LandlordId, 
+    buildingId: cmd.BuildingId,
+    landlordId: cmd.LandlordId,
     unitNumber: cmd.UnitNumber,
     bedrooms: cmd.Bedrooms,
     bathrooms: cmd.Bathrooms,
     areaSqm: cmd.AreaSqm
 );
 
-            await _apartmentRepo.AddAsync(apartment);
-            await _uow.SaveChanges();
 
-            return apartment.Id;
-
+            
+            return await Util.ResultReturnHandler(apartment.Id, _uow, async () =>
+            {
+                await _apartmentRepo.AddAsync(apartment);
+            });
         }
 
-        public Task<bool> ChangeApartmentBuilding(Guid id, Guid buildingId)
+        Task<Result<ApartmentSummary, Error>> IApartmentService.ChangeApartmentBuilding(Guid id, Guid buildingId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> ChangeApartmentSpecs(ChangeApartmentSpecsCommand cmd)
+        Task<Result<ApartmentSummary, Error>> IApartmentService.ChangeApartmentSpecs(ChangeApartmentSpecsCommand cmd)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PaginatedResponse<Apartment>> GetAll(Guid landlordId, PaginatedQuery query)
+        Task<PaginatedResponse<ApartmentSummary>> IApartmentService.GetAllAsync(Guid landlordId, PaginatedQuery query)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Apartment?> GetById(Guid id)
+        Task<Result<ApartmentSummary, Error>> IApartmentService.GetByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Remove(Guid id)
+        Task<Result<bool, Error>> IApartmentService.DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }

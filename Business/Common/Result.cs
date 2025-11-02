@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Business.Common
 {
-    public class Result<TValue,TError>
+    public class Result<TValue,TError> 
+       
     {
         TValue? _value;
         TError? _error;
@@ -16,14 +17,16 @@ namespace Business.Common
         public Result(TValue value)
         {
             _value = value;
+          
         }
 
         public Result(TError error)
         {
             _error = error;
+           
         }
 
-        public bool IsSuccess => _value != null;
+        public bool IsSuccess => _error == null;
 
         public static implicit operator Result<TValue, TError>(TValue value)
         {
