@@ -6,6 +6,7 @@ using RentalManagement.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -66,6 +67,65 @@ namespace Infrastructure.Repositories
                 PageNumber = query.PageNumber,
                 PageSize = query.PageSize
             };
+        }
+
+        public async Task<PaginatedResponse<TOut>> GetAllAsync<TOut>(
+      PaginatedQuery p,
+      Expression<Func<TEntity, bool>>? where = null,
+      Expression<Func<TEntity, object>>? defaultSort = null,
+      Dictionary<string, LambdaExpression>? sortMap = null,
+      Expression<Func<TEntity, TOut>>? select = null,
+      Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null)
+        {
+            var page = Math.Max(1, p.PageNumber);
+            var size = Math.Clamp(p.PageSize, 1, 100);
+
+            IQueryable<TEntity> q = _db.Set<TEntity>().AsNoTracking();
+
+            if (include is not null) q = include(q);
+            if (where is not null) q = q.Where(where);
+
+            // Search (optional): if you want repo to do it, pass a predicate via 'where' that closes over p.Search.
+            // Or keep search entirely in service; both are fine.
+
+            // Sort
+            if (!string.IsNullOrWhiteSpace(p.SortBy) && sortMap != null && sortMap.TryGetValue(p.SortBy, out var keySel))
+            {
+                q = ApplyOrder(q, keySel, p.Descending);
+            }
+            else if (defaultSort is not null)
+            {
+                q = p.Descending ? q.OrderByDescending(defaultSort) : q.OrderBy(defaultSort);
+            }
+
+            var total = await q.CountAsync();
+
+            // Project
+            if (select is null)
+            {
+                // If caller didn’t specify projection, use identity cast.
+                // This will throw at runtime if TOut != TEntity, by design.
+                var itemsRaw = await q.Skip((page - 1) * size).Take(size).Cast<object>().ToListAsync();
+                var items = itemsRaw.Cast<TOut>().ToList();
+                return PaginatedResponse<TOut>.Create(items, total, page, size);
+            }
+            else
+            {
+                var items = await q.Skip((page - 1) * size).Take(size).Select(select).ToListAsync();
+                return PaginatedResponse<TOut>.Create(items, total, page, size);
+            }
+        }
+        private static IQueryable<TEntity> ApplyOrder(IQueryable<TEntity> source, LambdaExpression keySelector, bool desc)
+        {
+            var method = desc ? nameof(Queryable.OrderByDescending) : nameof(Queryable.OrderBy);
+            var call = Expression.Call(
+                typeof(Queryable),
+                method,
+                new[] { typeof(TEntity), keySelector.Body.Type },
+                source.Expression,
+                Expression.Quote(keySelector));
+
+            return source.Provider.CreateQuery<TEntity>(call);
         }
 
         public async Task<TEntity?> GetByIdAsync(Guid id)

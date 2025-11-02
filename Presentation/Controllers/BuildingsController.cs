@@ -83,5 +83,22 @@ namespace Presentation.Controllers
 
             return Ok(result.Value);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBuilding(Guid id)
+        {
+            var result = await _buildingService.DeleteAsync(id);
+            if (!result.IsSuccess)
+            {
+                switch (result.Error.Type)
+                {
+                    case ErrorType.NotFound:
+                        return NotFound(result.Error.Message);
+                    default:
+                        return BadRequest(result.Error.Message);
+                }
+            }
+            return NoContent();
+        }
     }
 }

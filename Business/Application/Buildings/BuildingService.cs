@@ -47,9 +47,9 @@ namespace Business.Application.Buildings
 
        
        
-        public Task<PaginatedResponse<BuildingSummary>> GetAllAsync(Guid LandlordId, PaginatedQuery query)
+        public async Task<PaginatedResponse<BuildingSummary>> GetAllAsync(Guid LandlordId, PaginatedQuery query)
         {
-            throw new NotImplementedException();
+            return await _buildingRepository.GetAllAsync(query);
         }
 
         public async Task<Result<BuildingSummary,Error>> GetByIdAsync(Guid buildingId)
@@ -112,7 +112,7 @@ namespace Business.Application.Buildings
             }
         }
 
-        Task<Result<bool, Error>> IBuildingService.RemoveAsync(Guid buildingId)
+        Task<Result<bool, Error>> IBuildingService.DeleteAsync(Guid buildingId)
         {
             throw new NotImplementedException();
         }

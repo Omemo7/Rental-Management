@@ -14,7 +14,7 @@ namespace Business.Application.Buildings
     public interface IBuildingService
     {
         public Task<Result<Guid,Error>> AddAsync(AddBuildingCommand cmd);
-        public Task<Result<bool,Error>> RemoveAsync(Guid buildingId);
+        public Task<Result<bool,Error>> DeleteAsync(Guid buildingId);
         public Task<Result<BuildingSummary,Error>> GetByIdAsync(Guid buildingId);
         public Task<Result<BuildingSummary,Error>> ChangeAddressAsync(ChangeAddressCommand cmd);
 
