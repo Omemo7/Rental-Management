@@ -4,11 +4,11 @@ namespace Business.Application.Abstractions;
 
 public interface IRepository<TEntity> where TEntity : class
 {
-    Task<Guid> Add(TEntity entity);
-    Task<TEntity?> GetById(Guid id);
+    Task<Guid> AddAsync(TEntity entity);
+    Task<TEntity?> GetByIdAsync(Guid id);
     bool Update(TEntity entity);
-    Task<bool> Delete(Guid id);
+    Task<bool> DeleteAsync(Guid id);
 
-    Task<PaginatedResponse<TEntity>> GetAll(PaginatedQuery query);
+    Task<PaginatedResponse<TEntity>> GetAllAsync(PaginatedQuery query);
 
 }

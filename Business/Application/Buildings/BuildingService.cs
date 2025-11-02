@@ -37,29 +37,16 @@ namespace Business.Application.Buildings
                     cmd.PostalCode
                 )
             );
-            try
+
+            return await ResultReturnHandler(building.Id, async () =>
             {
-                await _buildingRepository.Add(building);
-                await _unitOfWork.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                return Error.BadRequest("An error occurred while adding the building: " + ex.Message);
-            }
-
-            return building.Id;
+                await _buildingRepository.AddAsync(building);
+            });
+            
         }
 
-        public Task<bool> ChangeAddressAsync(ChangeAddressCommand cmd)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> ChangeNameAsync(Guid buildingId, string newName)
-        {
-            throw new NotImplementedException();
-        }
-
+       
+       
         public Task<PaginatedResponse<BuildingSummary>> GetAllAsync(Guid LandlordId, PaginatedQuery query)
         {
             throw new NotImplementedException();
@@ -67,13 +54,65 @@ namespace Business.Application.Buildings
 
         public async Task<Result<BuildingSummary,Error>> GetByIdAsync(Guid buildingId)
         {
-            var building = await _buildingRepository.GetById(buildingId);
+            var building = await _buildingRepository.GetByIdAsync(buildingId);
             if (building == null) return Error.NotFound($"Building with ID {buildingId} not found.");
-            var bs = BuildingSummary.FromBuilding(building);
-            return bs;
+          
+            return await ResultReturnHandler(BuildingSummary.FromBuilding(building));
         }
 
         public Task<bool> RemoveAsync(Guid buildingId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Result<BuildingSummary, Error>> ChangeAddressAsync(ChangeAddressCommand cmd)
+        {
+            Building? building = await _buildingRepository.GetByIdAsync(cmd.BuildingId);
+            if (building == null) return Error.NotFound($"Building with ID {cmd.BuildingId} not found.");
+
+            building.ChangeAddress(new Address(
+                cmd.Street,
+                cmd.Neighborhood,
+                cmd.City,
+                cmd.Country,
+                cmd.PostalCode
+            ));
+            return await ResultReturnHandler(BuildingSummary.FromBuilding(building), () =>
+            {
+                _buildingRepository.Update(building);
+            });
+        }
+
+        public async Task<Result<BuildingSummary, Error>> ChangeNameAsync(Guid buildingId, string newName)
+        {
+            Building? building = await _buildingRepository.GetByIdAsync(buildingId);
+            if (building == null) return Error.NotFound($"Building with ID {buildingId} not found.");
+
+            building.Rename(newName);
+            return await ResultReturnHandler(BuildingSummary.FromBuilding(building), () =>
+            {
+                _buildingRepository.Update(building);
+            });
+           
+        }
+
+        public async Task<Result<TReturn, Error>> ResultReturnHandler<TReturn>(
+    TReturn result,
+    Action? beforSaveOperation=null)
+        {
+            try
+            {
+                beforSaveOperation?.Invoke();
+                await _unitOfWork.SaveChanges();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return Error.BadRequest("An error occurred: " + ex.Message);
+            }
+        }
+
+        Task<Result<bool, Error>> IBuildingService.RemoveAsync(Guid buildingId)
         {
             throw new NotImplementedException();
         }

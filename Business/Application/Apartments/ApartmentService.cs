@@ -33,7 +33,7 @@ namespace Business.Application.Apartments
     areaSqm: cmd.AreaSqm
 );
 
-            await _apartmentRepo.Add(apartment);
+            await _apartmentRepo.AddAsync(apartment);
             await _uow.SaveChanges();
 
             return apartment.Id;

@@ -18,7 +18,7 @@ namespace Infrastructure.Repositories
         {
             _db = db;
         }
-        public async Task<Guid> Add(TEntity entity)
+        public async Task<Guid> AddAsync(TEntity entity)
         {
             await _db.Set<TEntity>().AddAsync(entity);
 
@@ -34,7 +34,7 @@ namespace Infrastructure.Repositories
             return id;
         }
 
-        public async Task<bool> Delete(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var entity = await _db.Set<TEntity>().FindAsync(id);
             if (entity is null) return false;
@@ -51,7 +51,7 @@ namespace Infrastructure.Repositories
             return true;
         }
 
-        public async Task<PaginatedResponse<TEntity>> GetAll(PaginatedQuery query)
+        public async Task<PaginatedResponse<TEntity>> GetAllAsync(PaginatedQuery query)
         {
             var totalCount = await _db.Set<TEntity>().CountAsync();
             var items = await _db.Set<TEntity>()
@@ -68,7 +68,7 @@ namespace Infrastructure.Repositories
             };
         }
 
-        public async Task<TEntity?> GetById(Guid id)
+        public async Task<TEntity?> GetByIdAsync(Guid id)
         {
             return await _db.Set<TEntity>().FindAsync(id);
         }
