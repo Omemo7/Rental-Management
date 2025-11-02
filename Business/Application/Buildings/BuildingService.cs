@@ -49,7 +49,7 @@ namespace Business.Application.Buildings
        
         public async Task<PaginatedResponse<BuildingSummary>> GetAllAsync(Guid LandlordId, PaginatedQuery query)
         {
-            return await _buildingRepository.GetAllAsync(query);
+            throw new NotImplementedException();
         }
 
         public async Task<Result<BuildingSummary,Error>> GetByIdAsync(Guid buildingId)
