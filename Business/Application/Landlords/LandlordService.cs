@@ -46,7 +46,7 @@ namespace Business.Application.Landlords
             var landlord = new Landlord(userId, cmd.FirstName, cmd.LastName);
 
 
-            await _landlords.Add(landlord);
+            await _landlords.AddAsync(landlord);
 
             await _uow.SaveChanges(); //this is just for landlord, doesn't affect identity user(not transaction)
 
@@ -55,12 +55,12 @@ namespace Business.Application.Landlords
 
         public async Task<Landlord?> GetById(Guid id)
         {
-            return await _landlords.GetById(id);
+            return await _landlords.GetByIdAsync(id);
         }
 
         public async Task<bool> Update(Guid id, UpdateLandlordCommand cmd)
         {
-            var landlord = await _landlords.GetById(id);
+            var landlord = await _landlords.GetByIdAsync(id);
             if (landlord == null) return false;
 
             landlord.ChangeFullName(cmd.FirstName, cmd.LastName);

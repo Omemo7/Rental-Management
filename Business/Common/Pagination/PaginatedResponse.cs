@@ -12,5 +12,21 @@ namespace Business.Common.Pagination
         public int TotalCount { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
+
+        public static PaginatedResponse<T> Create(
+            IEnumerable<T> items,
+            int totalCount,
+            int pageNumber,
+            int pageSize)
+        {
+            return new PaginatedResponse<T>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+        }
+        
     }
 }

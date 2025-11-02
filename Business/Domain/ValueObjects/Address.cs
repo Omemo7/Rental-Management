@@ -10,7 +10,8 @@ public sealed record Address
 
     public Address(string? street, string? neighborhood, string city, string country, string? postalCode)
     {
-        
+
+        Street = string.IsNullOrWhiteSpace(street) ? null : street.Trim();
         Neighborhood = string.IsNullOrWhiteSpace(neighborhood) ? null : neighborhood.Trim();
         City = string.IsNullOrWhiteSpace(city) ? throw new ArgumentException("City required.", nameof(city)) : city.Trim();
         Country = string.IsNullOrWhiteSpace(country) ? throw new ArgumentException("Country required.", nameof(country)) : country.Trim();
