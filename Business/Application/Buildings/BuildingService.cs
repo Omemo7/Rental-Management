@@ -60,10 +60,7 @@ namespace Business.Application.Buildings
             return await Util.ResultReturnHandler(BuildingSummary.FromBuilding(building));
         }
 
-        public Task<bool> RemoveAsync(Guid buildingId)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public async Task<Result<BuildingSummary, Error>> ChangeAddressAsync(ChangeAddressCommand cmd)
         {

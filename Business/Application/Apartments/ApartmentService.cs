@@ -52,6 +52,11 @@ namespace Business.Application.Apartments
             {
                 return Error.NotFound($"Apartment with ID {id} not found.");
             }
+            if(apartment.BuildingId==buildingId)
+            {
+                return Error.BadRequest("The new building ID is the same as the current one.");
+            }
+
 
             apartment.ChangeBuilding(buildingId);
 
