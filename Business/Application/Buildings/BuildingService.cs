@@ -57,7 +57,7 @@ namespace Business.Application.Buildings
             var building = await _buildingRepository.GetByIdAsync(buildingId);
             if (building == null) return Error.NotFound($"Building with ID {buildingId} not found.");
 
-            return await Util.ResultReturnHandler(BuildingSummary.FromBuilding(building), _unitOfWork);
+            return await Util.ResultReturnHandler(BuildingSummary.FromBuilding(building));
         }
 
         public Task<bool> RemoveAsync(Guid buildingId)

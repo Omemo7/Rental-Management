@@ -24,8 +24,6 @@ namespace Business.Application.Apartments
         }
 
        
-       
-
 
         public async Task<Result<Guid, Error>> AddAsync(AddApartmentCommand cmd)
         {
@@ -47,14 +45,52 @@ namespace Business.Application.Apartments
             });
         }
 
-        Task<Result<ApartmentSummary, Error>> IApartmentService.ChangeApartmentBuilding(Guid id, Guid buildingId)
+        public async Task<Result<ApartmentSummary, Error>> ChangeApartmentBuilding(Guid id, Guid buildingId)
         {
-            throw new NotImplementedException();
+            Apartment? apartment = await _apartmentRepo.GetByIdAsync(id);
+            if (apartment == null)
+            {
+                return Error.NotFound($"Apartment with ID {id} not found.");
+            }
+
+            apartment.ChangeBuilding(buildingId);
+
+            return await Util.ResultReturnHandler(ApartmentSummary.FromApartment(apartment), _uow,()=>
+            {
+                _apartmentRepo.Update(apartment);
+            });
         }
 
-        Task<Result<ApartmentSummary, Error>> IApartmentService.ChangeApartmentSpecs(ChangeApartmentSpecsCommand cmd)
+        public async Task<Result<ApartmentSummary, Error>> ChangeApartmentSpecs(ChangeApartmentSpecsCommand cmd)
         {
-            throw new NotImplementedException();
+            Apartment? apartment = await _apartmentRepo.GetByIdAsync(cmd.Id);
+            if (apartment == null)
+            {
+                return Error.NotFound($"Apartment with ID {cmd.Id} not found.");
+            }
+
+            apartment.ChangeSpecs(cmd.Bedrooms, cmd.Bathrooms, cmd.AreaSqm);
+
+            return await Util.ResultReturnHandler(ApartmentSummary.FromApartment(apartment), _uow, () =>
+            {
+                _apartmentRepo.Update(apartment);
+            });
+        }
+
+        public async Task<Result<ApartmentSummary, Error>> RenameApartmentUnit(Guid id, string newUnitNumber)
+        {
+            Apartment? apartment = await _apartmentRepo.GetByIdAsync(id);
+            if (apartment == null)
+            {
+                return Error.NotFound($"Apartment with ID {id} not found.");
+            }
+
+            apartment.RenameUnit(newUnitNumber);
+
+            return await Util.ResultReturnHandler(ApartmentSummary.FromApartment(apartment), _uow, () =>
+            {
+                _apartmentRepo.Update(apartment);
+            }); 
         }
 
         Task<PaginatedResponse<ApartmentSummary>> IApartmentService.GetAllAsync(Guid landlordId, PaginatedQuery query)
@@ -62,14 +98,33 @@ namespace Business.Application.Apartments
             throw new NotImplementedException();
         }
 
-        Task<Result<ApartmentSummary, Error>> IApartmentService.GetByIdAsync(Guid id)
+        public async Task<Result<ApartmentSummary, Error>> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var apartment=await _apartmentRepo.GetByIdAsync(id);
+            if (apartment==null)
+            {
+                return Error.NotFound($"Apartment with ID {id} not found.");
+            }
+
+            return await Util.ResultReturnHandler(ApartmentSummary.FromApartment(apartment));
+
+
         }
 
-        Task<Result<bool, Error>> IApartmentService.DeleteAsync(Guid id)
+        public async Task<Result<bool, Error>> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var apartment = await _apartmentRepo.GetByIdAsync(id);
+            if (apartment == null)
+            {
+                return Error.NotFound($"Apartment with ID {id} not found.");
+            }
+
+            return await Util.ResultReturnHandler(true, _uow, async () =>
+            {
+                await _apartmentRepo.DeleteAsync(id);
+            });
         }
+
+       
     }
 }

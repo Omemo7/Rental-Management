@@ -16,6 +16,7 @@ namespace Business.Application.Apartments
     {
         public Task<Result<Guid,Error>> AddAsync(AddApartmentCommand cmd);
         public Task<Result<ApartmentSummary,Error>> GetByIdAsync(Guid id);
+        public Task<Result<ApartmentSummary,Error>> RenameApartmentUnit(Guid id, string newUnitNumber);
         public Task<Result<ApartmentSummary,Error>> ChangeApartmentSpecs(ChangeApartmentSpecsCommand cmd);
         public Task<Result<ApartmentSummary,Error>> ChangeApartmentBuilding(Guid id,  Guid buildingId);
         public Task<Result<bool,Error>> DeleteAsync(Guid id);

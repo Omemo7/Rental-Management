@@ -12,13 +12,14 @@ namespace Business.Common
     {
         public static async Task<Result<TReturn, Error>> ResultReturnHandler<TReturn>(
     TReturn result,
-    IUnitOfWork _unitOfWork,
+    IUnitOfWork? _unitOfWork=null,
     Action? beforSaveOperation = null)
         {
             try
             {
                 beforSaveOperation?.Invoke();
-                await _unitOfWork.SaveChanges();
+                if(_unitOfWork != null)
+                    await _unitOfWork.SaveChanges();
                 return result;
             }
             catch (Exception ex)
