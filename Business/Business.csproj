@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Application\Apartments\Queries\" />
     <Folder Include="Application\Leases\" />
-    <Folder Include="Application\Tenants\Commands\" />
     <Folder Include="Application\Users\" />
   </ItemGroup>
 
