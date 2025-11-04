@@ -1,8 +1,7 @@
-﻿namespace Business.Application.Apartments.Commands
+﻿namespace Presentation.Contracts.Apartments
 {
-    public class ChangeApartmentSpecsCommand
+    public class ChangeApartmentSpecsRequest
     {
-        public Guid Id { get; set; }
         public int Bedrooms { get; set; }
         public int Bathrooms { get; set; }
         public decimal AreaSqm { get; set; }

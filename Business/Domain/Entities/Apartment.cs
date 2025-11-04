@@ -32,6 +32,12 @@ public sealed class Apartment
         AreaSqm = areaSqm;
     }
 
+    public void ChangeBuilding(Guid newBuildingId)
+    {
+        if (newBuildingId == Guid.Empty) throw new ArgumentException("Building ID required.", nameof(newBuildingId));
+        BuildingId = newBuildingId;
+    }
+
     public void ChangeSpecs(int bedrooms, int bathrooms, decimal areaSqm)
     {
         if (bedrooms < 0 || bathrooms < 0) throw new ArgumentOutOfRangeException();

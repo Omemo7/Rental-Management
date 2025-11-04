@@ -1,5 +1,8 @@
 ﻿using Business.Application.Abstractions;
 using Business.Application.Apartments.Commands;
+using Business.Application.Apartments.Summaries;
+using Business.Common;
+using Business.Common.Errors;
 using Business.Common.Pagination;
 using RentalManagement.Business.Domain.Entities;
 using System;
@@ -20,49 +23,113 @@ namespace Business.Application.Apartments
             _uow = uow;
         }
 
-        public async Task<Guid> Add(AddApartmentCommand cmd)
-        {
+       
 
+        public async Task<Result<Guid, Error>> AddAsync(AddApartmentCommand cmd)
+        {
             var apartment = new Apartment(
     id: Guid.NewGuid(),
-    buildingId: cmd.BuildingId, 
-    landlordId: cmd.LandlordId, 
+    buildingId: cmd.BuildingId,
+    landlordId: cmd.LandlordId,
     unitNumber: cmd.UnitNumber,
     bedrooms: cmd.Bedrooms,
     bathrooms: cmd.Bathrooms,
     areaSqm: cmd.AreaSqm
 );
 
-            await _apartmentRepo.AddAsync(apartment);
-            await _uow.SaveChanges();
 
-            return apartment.Id;
-
+            
+            return await Util.ResultReturnHandler(apartment.Id, _uow, async () =>
+            {
+                await _apartmentRepo.AddAsync(apartment);
+            });
         }
 
-        public Task<bool> ChangeApartmentBuilding(Guid id, Guid buildingId)
+        public async Task<Result<ApartmentSummary, Error>> ChangeApartmentBuilding(Guid id, Guid buildingId)
+        {
+            Apartment? apartment = await _apartmentRepo.GetByIdAsync(id);
+            if (apartment == null)
+            {
+                return Error.NotFound($"Apartment with ID {id} not found.");
+            }
+            if(apartment.BuildingId==buildingId)
+            {
+                return Error.BadRequest("The new building ID is the same as the current one.");
+            }
+
+
+            apartment.ChangeBuilding(buildingId);
+
+            return await Util.ResultReturnHandler(ApartmentSummary.FromApartment(apartment), _uow,()=>
+            {
+                _apartmentRepo.Update(apartment);
+            });
+        }
+
+        public async Task<Result<ApartmentSummary, Error>> ChangeApartmentSpecs(ChangeApartmentSpecsCommand cmd)
+        {
+            Apartment? apartment = await _apartmentRepo.GetByIdAsync(cmd.Id);
+            if (apartment == null)
+            {
+                return Error.NotFound($"Apartment with ID {cmd.Id} not found.");
+            }
+
+            apartment.ChangeSpecs(cmd.Bedrooms, cmd.Bathrooms, cmd.AreaSqm);
+
+            return await Util.ResultReturnHandler(ApartmentSummary.FromApartment(apartment), _uow, () =>
+            {
+                _apartmentRepo.Update(apartment);
+            });
+        }
+
+        public async Task<Result<ApartmentSummary, Error>> RenameApartmentUnit(Guid id, string newUnitNumber)
+        {
+            Apartment? apartment = await _apartmentRepo.GetByIdAsync(id);
+            if (apartment == null)
+            {
+                return Error.NotFound($"Apartment with ID {id} not found.");
+            }
+
+            apartment.RenameUnit(newUnitNumber);
+
+            return await Util.ResultReturnHandler(ApartmentSummary.FromApartment(apartment), _uow, () =>
+            {
+                _apartmentRepo.Update(apartment);
+            }); 
+        }
+
+        Task<PaginatedResponse<ApartmentSummary>> IApartmentService.GetAllAsync(Guid landlordId, PaginatedQuery query)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> ChangeApartmentSpecs(ChangeApartmentSpecsCommand cmd)
+        public async Task<Result<ApartmentSummary, Error>> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var apartment=await _apartmentRepo.GetByIdAsync(id);
+            if (apartment==null)
+            {
+                return Error.NotFound($"Apartment with ID {id} not found.");
+            }
+
+            return await Util.ResultReturnHandler(ApartmentSummary.FromApartment(apartment));
+
+
         }
 
-        public Task<PaginatedResponse<Apartment>> GetAll(Guid landlordId, PaginatedQuery query)
+        public async Task<Result<bool, Error>> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var apartment = await _apartmentRepo.GetByIdAsync(id);
+            if (apartment == null)
+            {
+                return Error.NotFound($"Apartment with ID {id} not found.");
+            }
+
+            return await Util.ResultReturnHandler(true, _uow, async () =>
+            {
+                await _apartmentRepo.DeleteAsync(id);
+            });
         }
 
-        public Task<Apartment?> GetById(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Remove(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
