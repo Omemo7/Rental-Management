@@ -1,5 +1,8 @@
 ﻿using Business.Application.Abstractions;
 using Business.Application.Landlords.Commands;
+using Business.Application.Landlords.Summaries;
+using Business.Common;
+using Business.Common.Errors;
 using RentalManagement.Business.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -13,7 +16,7 @@ namespace Business.Application.Landlords
     public class LandlordService : ILandlordService
     {
         private readonly IIdentityService _identity;
-        private readonly ILandlordRepository _landlords;
+        private readonly ILandlordRepository _landlordsRepo;
         private readonly IUnitOfWork _uow;
 
         public LandlordService(
@@ -22,52 +25,50 @@ namespace Business.Application.Landlords
             IUnitOfWork uow)
         {
             _identity = identity;
-            _landlords = landlords;
+            _landlordsRepo = landlords;
             _uow = uow;
         }
 
-        public async Task<Guid> Add(AddLandlordCommand cmd)
+      
+        public async Task<Result<Guid, Error>> AddAsync(AddLandlordCommand cmd)
         {
-            // Basic in-service validation
-            if (string.IsNullOrWhiteSpace(cmd.Email) || !Regex.IsMatch(cmd.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-                throw new ArgumentException("Invalid email format.", nameof(cmd.Email));
-
-            if (string.IsNullOrWhiteSpace(cmd.Password) || cmd.Password.Length < 6)
-                throw new ArgumentException("Password must be at least 6 characters long.", nameof(cmd.Password));
-
-            if (string.IsNullOrWhiteSpace(cmd.FirstName))
-                throw new ArgumentException("First name is required.", nameof(cmd.FirstName));
-
-            if (await _identity.IsEmailTaken(cmd.Email))
-                throw new InvalidOperationException("Email is already registered.");
-
-            var userId = await _identity.CreateUser(cmd.Email, cmd.Password); //this here has its own AppDbContext 
-
-            var landlord = new Landlord(userId, cmd.FirstName, cmd.LastName);
+            try
+            {
+                var userId = await _identity.CreateUser(cmd.Email, cmd.Password);
+                var landlord = new Landlord(userId, cmd.FirstName, cmd.LastName);
+                return await Util.ResultReturnHandler(landlord.Id, _uow, async () =>
+                {
+                    await _landlordsRepo.AddAsync(landlord);
+                });
+            }
+            catch (Exception ex)
+            {
+                return Error.BadRequest($"Failed to add landlord: {ex.Message}");
+            }
 
 
-            await _landlords.AddAsync(landlord);
-
-            await _uow.SaveChanges(); //this is just for landlord, doesn't affect identity user(not transaction)
-
-            return landlord.Id;
         }
 
-        public async Task<Landlord?> GetById(Guid id)
+       
+
+
+
+        public async Task<Result<LandlordSummary, Error>> GetByIdAsync(Guid id)
         {
-            return await _landlords.GetByIdAsync(id);
+            var landlord = await _landlordsRepo.GetByIdAsync(id);
+            if (landlord == null) return Error.NotFound("Landlord with this ID does not exist.");
+
+            return await Util.ResultReturnHandler(LandlordSummary.FromLandlord(landlord));
         }
 
-        public async Task<bool> Update(Guid id, UpdateLandlordCommand cmd)
+        public async Task<Result<LandlordSummary, Error>> UpdateAsync(UpdateLandlordCommand cmd)
         {
-            var landlord = await _landlords.GetByIdAsync(id);
-            if (landlord == null) return false;
+            var landlord = await _landlordsRepo.GetByIdAsync(cmd.Id);
+            if (landlord == null) return Error.NotFound("Landlord with this ID does not exist.");
 
             landlord.ChangeFullName(cmd.FirstName, cmd.LastName);
-            _landlords.Update(landlord);
 
-            await _uow.SaveChanges();
-            return true;
+            return await Util.ResultReturnHandler(LandlordSummary.FromLandlord(landlord),_uow,()=>_landlordsRepo.Update(landlord));
         }
     }
 }
