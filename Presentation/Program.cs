@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using RentalManagement.Infrastructure;
 using RentalManagement.Infrastructure.Persistence;
 using Business.Application.Tenants;
+using Business.Application.Leases;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,12 +37,14 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IBuildingRepository, BuildingRepository>();
 builder.Services.AddScoped<ITenantRepository, TenantRepository>();
+builder.Services.AddScoped<ILeaseRepository, LeaseRepository>();
 
 
 builder.Services.AddScoped<ILandlordService, LandlordService>();
 builder.Services.AddScoped<IBuildingService, BuildingService>();
 builder.Services.AddScoped<IApartmentService, ApartmentService>();
 builder.Services.AddScoped<ITenantService, TenantService>();
+builder.Services.AddScoped<ILeaseService, LeaseService>();
 
 // Controllers (or Minimal APIs, see below)
 builder.Services.AddControllers();

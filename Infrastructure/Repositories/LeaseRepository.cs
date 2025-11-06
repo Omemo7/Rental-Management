@@ -9,13 +9,11 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class LandlordRepository :Repository<Landlord>, ILandlordRepository
+    public class LeaseRepository:Repository<Lease>,ILeaseRepository
     {
-       
-        public LandlordRepository(AppDbContext db) : base(db)
+        
+        public LeaseRepository(AppDbContext context) : base(context)
         {
-           
         }
-       
     }
 }
