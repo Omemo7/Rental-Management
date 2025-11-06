@@ -22,16 +22,8 @@ namespace Presentation.Controllers
         public async Task<IActionResult> AddBuilding([FromForm] AddBuildingRequest req)
         {
 
-            var command = new AddBuildingCommand
-            {
-                Name = req.Name,
-                Street = req.Street,
-                Neighborhood = req.Neighborhood,
-                City = req.City,
-                Country = req.Country,
-                PostalCode = req.PostalCode
-            };
-            var result = await _buildingService.AddAsync(command);
+            
+            var result = await _buildingService.AddAsync(req.ToCommand());
 
             if (!result.IsSuccess)
             {
@@ -65,16 +57,8 @@ namespace Presentation.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> ChangeBuildingAddress(Guid id, [FromForm] ChangeAddressRequest req)
         {
-            var command = new ChangeAddressCommand
-            {
-                BuildingId = id,
-                Street = req.Street,
-                Neighborhood = req.Neighborhood,
-                City = req.City,
-                Country = req.Country,
-                PostalCode = req.PostalCode
-            };
-            var result = await _buildingService.ChangeAddressAsync(command);
+           
+            var result = await _buildingService.ChangeAddressAsync(req.ToCommand(id));
 
             if (!result.IsSuccess)
             {
