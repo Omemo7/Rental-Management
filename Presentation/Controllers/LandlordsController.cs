@@ -20,37 +20,49 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] AddLandlordRequest req)
         {
-            var cmd = new AddLandlordCommand
+           
+            var result = await _landlordService.AddAsync(req.ToCommand());
+            if(!result.IsSuccess)
             {
-                Email = req.Email,
-                Password = req.Password,
-                FirstName = req.FirstName,
-                LastName = req.LastName
-            };
+                return BadRequest(result.Error.Message);
+            }
 
-            var id = await _landlordService.Add(cmd);
-            return CreatedAtAction(nameof(GetById), new { id }, new { id });
+            return CreatedAtAction(nameof(GetById), new {id= result.Value }, new {id= result.Value});
         }
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var landlord = await _landlordService.GetById(id);
-            if (landlord is null) return NotFound();
+            var result = await _landlordService.GetByIdAsync(id);
+            if (!result.IsSuccess)
+            {
+                switch(result.Error.Type)
+                {
+                    case Business.Common.Errors.ErrorType.NotFound:
+                        return NotFound(result.Error.Message);
+                    default:
+                        return BadRequest(result.Error.Message);
+                }
+            }
 
-            return Ok(landlord);
+            return Ok(result.Value);
         }
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateLandlordRequest req)
+        public async Task<IActionResult> Update(Guid id,[FromBody] UpdateLandlordRequest req)
         {
-            var cmd = new UpdateLandlordCommand
+
+            var result = await _landlordService.UpdateAsync(req.ToCommand(id));
+            if (!result.IsSuccess)
             {
-                FirstName = req.FirstName,
-                LastName = req.LastName
-            };
-            var updated = await _landlordService.Update(id, cmd);
-            if (!updated) return NotFound();
-            return NoContent();
+                switch (result.Error.Type)
+                {
+                    case Business.Common.Errors.ErrorType.NotFound:
+                        return NotFound(result.Error.Message);
+                    default:
+                        return BadRequest(result.Error.Message);
+                }
+            }
+            return Ok(result.Value);
         }
     }
 }

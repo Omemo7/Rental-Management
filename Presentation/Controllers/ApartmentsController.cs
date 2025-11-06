@@ -21,17 +21,9 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> AddApartment(AddApartmentRequest request)
         {
-            var cmd = new AddApartmentCommand
-            {
-                BuildingId = request.BuildingId,
-                LandlordId = request.LandlordId,
-                UnitNumber = request.UnitNumber,
-                Bedrooms = request.Bedrooms,
-                Bathrooms = request.Bathrooms,
-                AreaSqm = request.AreaSqm
-            };
+          
 
-            var result = await _apartmentService.AddAsync(cmd);
+            var result = await _apartmentService.AddAsync(request.ToCommand());
 
             if (!result.IsSuccess)
             {
@@ -61,15 +53,9 @@ namespace Presentation.Controllers
         [HttpPut("{Id}/change-specs")]
         public async Task<IActionResult> ChangeApartmentSpecs(Guid Id, ChangeApartmentSpecsRequest request)
         {
-            var cmd = new ChangeApartmentSpecsCommand
-            {
-                Id = Id,
-                Bedrooms = request.Bedrooms,
-                Bathrooms = request.Bathrooms,
-                AreaSqm = request.AreaSqm
-            };
+           
 
-            var result = await _apartmentService.ChangeApartmentSpecs(cmd);
+            var result = await _apartmentService.ChangeApartmentSpecs(request.ToCommand(Id));
             if (!result.IsSuccess)
             {
                 switch(result.Error.Type)

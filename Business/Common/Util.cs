@@ -3,6 +3,7 @@ using Business.Common.Errors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,10 +14,13 @@ namespace Business.Common
         public static async Task<Result<TReturn, Error>> ResultReturnHandler<TReturn>(
     TReturn result,
     IUnitOfWork? _unitOfWork=null,
-    Action? beforSaveOperation = null)
+    Action? beforSaveOperation = null,
+    [CallerMemberName] string methodName = "", // Automatically gets the calling method's name
+    [CallerFilePath] string filePath = ""  )   // Automatically gets the full path of the calling file)
         {
             try
             {
+                
                 beforSaveOperation?.Invoke();
                 if(_unitOfWork != null)
                     await _unitOfWork.SaveChanges();
@@ -24,7 +28,10 @@ namespace Business.Common
             }
             catch (Exception ex)
             {
-                return Error.BadRequest("An error occurred: " + ex.InnerException?.Message);
+                string className = Path.GetFileNameWithoutExtension(filePath);
+                string source = $"{className}.{methodName}";
+                string errorMessage = "An error occurred: " + (ex.InnerException?.Message ?? ex.Message);
+                return Error.BadRequest(errorMessage, source);
             }
         }
 

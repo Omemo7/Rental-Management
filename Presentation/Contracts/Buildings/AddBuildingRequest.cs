@@ -1,4 +1,6 @@
-﻿namespace Presentation.Contracts.Buildings
+﻿using Business.Application.Buildings.Commands;
+
+namespace Presentation.Contracts.Buildings
 {
     public class AddBuildingRequest
     {
@@ -8,5 +10,10 @@
         public string City { get; set; } = string.Empty;
         public string Country { get; set; } = string.Empty;
         public string? PostalCode { get; set; }
+
+        public AddBuildingCommand ToCommand()
+        {
+            return new AddBuildingCommand(Name, Street, Neighborhood, City, Country, PostalCode);
+        }
     }
 }
