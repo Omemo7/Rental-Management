@@ -32,21 +32,12 @@ namespace Business.Application.Landlords
       
         public async Task<Result<Guid, Error>> AddAsync(AddLandlordCommand cmd)
         {
-            try
+            var userId = await _identity.CreateUser(cmd.Email, cmd.Password);
+            var landlord = new Landlord(userId, cmd.FirstName, cmd.LastName);
+            return await Util.ResultReturnHandler(landlord.Id, _uow, async () =>
             {
-                var userId = await _identity.CreateUser(cmd.Email, cmd.Password);
-                var landlord = new Landlord(userId, cmd.FirstName, cmd.LastName);
-                return await Util.ResultReturnHandler(landlord.Id, _uow, async () =>
-                {
-                    await _landlordsRepo.AddAsync(landlord);
-                });
-            }
-            catch (Exception ex)
-            {
-                return Error.BadRequest($"Failed to add landlord: {ex.Message}");
-            }
-
-
+                await _landlordsRepo.AddAsync(landlord);
+            });
         }
 
        
