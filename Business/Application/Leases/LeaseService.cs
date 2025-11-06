@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Business.Common;
+using Business.Common.Errors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,8 @@ namespace Business.Application.Leases
 {
     public class LeaseService: ILeaseService
     {
+        
+
 
     }
 }
