@@ -97,7 +97,7 @@ namespace Business.Application.Leases
             });
         }
 
-        public async Task<Result<bool, Error>> RenewLeaseAsync(Guid id, DateTime newEndDate)
+        public async Task<Result<bool, Error>> RenewLeaseAsync(Guid id, DateOnly newEndDate)
         {
             var lease = await _leaseRepository.GetByIdAsync(id);
             if (lease == null)
@@ -106,7 +106,7 @@ namespace Business.Application.Leases
             }
             return await Util.ResultReturnHandler(true, _uow, () =>
             {
-                lease.Renew(DateOnly.FromDateTime(newEndDate));
+                lease.Renew(newEndDate);
                 _leaseRepository.Update(lease);
             });
 
@@ -127,7 +127,7 @@ namespace Business.Application.Leases
             });
         }
 
-        public async Task<Result<bool, Error>> ChangeLeaseDatesAsync(Guid id, DateTime newStartDate, DateTime newEndDate)
+        public async Task<Result<bool, Error>> ChangeLeaseDatesAsync(Guid id, DateOnly newStartDate, DateOnly newEndDate)
         {
             var lease = await _leaseRepository.GetByIdAsync(id);
             if (lease == null)
@@ -136,7 +136,7 @@ namespace Business.Application.Leases
             }
             return await Util.ResultReturnHandler(true, _uow, () =>
             {
-                lease.ChangeDates (DateOnly.FromDateTime(newStartDate), DateOnly.FromDateTime(newEndDate));
+                lease.ChangeDates(newStartDate, newEndDate);
                 _leaseRepository.Update(lease);
             });
         }

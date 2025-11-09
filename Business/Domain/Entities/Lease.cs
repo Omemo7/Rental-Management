@@ -46,7 +46,7 @@ public sealed class Lease
         SecurityDeposit = securityDeposit;
     }
 
-    public bool IsActive => EndDate is null;
+    public bool IsActive { get { return EndDate is null || EndDate > DateOnly.FromDateTime(DateTime.Now); } }
 
     public void Terminate(DateOnly endDate)
     {
@@ -95,7 +95,6 @@ public sealed class Lease
 
     public void Renew(DateOnly dateOnly)
     {
-        if (!IsActive) throw new InvalidOperationException("Only active leases can be renewed.");
         if (dateOnly <= EndDate) throw new InvalidOperationException("New end date must be after current end date.");
         EndDate = dateOnly;
     }

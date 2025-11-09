@@ -19,13 +19,13 @@ namespace Business.Application.Leases
 
         public Task<Result<bool, Error>> TerminateLeaseAsync(Guid id);
          
-        public Task<Result<bool, Error>> RenewLeaseAsync(Guid id, DateTime newEndDate);
+        public Task<Result<bool, Error>> RenewLeaseAsync(Guid id, DateOnly newEndDate);
 
         public Task<Result<bool, Error>> IsActive(Guid id);
 
         public Task<Result<bool, Error>> ChangeRentAmountAsync(Guid id, decimal newRentAmount);
 
-        public Task<Result<bool, Error>> ChangeLeaseDatesAsync(Guid id, DateTime newStartDate, DateTime newEndDate);
+        public Task<Result<bool, Error>> ChangeLeaseDatesAsync(Guid id, DateOnly newStartDate, DateOnly newEndDate);
 
         public Task<Result<bool, Error>> ChangeRentPaymentFrequency(Guid id,RentPaymentFrequency freq);
 
