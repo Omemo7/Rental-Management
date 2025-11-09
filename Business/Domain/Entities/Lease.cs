@@ -27,19 +27,20 @@ public sealed class Lease
 
     private Lease() { } // EF
 
-    public Lease(Guid id, Guid apartmentId, Guid tenantId, DateOnly startDate, Money RentAmount, Money? securityDeposit = null,RentPaymentFrequency paymentFrequency=RentPaymentFrequency.Monthly)
+    public Lease(Guid id, Guid apartmentId, Guid tenantId, DateOnly startDate, Money RentAmount, Money? securityDeposit = null,RentPaymentFrequency paymentFrequency=RentPaymentFrequency.Monthly,DateOnly? endDate=null)
     {
         if (id == Guid.Empty) throw new ArgumentException("Id required.", nameof(id));
         if (apartmentId == Guid.Empty) throw new ArgumentException("ApartmentId required.", nameof(apartmentId));
         if (tenantId == Guid.Empty) throw new ArgumentException("TenantId required.", nameof(tenantId));
         if (RentAmount is null || RentAmount.Amount <= 0) throw new ArgumentOutOfRangeException(nameof(RentAmount));
-
+        if(endDate is not null && endDate < startDate) throw new ArgumentException("EndDate cannot be before StartDate.", nameof(endDate));
         if (securityDeposit is { Amount: < 0 }) throw new ArgumentOutOfRangeException(nameof(securityDeposit));
 
         Id = id;
         ApartmentId = apartmentId;
         TenantId = tenantId;
         StartDate = startDate;
+        EndDate = endDate;
         this.RentAmount = RentAmount;
         this.PaymentFrequency = paymentFrequency;
         SecurityDeposit = securityDeposit;
@@ -58,6 +59,14 @@ public sealed class Lease
     {
         if (!IsActive) throw new InvalidOperationException("Only active leases can change payment frequency.");
         PaymentFrequency = newFrequency;
+    }
+
+    public void ChangeDates(DateOnly newStartDate, DateOnly? newEndDate)
+    {
+        if (newEndDate is not null && newEndDate < newStartDate)
+            throw new ArgumentException("End date cannot be before start date.", nameof(newEndDate));
+        StartDate = newStartDate;
+        EndDate = newEndDate;
     }
 
     public void IncreaseRent(Money delta)
@@ -83,6 +92,15 @@ public sealed class Lease
             throw new InvalidOperationException("Deposit currency must match rent currency.");
         SecurityDeposit = newDeposit;
     }
+
+    public void Renew(DateOnly dateOnly)
+    {
+        if (!IsActive) throw new InvalidOperationException("Only active leases can be renewed.");
+        if (dateOnly <= EndDate) throw new InvalidOperationException("New end date must be after current end date.");
+        EndDate = dateOnly;
+    }
+
+    
 }
 
 

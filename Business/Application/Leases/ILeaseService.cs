@@ -18,7 +18,7 @@ namespace Business.Application.Leases
         public Task<Result<LeaseSummary, Error>> GetByIdAsync(Guid id);
 
         public Task<Result<bool, Error>> TerminateLeaseAsync(Guid id);
-
+         
         public Task<Result<bool, Error>> RenewLeaseAsync(Guid id, DateTime newEndDate);
 
         public Task<Result<bool, Error>> IsActive(Guid id);
