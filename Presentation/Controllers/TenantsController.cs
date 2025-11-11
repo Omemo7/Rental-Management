@@ -70,7 +70,7 @@ namespace Presentation.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTenant(Guid id, [FromBody] UpdateTenantRequest req)
         {
-            var result = await _tenantService.UpdateAsync(id, req.ToCommand(id));
+            var result = await _tenantService.UpdateAsync(req.ToCommand(id));
             if (!result.IsSuccess)
             {
                 switch (result.Error.Type)

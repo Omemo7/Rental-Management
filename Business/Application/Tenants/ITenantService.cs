@@ -16,6 +16,6 @@ namespace Business.Application.Tenants
         Task<Result<TenantSummary,Error>> GetByIdAsync(Guid tenantId);
 
         Task<Result<bool,Error>> DeleteAsync(Guid tenantId);
-        Task<Result<TenantSummary,Error>> UpdateAsync(Guid tenantId, UpdateTenantCommand cmd);
+        Task<Result<TenantSummary,Error>> UpdateAsync(UpdateTenantCommand cmd);
     }
 }
