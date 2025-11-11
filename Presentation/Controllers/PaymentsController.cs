@@ -1,25 +1,25 @@
-﻿using Business.Application.Tenants;
+﻿using Business.Application.Payments;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Contracts.Payments;
 using Presentation.Contracts.Tenants;
 
 namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TenantsController : ControllerBase
+    public class PaymentsController : ControllerBase
     {
-        public readonly ITenantService _tenantService;
-
-        public TenantsController(ITenantService tenantService)
+        IPaymentService _paymentService;
+        public PaymentsController(IPaymentService ps)
         {
-            _tenantService = tenantService;
+            _paymentService = ps;
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddTenant([FromBody] AddTenantRequest req)
+        public async Task<IActionResult> Add([FromBody] AddPaymentRequest req)
         {
-            var result = await _tenantService.AddAsync(req.ToCommand());
+            var result = await _paymentService.AddAsync(req.ToCommand());
             if (!result.IsSuccess)
             {
                 switch (result.Error.Type)
@@ -30,15 +30,15 @@ namespace Presentation.Controllers
                         return StatusCode(500, result.Error.Message);
                 }
             }
-            return CreatedAtAction(nameof(GetTenantById), new { id = result.Value }, result.Value);
+            return CreatedAtAction(nameof(GetById), new { id = result.Value }, result.Value);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTenantById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             // Call the service to get the tenant by ID
-            var result = await _tenantService.GetByIdAsync(id);
-            if(!result.IsSuccess)
+            var result = await _paymentService.GetByIdAsync(id);
+            if (!result.IsSuccess)
             {
                 switch (result.Error.Type)
                 {
@@ -51,9 +51,9 @@ namespace Presentation.Controllers
             return Ok(result.Value);
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTenant(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _tenantService.DeleteAsync(id);
+            var result = await _paymentService.DeleteAsync(id);
             if (!result.IsSuccess)
             {
                 switch (result.Error.Type)
@@ -68,9 +68,9 @@ namespace Presentation.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTenant(Guid id, [FromBody] UpdateTenantRequest req)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdatePaymentRequest req)
         {
-            var result = await _tenantService.UpdateAsync(req.ToCommand(id));
+            var result = await _paymentService.UpdateAsync(req.ToCommand(id));
             if (!result.IsSuccess)
             {
                 switch (result.Error.Type)

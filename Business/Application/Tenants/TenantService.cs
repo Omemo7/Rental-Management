@@ -23,11 +23,7 @@ namespace Business.Application.Tenants
         }
         public async Task<Result<Guid, Error>> AddAsync(AddTenantCommand cmd)
         {
-            Tenant tenant = new Tenant( Guid.NewGuid(),
-                cmd.FirstName,
-                cmd.LastName,
-                cmd.Email,
-                cmd.PhoneNumber);
+            Tenant tenant = cmd.ToEntity();
 
             return await Util.ResultReturnHandler(tenant.Id, _uow, async () => await _tenantRepository.AddAsync(tenant));
 
@@ -51,16 +47,20 @@ namespace Business.Application.Tenants
 
         }
 
-        public async Task<Result<TenantSummary, Error>> UpdateAsync(Guid tenantId, UpdateTenantCommand cmd)
+        public async Task<Result<TenantSummary, Error>> UpdateAsync(UpdateTenantCommand cmd)
         {
-            Tenant? tenant = await _tenantRepository.GetByIdAsync(tenantId);
-            if (tenant == null) return Error.NotFound($"Tenant with ID {tenantId} not found.");
+            Tenant? tenant = await _tenantRepository.GetByIdAsync(cmd.Id);
+            if (tenant == null) return Error.NotFound($"Tenant with ID {cmd.Id} not found.");
 
-            tenant.ChangeFullName(cmd.FirstName, cmd.LastName);
-            tenant.ChangeEmail(cmd.Email);
-            tenant.ChangePhoneNumber(cmd.PhoneNumber);
+           tenant.ChangeFullName(cmd.FirstName, cmd.LastName);
+           tenant.ChangeEmail(cmd.Email);
+           tenant.ChangePhoneNumber(cmd.PhoneNumber);
 
-            return await Util.ResultReturnHandler(TenantSummary.FromTenant(tenant), _uow, () => _tenantRepository.Update(tenant));
+            return await Util.ResultReturnHandler(TenantSummary.FromTenant(tenant), _uow, () =>
+            {
+                
+                _tenantRepository.Update(tenant);
+            });
         }
     }
 }

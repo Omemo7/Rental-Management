@@ -26,4 +26,12 @@ public sealed class Payment
         Method = method;
         Notes = notes;
     }
+    public void Update(DateTime paidAt, Money amount, string method, string? notes = null)
+    {
+        if (amount.Amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount), "Must be positive");
+        PaidAt = paidAt;
+        Amount = amount;
+        Method = method;
+        Notes = notes;
+    }
 }

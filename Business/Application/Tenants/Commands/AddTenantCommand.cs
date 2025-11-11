@@ -1,4 +1,6 @@
-﻿namespace Business.Application.Tenants.Commands
+﻿using RentalManagement.Business.Domain.Entities;
+
+namespace Business.Application.Tenants.Commands
 {
     public class AddTenantCommand
     {
@@ -13,6 +15,16 @@
             LastName = lastName;
             Email = email;
             PhoneNumber = phoneNumber;
+        }
+        public Tenant ToEntity()
+        {
+            return new Tenant(
+                Guid.NewGuid(),
+                FirstName,
+                LastName,
+                Email,
+                PhoneNumber
+            );
         }
     }
 }
