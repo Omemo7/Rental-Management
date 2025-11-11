@@ -49,14 +49,14 @@ namespace Business.Application.Payments
 
         }
 
-        public async Task<Result<PaymentSummary, Error>> UpdateAsync(UpdatePaymentCommand cmd)
+        public async Task<Result<bool, Error>> UpdateAsync(UpdatePaymentCommand cmd)
         {
             Payment? payment = await _paymentRepository.GetByIdAsync(cmd.Id);
             if (payment == null) return Error.NotFound($"Payment with ID {cmd.Id} not found.");
 
            
 
-            return await Util.ResultReturnHandler(PaymentSummary.FromPayment(payment), _uow, () =>
+            return await Util.ResultReturnHandler(true, _uow, () =>
             {
                 payment.Update(
                cmd.PaidAt,

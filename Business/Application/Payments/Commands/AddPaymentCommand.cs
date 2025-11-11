@@ -11,11 +11,11 @@ namespace Business.Application.Payments.Commands
         public string Method { get; private set; }   // Cash, Transfer, Card, etc.
         public string? Notes { get; private set; }
         
-        public AddPaymentCommand(Guid id, Guid leaseId, DateTime paidAt, Money amount, string method, string? notes = null)
+        public AddPaymentCommand(Guid leaseId,  Money amount, string method, string? notes = null)
         {
-            Id = id;
+            
             LeaseId = leaseId;
-            PaidAt = paidAt;
+            PaidAt = DateTime.Now;
             Amount = amount;
             Method = method;
             Notes = notes;
@@ -23,7 +23,7 @@ namespace Business.Application.Payments.Commands
         public RentalManagement.Business.Domain.Entities.Payment ToEntity()
         {
             return new RentalManagement.Business.Domain.Entities.Payment(
-                Id,
+                Guid.NewGuid(),
                 LeaseId,
                 PaidAt,
                 Amount,

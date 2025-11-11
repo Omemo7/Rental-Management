@@ -52,13 +52,13 @@ namespace Business.Application.Tenants
             Tenant? tenant = await _tenantRepository.GetByIdAsync(cmd.Id);
             if (tenant == null) return Error.NotFound($"Tenant with ID {cmd.Id} not found.");
 
-           
+           tenant.ChangeFullName(cmd.FirstName, cmd.LastName);
+           tenant.ChangeEmail(cmd.Email);
+           tenant.ChangePhoneNumber(cmd.PhoneNumber);
 
             return await Util.ResultReturnHandler(TenantSummary.FromTenant(tenant), _uow, () =>
             {
-                tenant.ChangeFullName(cmd.FirstName, cmd.LastName);
-                tenant.ChangeEmail(cmd.Email);
-                tenant.ChangePhoneNumber(cmd.PhoneNumber);
+                
                 _tenantRepository.Update(tenant);
             });
         }

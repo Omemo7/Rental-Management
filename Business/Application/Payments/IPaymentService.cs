@@ -17,7 +17,7 @@ namespace Business.Application.Payments
         public Task<Result<Guid, Error>> AddAsync(AddPaymentCommand cmd);
         public Task<Result<bool, Error>> DeleteAsync(Guid paymentId);
         public Task<Result<PaymentSummary, Error>> GetByIdAsync(Guid paymentId);
-        public Task<Result<PaymentSummary, Error>> UpdateAsync(UpdatePaymentCommand cmd);
+        public Task<Result<bool, Error>> UpdateAsync(UpdatePaymentCommand cmd);
 
     }
 }
