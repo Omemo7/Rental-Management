@@ -22,10 +22,8 @@ public sealed class MaintenanceRequestConfig : IEntityTypeConfiguration<Maintena
         e.Property(x => x.ScheduledAt);
         e.Property(x => x.CompletedAt);
 
-        e.Property(x => x.LaborCost).HasPrecision(18, 2);
-        e.Property(x => x.PartsCost).HasPrecision(18, 2);
-        e.Property(x => x.Currency).HasMaxLength(3).IsFixedLength();
-        
+        e.OwnsOne(x => x.LaborCost, MappingHelpers.MapMoney);
+        e.OwnsOne(x => x.PartsCost, MappingHelpers.MapMoney);
 
         e.HasIndex(x => new { x.ApartmentId, x.Status });
         e.HasIndex(x => x.CreatedAt);

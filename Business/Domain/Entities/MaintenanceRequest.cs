@@ -1,4 +1,6 @@
 ﻿// RentalManagement.Business.Domain.Entities/MaintenanceRequest.cs
+using RentalManagement.Business.Domain.ValueObjects;
+
 namespace RentalManagement.Business.Domain.Entities;
 
 public enum MaintenancePriority { Low, Normal, High, Emergency }
@@ -19,9 +21,9 @@ public sealed class MaintenanceRequest
     public DateTime? CompletedAt { get; private set; }
 
     // simple costing; you can evolve to line-items later
-    public decimal? LaborCost { get; private set; }
-    public decimal? PartsCost { get; private set; }
-    public string Currency { get; private set; } = "JOD";
+    public Money? LaborCost { get; private set; }
+    public Money? PartsCost { get; private set; }
+    
    
 
     public byte[] RowVersion { get; private set; } = Array.Empty<byte>();
@@ -58,17 +60,13 @@ public sealed class MaintenanceRequest
         Status = MaintenanceStatus.Scheduled;
     }
 
-    public void Complete(decimal? labor, decimal? parts, string? currency)
+    public void Complete(Money? labor, Money? parts)
     {
         if (Status == MaintenanceStatus.Closed) throw new InvalidOperationException("Already closed.");
 
-        LaborCost = labor is > 0 ? labor : null;
-        PartsCost = parts is > 0 ? parts : null;
+        LaborCost = labor is not null && labor.Amount > 0 ? labor : null;
+        PartsCost = parts is not null && parts.Amount > 0 ? parts : null;
 
-        if (!string.IsNullOrWhiteSpace(currency))
-            Currency = currency.Trim().ToUpperInvariant();
-
-        
         CompletedAt = DateTime.Now;
         Status = MaintenanceStatus.Closed;
 
