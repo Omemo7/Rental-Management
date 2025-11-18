@@ -11,6 +11,7 @@ using RentalManagement.Infrastructure.Persistence;
 using Business.Application.Tenants;
 using Business.Application.Leases;
 using Business.Application.Payments;
+using Business.Application.MaintenanceRequests;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,7 @@ builder.Services.AddScoped<IBuildingRepository, BuildingRepository>();
 builder.Services.AddScoped<ITenantRepository, TenantRepository>();
 builder.Services.AddScoped<ILeaseRepository, LeaseRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IMaintenanceRequestRepository, MaintenanceRequestRepository>();
 
 
 builder.Services.AddScoped<ILandlordService, LandlordService>();
@@ -48,6 +50,7 @@ builder.Services.AddScoped<IApartmentService, ApartmentService>();
 builder.Services.AddScoped<ITenantService, TenantService>();
 builder.Services.AddScoped<ILeaseService, LeaseService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IMaintenanceRequestService, MaintenanceRequestService>();
 
 // Controllers (or Minimal APIs, see below)
 builder.Services.AddControllers();
