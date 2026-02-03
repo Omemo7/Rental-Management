@@ -6,29 +6,27 @@ A robust, enterprise-grade **Backend Web API** designed to streamline the admini
 
 ## 🏗 System Architecture
 
-The solution follows **Clean Architecture** principles to ensure modularity and scalability:
-* **Core:** Contains domain entities (Leases, Tenants, Buildings) and business rules.
-* **Infrastructure:** Handles Entity Framework Core database contexts and migrations.
-* **Presentation:** ASP.NET Core controllers exposing the API endpoints.
+The solution follows **Clean Architecture** principles to ensure modularity, testability, and scalability:
+* **Core (Domain Layer):** Encapsulates the enterprise logic, entities (Leases, Tenants), and interfaces. It has zero external dependencies.
+* **Infrastructure:** Manages data persistence, repository implementations, and database migrations.
+* **Presentation:** ASP.NET Core controllers that handle API requests and response formatting.
 
-## 🔌 API Capabilities
+## 🚀 Key Modules & Capabilities
 
-Based on the exposed Swagger documentation, the system supports the following domains:
+### 📜 Advanced Lease Management
+Unlike simple CRUD applications, this system handles complex business rules for lease lifecycles:
+* **Lifecycle Workflows:** Logic to handle Lease Renewals, Early Terminations, and Status Validations.
+* **Financial Adjustments:** dedicated workflows for processing Rent Increases, Deposit Adjustments, and changing Payment Frequencies during an active lease.
 
-### 📜 Lease Management (Advanced)
-Beyond simple creation, the system handles complex lease lifecycle events:
-* **Lifecycle Actions:** Endpoints to `Terminate`, `Renew`, and check `IsActive` status.
-* **Financial Adjustments:** dedicated endpoints to `IncreaseRent`, `ChangeDepositAmount`, and `ChangeRentPaymentFrequency`.
-
-### 🛠 Maintenance System
-A workflow-driven approach to property upkeep:
-* **Scheduling:** Admins can `Schedule` requests and assign dates.
-* **Completion:** specialized endpoints to mark requests as `Complete` and archive them.
+### 🛠 Maintenance Tracking
+A complete workflow for property upkeep:
+* **Ticket Management:** Capability to schedule, prioritize, and assign maintenance requests.
+* **Resolution Workflow:** Tracks the status of requests from "Pending" to "Completed" and maintains a history of repairs.
 
 ### 🏢 Property & Tenancy
-* **Hierarchy:** Manages relationships between **Buildings** and individual **Apartments**.
-* **Tenant Profiles:** Secure management of tenant data and history.
-* **Payments:** Tracking mechanism for rent collection and financial reporting.
+* **Hierarchical Management:** Manages relationships between Buildings and individual Apartments.
+* **Tenant Profiles:** Secure handling of tenant personal data and leasing history.
+* **Payment Processing:** Records rent collections and tracks outstanding balances.
 
 ## 🛠 Tech Stack
 
@@ -36,5 +34,6 @@ A workflow-driven approach to property upkeep:
 * **Language:** C#
 * **Documentation:** Swagger / OpenAPI
 * **Database:** SQL Server (Entity Framework Core)
-* **Architecture:** Clean Architecture (N-Tier)
-d navigate to `/swagger/index.html` to test the endpoints interactively.
+* **Design Pattern:** Repository Pattern & Dependency Injection
+n:**
+    Launch the app and navigate to `/swagger/index.html` to interact with the endpoints.
