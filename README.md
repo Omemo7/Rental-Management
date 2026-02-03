@@ -1,27 +1,40 @@
-# Rental Management System 🏢
+# Rental Management System (Web API) 🏢
 
-A robust, enterprise-grade **Backend API** designed to streamline the administration of rental properties. This solution handles the end-to-end lifecycle of property management, from tenant onboarding to maintenance request resolution.
+A robust, enterprise-grade **Backend Web API** designed to streamline the administration of rental properties. This solution handles the complete lifecycle of property management, from tenant onboarding to complex lease negotiations and maintenance workflows.
 
-> **Note:** This repository is a pure **Backend** implementation. It exposes RESTful API endpoints and manages business logic/data persistence. It is designed to be consumed by a separate frontend client (Web or Mobile).
+> **Note:** This repository is a pure **Backend** implementation. It exposes RESTful endpoints via **Swagger UI** and is designed to be consumed by web or mobile clients.
 
 ## 🏗 System Architecture
 
-This project is built using **Clean Architecture** to ensure separation of concerns, high testability, and scalability. The solution is strictly divided into three core layers:
+The solution follows **Clean Architecture** principles to ensure modularity and scalability:
+* **Core:** Contains domain entities (Leases, Tenants, Buildings) and business rules.
+* **Infrastructure:** Handles Entity Framework Core database contexts and migrations.
+* **Presentation:** ASP.NET Core controllers exposing the API endpoints.
 
-* **Core (Business Layer):** Encapsulates the enterprise logic, entities, and service interfaces. It has zero external dependencies.
-* **Infrastructure:** Manages data persistence, repository implementations, and external service integrations (e.g., Database contexts).
-* **Presentation (API):** Handles HTTP requests, controllers, and response formatting, decoupled from the core business rules.
+## 🔌 API Capabilities
 
-## 🚀 Key Features
+Based on the exposed Swagger documentation, the system supports the following domains:
 
-* **Maintenance Request System:** A complete API workflow for submitting and tracking maintenance tickets (Pending → In Progress → Resolved).
-* **Tenant & Lease Management:** Centralized handling of tenant profiles and lease agreements.
-* **Property Administration:** Endpoints to manage unit availability and property details.
-* **Repository Pattern:** Implements the Repository design pattern to abstract data access logic and ensure clean dependency injection.
+### 📜 Lease Management (Advanced)
+Beyond simple creation, the system handles complex lease lifecycle events:
+* **Lifecycle Actions:** Endpoints to `Terminate`, `Renew`, and check `IsActive` status.
+* **Financial Adjustments:** dedicated endpoints to `IncreaseRent`, `ChangeDepositAmount`, and `ChangeRentPaymentFrequency`.
+
+### 🛠 Maintenance System
+A workflow-driven approach to property upkeep:
+* **Scheduling:** Admins can `Schedule` requests and assign dates.
+* **Completion:** specialized endpoints to mark requests as `Complete` and archive them.
+
+### 🏢 Property & Tenancy
+* **Hierarchy:** Manages relationships between **Buildings** and individual **Apartments**.
+* **Tenant Profiles:** Secure management of tenant data and history.
+* **Payments:** Tracking mechanism for rent collection and financial reporting.
 
 ## 🛠 Tech Stack
 
+* **Framework:** .NET 6+ Web API
 * **Language:** C#
-* **Framework:** .NET 6+ / .NET Core
+* **Documentation:** Swagger / OpenAPI
+* **Database:** SQL Server (Entity Framework Core)
 * **Architecture:** Clean Architecture (N-Tier)
-* **Database:** Entity Framework Core (SQL Server)
+d navigate to `/swagger/index.html` to test the endpoints interactively.
